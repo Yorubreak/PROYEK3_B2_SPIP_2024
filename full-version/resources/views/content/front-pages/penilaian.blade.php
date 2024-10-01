@@ -4,42 +4,48 @@ $configData = Helper::appClasses();
 
 @extends('layouts/layoutFront')
 
-@section('title', 'Landing - Front Pages')
+@section('title', 'Dashboard - SPIP')
 
-<!-- Vendor Styles -->
 @section('vendor-style')
 @vite([
-  'resources/assets/vendor/libs/nouislider/nouislider.scss',
   'resources/assets/vendor/libs/apex-charts/apex-charts.scss',
+  'resources/assets/vendor/libs/nouislider/nouislider.scss',
   'resources/assets/vendor/libs/swiper/swiper.scss'
 ])
 @endsection
 
-<!-- Page Styles -->
 @section('page-style')
 @vite(['resources/assets/vendor/scss/pages/front-page-landing.scss'])
 @endsection
 
-<!-- Vendor Scripts -->
 @section('vendor-script')
 @vite([
-  'resources/assets/vendor/libs/nouislider/nouislider.js',
   'resources/assets/vendor/libs/apex-charts/apexcharts.js',
+  'resources/assets/vendor/libs/nouislider/nouislider.js',
   'resources/assets/vendor/libs/swiper/swiper.js'
 ])
 @endsection
 
-<!-- Page Scripts -->
 @section('page-script')
-@vite(['resources/assets/js/front-page-landing.js',
-'resources/assets/js/userchart.js',
-'resources/assets/js/landing.js'])
+@vite([
+  'resources/assets/js/front-page-landing.js',
+  'resources/assets/js/userchart.js'
+])
 @endsection
 
 @section('content')
+@php
+    // Inisialisasi variabel $height
+    $height = 500; // Atur tinggi yang diinginkan
+@endphp
+
+
+</nav>
+<!-- / Navbar -->
+
 <div data-bs-spy="scroll" class="scrollspy-example">
   <section id="graph">
-    <div class="container">
+    <div class="container mt-5">
       <div class="row justify-content-center">
         <!-- Donut Chart1 -->
         <div class="col-md-6 col-12 mb-4">
@@ -51,7 +57,7 @@ $configData = Helper::appClasses();
               </div>
             </div>
             <div class="card-body">
-              <div id="bobotKomponenChart"></div>
+              <div id="bobotKomponenChart" style="height: {{ $height }}px;"></div>
             </div>
           </div>
         </div>
@@ -66,7 +72,7 @@ $configData = Helper::appClasses();
               </div>
             </div>
             <div class="card-body">
-              <div id="nilaiMaturitasChart"></div>
+              <div id="nilaiMaturitasChart" style="height: {{ $height }}px;"></div>
             </div>
           </div>
         </div>
@@ -87,7 +93,7 @@ $configData = Helper::appClasses();
                     <small>Monthly Report</small>
                   </div>
                 </div>
-                <div id="generatedLeadsChart1"></div>
+                <div id="generatedLeadsChart1" style="height: {{ $height }}px;"></div>
               </div>
             </div>
           </div>
@@ -105,7 +111,7 @@ $configData = Helper::appClasses();
                     <small>Monthly Report</small>
                   </div>
                 </div>
-                <div id="generatedLeadsChart2"></div>
+                <div id="generatedLeadsChart2" style="height: {{ $height }}px;"></div>
               </div>
             </div>
           </div>
@@ -123,7 +129,7 @@ $configData = Helper::appClasses();
                     <small>Monthly Report</small>
                   </div>
                 </div>
-                <div id="generatedLeadsChart3"></div>
+                <div id="generatedLeadsChart3" style="height: {{ $height }}px;"></div>
               </div>
             </div>
           </div>
@@ -133,4 +139,18 @@ $configData = Helper::appClasses();
     </div>
   </section>
 </div>
+
+<!-- Footer -->
+<footer class="footer bg-light">
+  <div class="container-fluid d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-1 container-p-x py-3">
+    <div>
+      <span class="footer-text fw-bold">SPIP</span> ©
+    </div>
+    <div>
+      <a href="#" class="footer-link me-4">Demos</a>
+      <a href="#" class="footer-link">Pages</a>
+    </div>
+  </div>
+</footer>
+<!-- / Footer -->
 @endsection
