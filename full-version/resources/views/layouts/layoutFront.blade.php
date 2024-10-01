@@ -5,7 +5,7 @@ $isFront = true;
 
 @section('layoutContent')
 
-@extends('layouts/commonMaster' )
+@extends('layouts/commonMaster')
 
 @include('layouts/sections/navbar/navbar-front')
 

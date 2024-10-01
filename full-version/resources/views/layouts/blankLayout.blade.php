@@ -6,16 +6,16 @@ $configData = Helper::appClasses();
 $isFront = false;
 @endphp
 
+@extends('layouts/commonMaster')
 
 @section('layoutContent')
 
-@extends('layouts/commonMaster')
-
 @include('layouts/sections/navbar/navbar-front')
 
-<!-- Content -->
-@yield('content')
-<!--/ Content -->
+<div class="container">
+    @yield('content')
+</div>
 
 @include('layouts/sections/footer/footer-front')
+
 @endsection
