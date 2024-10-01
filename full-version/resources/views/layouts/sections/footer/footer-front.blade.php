@@ -96,7 +96,7 @@
         <span class="footer-text">Politeknik Negeri Bandung</span>
       </div>
       <div>
-        <a href="{{config('variables.githubFreeUrl')}}" class="footer-link me-3" target="_blank">
+        <a href="{{config('variables.githubUrl')}}" class="footer-link me-3" target="_blank">
           <img src="{{asset('assets/img/front-pages/icons/github-'.$configData['style'].'.png') }}" alt="github icon" data-app-light-img="front-pages/icons/github-light.png" data-app-dark-img="front-pages/icons/github-dark.png" />
         </a>
         <a href="{{config('variables.facebookUrl')}}" class="footer-link me-3" target="_blank">
