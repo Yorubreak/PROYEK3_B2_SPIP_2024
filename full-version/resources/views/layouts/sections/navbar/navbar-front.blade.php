@@ -21,7 +21,7 @@
             <a class="nav-link fw-medium" aria-current="page" href="{{url('front-pages/landing')}}#landingHero">Beranda</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fw-medium" href="{{url('front-pages/landing')}}#landingFeatures">Penilaian</a>
+            <a class="nav-link fw-medium" href="{{url('front-pages/penilaian')}}">Penilaian</a>
           </li>
         </ul>
       </div>
@@ -57,7 +57,7 @@
         @endif
         <!-- navbar button: Start -->
         <li>
-          <a href="{{url('/auth/login-cover')}}" class="btn btn-primary" target="_blank"><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span><span class="d-none d-md-block">Login/Register</span></a>
+          <a href="{{url('/auth/login-cover')}}" class="btn btn-primary" target=""><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span><span class="d-none d-md-block">Login/Register</span></a>
         </li>
         <!-- navbar button: End -->
       </ul>

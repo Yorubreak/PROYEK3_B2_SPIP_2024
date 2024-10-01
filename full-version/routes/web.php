@@ -160,11 +160,12 @@ use App\Http\Controllers\charts\ChartJs;
 use App\Http\Controllers\maps\Leaflet;
 use App\Http\Controllers\pages\TestPage;
 use App\Http\Controllers\testPage as ControllersTestPage;
+use App\Http\Controllers\front_pages\Penilaian;
 
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
 // Main Page Route
-Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
+//Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 // locale
@@ -185,7 +186,8 @@ Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-con
 Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
-Route::get('/front-pages/landing', [Landing::class, 'index'])->name('front-pages-landing');
+Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
+Route::get('/front-pages/penilaian', [Penilaian::class, 'index'])->name('front-pages-landing');
 Route::get('/front-pages/pricing', [Pricing::class, 'index'])->name('front-pages-pricing');
 Route::get('/front-pages/payment', [Payment::class, 'index'])->name('front-pages-payment');
 Route::get('/front-pages/checkout', [Checkout::class, 'index'])->name('front-pages-checkout');

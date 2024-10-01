@@ -1,20 +1,21 @@
-@isset($pageConfigs)
+{{-- @isset($pageConfigs)
 {!! Helper::updatePageConfig($pageConfigs) !!}
-@endisset
+@endisset --}}
 @php
 $configData = Helper::appClasses();
-
-/* Display elements */
-$customizerHidden = ($customizerHidden ?? '');
-
+$isFront = false;
 @endphp
 
-@extends('layouts/commonMaster' )
 
 @section('layoutContent')
+
+@extends('layouts/commonMaster')
+
+@include('layouts/sections/navbar/navbar-front')
 
 <!-- Content -->
 @yield('content')
 <!--/ Content -->
 
+@include('layouts/sections/footer/footer-front')
 @endsection

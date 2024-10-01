@@ -2,7 +2,7 @@
 $configData = Helper::appClasses();
 @endphp
 
-@extends('layouts/layoutMaster')
+@extends('layouts/layoutFront')
 
 @section('title', 'Landing - Front Pages')
 
