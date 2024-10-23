@@ -117,7 +117,7 @@ $navbarDetached = ($navbarDetached ?? '');
           <!--/ Style Switcher -->
           @endif
 
-          <!-- Quick links  -->
+          {{-- <!-- Quick links  -->
           <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
               <i class='ti ti-layout-grid-add ti-md'></i>
@@ -385,7 +385,7 @@ $navbarDetached = ($navbarDetached ?? '');
               </li>
             </ul>
           </li>
-          <!--/ Notification -->
+          <!--/ Notification --> --}}
 
           <!-- User -->
           <li class="nav-item navbar-dropdown dropdown-user dropdown">

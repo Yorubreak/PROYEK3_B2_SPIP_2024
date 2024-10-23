@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse landing-nav-menu" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto"> <!-- Ubah me-auto menjadi mx-auto untuk center alignment -->
           <li class="nav-item">
-            <a class="nav-link fw-medium" aria-current="page" href="{{url('front-pages/landing')}}#landingHero">Beranda</a>
+            <a class="nav-link fw-medium" aria-current="page" href="{{url('/')}}#landingHero">Beranda</a>
           </li>
           <li class="nav-item">
             <a class="nav-link fw-medium" href="{{url('front-pages/penilaian')}}">Penilaian</a>

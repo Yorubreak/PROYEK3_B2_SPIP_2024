@@ -1,11 +1,12 @@
-{{-- @isset($pageConfigs)
+@isset($pageConfigs)
 {!! Helper::updatePageConfig($pageConfigs) !!}
-@endisset --}}
+@endisset
+
 @php
 $configData = Helper::appClasses();
-$isFront = false;
+$isFront = true;
+$customizerHidden = ($customizerHidden ?? '');
 @endphp
-
 
 @section('layoutContent')
 

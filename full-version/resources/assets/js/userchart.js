@@ -43,7 +43,7 @@
 
   // Donut Chart
   // --------------------------------------------------------------------
-  const donutChartEl = document.querySelector('#donutChart1'),
+  const donutChartEl = document.querySelector('#bobotKomponenChart'),
     donutChartConfig = {
       chart: {
         height: 350,
@@ -182,12 +182,12 @@
         }
       ]
     };
-  if (typeof donutChartEl !== undefined && donutChartEl !== null) {
+  // if (typeof donutChartEl !== undefined && donutChartEl !== null) {
     const donutChart = new ApexCharts(donutChartEl, donutChartConfig);
     donutChart.render();
-  }
+  // }
 
-  const donutChartEl2 = document.querySelector('#donutChart2'),
+  const donutChartEl2 = document.querySelector('#nilaiMaturitasChart'),
   donutChartConfig2 = {
     chart: {
       height: 350,

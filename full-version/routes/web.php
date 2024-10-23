@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\admin\StrukturdanProses;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\dashboard\Analytics;
@@ -187,7 +189,17 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
-Route::get('/front-pages/penilaian', [Penilaian::class, 'index'])->name('front-pages-landing');
+Route::get('/admin', [StrukturdanProses::class, 'index'])->name('admin');
+Route::get('/admin/editskor', [StrukturdanProses::class, 'editskor'])->name('admin-editskor');
+Route::put('/admin/submitskor/{id}', [StrukturdanProses::class, 'submitskor'])->name('admin-submitskor');
+
+
+
+
+
+
+
+Route::get('/front-pages/penilaian', [Penilaian::class, 'index'])->name('front-pages-penilaian');
 Route::get('/front-pages/pricing', [Pricing::class, 'index'])->name('front-pages-pricing');
 Route::get('/front-pages/payment', [Payment::class, 'index'])->name('front-pages-payment');
 Route::get('/front-pages/checkout', [Checkout::class, 'index'])->name('front-pages-checkout');
