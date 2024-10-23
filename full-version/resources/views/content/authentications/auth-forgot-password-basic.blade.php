@@ -40,13 +40,12 @@ $customizerHidden = 'customizer-hide';
         <div class="card-body">
           <!-- Logo -->
           <div class="app-brand justify-content-center mb-4 mt-2">
-            <a href="{{url('/')}}" class="app-brand-link gap-2">
-              <span class="app-brand-logo demo">@include('_partials.macros',['height'=>20,'withbg' => "fill: #fff;"])</span>
-              <span class="app-brand-text demo text-body fw-bold">{{ config('variables.templateName') }}</span>
+            <a href="{{url('/')}}" class="app-brand-link">
+              <img src="{{asset('assets/img/branding/logo.png')}}" alt="logo" class="mb-4" style="width:45px">
             </a>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-1 pt-2">Forgot Password? 🔒</h4>
+          <h4 class="mb-1 pt-2">Forgot Password?</h4>
           <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
           <form id="formAuthentication" class="mb-3" action="{{url('auth/reset-password-basic')}}" method="GET">
             <div class="mb-3">
