@@ -23,7 +23,7 @@ return [
   "githubFreeUrl" => "https://tools.pixinvent.com/github/github-access",
   "facebookUrl" => "https://www.facebook.com/pixinvents/",
   "twitterUrl" => "https://twitter.com/pixinvents",
-  "githubUrl" => "https://github.com/pixinvent",
+  "githubUrl" => "https://github.com/Yorubreak/PROYEK3_B2_SPIP_2024",
   "dribbbleUrl" => "https://dribbble.com/pixinvent",
-  "instagramUrl" => "https://www.instagram.com/pixinvents/"
+  "instagramUrl" => "https://www.instagram.com/politekniknegeribandung/"
 ];
