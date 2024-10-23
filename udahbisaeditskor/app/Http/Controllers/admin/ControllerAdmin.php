@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
-class StrukturdanProses extends Controller
+class ControllerAdmin extends Controller
 {
   public function index()
   {

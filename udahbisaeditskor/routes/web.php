@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\StrukturdanProses;
+use App\Http\Controllers\admin\ControllerAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\dashboard\Analytics;
@@ -189,12 +189,12 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
-Route::get('/admin', [StrukturdanProses::class, 'index'])->name('admin');
-Route::get('/admin/editskorPT', [StrukturdanProses::class, 'editskorPT'])->name('admin-editskorPT');
-Route::get('/admin/editskorSPIP', [StrukturdanProses::class, 'editskorSPIP'])->name('admin-editskorSPIP');
+Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
+Route::get('/admin/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
+Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
 
-Route::put('/admin/submitskorPT/{id}', [StrukturdanProses::class, 'submitskorPT'])->name('admin-submitskorPT');
-Route::put('/admin/submitskorSPIP/{id}', [StrukturdanProses::class, 'submitskorSPIP'])->name('admin-submitskorSP');
+Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
+Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
 
 
 
