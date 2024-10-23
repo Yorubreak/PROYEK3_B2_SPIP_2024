@@ -190,8 +190,12 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
 Route::get('/admin', [StrukturdanProses::class, 'index'])->name('admin');
-Route::get('/admin/editskor', [StrukturdanProses::class, 'editskor'])->name('admin-editskor');
-Route::put('/admin/submitskor/{id}', [StrukturdanProses::class, 'submitskor'])->name('admin-submitskor');
+Route::get('/admin/editskorPT', [StrukturdanProses::class, 'editskorPT'])->name('admin-editskorPT');
+Route::get('/admin/editskorSPIP', [StrukturdanProses::class, 'editskorSPIP'])->name('admin-editskorSPIP');
+
+Route::put('/admin/submitskorPT/{id}', [StrukturdanProses::class, 'submitskorPT'])->name('admin-submitskorPT');
+Route::put('/admin/submitskorSPIP/{id}', [StrukturdanProses::class, 'submitskorSPIP'])->name('admin-submitskorSP');
+
 
 
 

@@ -64,7 +64,7 @@
 
             // Kirim data dengan AJAX
             $.ajax({
-                url: "{{ url('admin/submitskor') }}/" + id,  // URL untuk mengirim data
+                url: "{{ url('admin/submitskorPT') }}/" + id,  // URL untuk mengirim data
                 method: "PUT",
                 data: {
                     _token: "{{ csrf_token() }}",  // Token CSRF untuk keamanan
@@ -84,80 +84,6 @@
             });
         }
     </script>
-    <div class="tab-pane fade" id="navs-sales-id" role="tabpanel">
-      <div class="col-lg-3 col-12 action-table">
-        <button class="btn btn-warning w-40">
-          <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</span>
-        </button>
-      </div>
-      <div class="card">
-        <h5 class="card-header">Fixed Header</h5>
-        <div class="card-datatable table-responsive">
-          <table class="dt-fixedheader table">
-            <thead>
-              @php
-                  $pembagi = 100;
-              @endphp
-              <tr>
-                <th>komponen</th>
-                <th>skor</th>
-                <th>bobot unsur</th>
-                <th>bobot komponen</th>
-                <th>nilai unsur</th>
-                <th>nilai komponen</th>
-                <th>nilai akhir</th>
-              </tr>
-            </thead>
-            <tbody>
-              <th>1</th>
-              <th>Akmal</th>
-              <th>akmal140</th>
-              <th>28-01-04</th>
-              <th>5000000000</th>
-              <th>Active</th>
-              <th>True</th>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="tab-pane fade" id="navs-profit-id" role="tabpanel">
-      <div class="col-lg-3 col-12 action-table">
-        <button class="btn btn-warning w-40">
-          <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</span>
-        </button>
-      </div>
-      <div class="card">
-        <h5 class="card-header">Fixed Header</h5>
-        <div class="card-datatable table-responsive">
-          <table class="dt-fixedheader table">
-            <thead>
-              @php
-                  $pembagi = 100;
-              @endphp
-              <tr>
-                <th>komponen</th>
-                <th>skor</th>
-                <th>bobot unsur</th>
-                <th>bobot komponen</th>
-                <th>nilai unsur</th>
-                <th>nilai komponen</th>
-                <th>nilai akhir</th>
-              </tr>
-            </thead>
-            <tbody>
-              <th>1</th>
-              <th>Akmal</th>
-              <th>akmal140</th>
-              <th>28-01-04</th>
-              <th>5000000000</th>
-              <th>Active</th>
-              <th>True</th>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
   </div>
   {{-- </form> --}}
 {{-- </div> --}}
