@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\ControllerAdmin;
+use App\Http\Controllers\admin\StrukturdanProses;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\dashboard\Analytics;
@@ -163,6 +163,8 @@ use App\Http\Controllers\maps\Leaflet;
 use App\Http\Controllers\pages\TestPage;
 use App\Http\Controllers\testPage as ControllersTestPage;
 use App\Http\Controllers\front_pages\Penilaian;
+//login
+use App\Http\Controllers\loginController;
 
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
@@ -172,6 +174,8 @@ Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard
 Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 // locale
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+//login
+Route::get('/login', [loginController::class, 'index'])->name('auth-login');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
@@ -189,13 +193,9 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
-Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
-Route::get('/admin/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
-Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
-
-Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
-Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
-
+Route::get('/admin', [StrukturdanProses::class, 'index'])->name('admin');
+Route::get('/admin/editskor', [StrukturdanProses::class, 'editskor'])->name('admin-editskor');
+Route::put('/admin/submitskor/{id}', [StrukturdanProses::class, 'submitskor'])->name('admin-submitskor');
 
 
 

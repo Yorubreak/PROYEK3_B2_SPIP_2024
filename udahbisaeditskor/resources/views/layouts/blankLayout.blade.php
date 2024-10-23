@@ -12,11 +12,11 @@ $customizerHidden = ($customizerHidden ?? '');
 
 @extends('layouts/commonMaster')
 
-@include('layouts/sections/navbar/navbar-front')
+{{-- @include('layouts/sections/navbar/navbar-front') --}}
 
 <!-- Content -->
 @yield('content')
 <!--/ Content -->
 
-@include('layouts/sections/footer/footer-front')
+{{-- @include('layouts/sections/footer/footer-front') --}}
 @endsection
