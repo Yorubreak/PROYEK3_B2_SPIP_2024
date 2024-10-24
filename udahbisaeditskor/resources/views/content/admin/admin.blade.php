@@ -275,7 +275,7 @@
               {{-- kendala laporan --}}
               <tr>
                 <th colspan="7">
-                    <strong>{{ 'Efektivitas dan Efisiensi' }}</strong>
+                    <strong>{{ 'Keandalan Laporan Keuangan' }}</strong>
                 </th>
               </tr>
               @foreach ($dataSPIP2 as $dSPIP2)
@@ -292,7 +292,7 @@
               {{-- pengamanan aset --}}
               <tr>
                 <th colspan="7">
-                    <strong>{{ 'Efektivitas dan Efisiensi' }}</strong>
+                    <strong>{{ 'Pengamanan atas Aset' }}</strong>
                 </th>
               </tr>
               @foreach ($dataSPIP3 as $dSPIP3)
@@ -309,7 +309,7 @@
               {{-- ketaatan pada peraturan --}}
               <tr>
                 <th colspan="7" >
-                    <strong>{{ 'Efektivitas dan Efisiensi' }}</strong>
+                    <strong>{{ 'Ketaatan pada Peraturan' }}</strong>
                 </th>
               </tr>
               @foreach ($dataSPIP4 as $dSPIP4)
