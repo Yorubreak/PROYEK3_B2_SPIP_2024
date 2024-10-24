@@ -17,6 +17,9 @@
           <div id="successMessage" class="alert alert-success" style="display: none;">
               Data skor berhasil disimpan!
           </div>
+          <div id="failMessage" class="alert alert-danger" style="display: none;">
+            Skor maksimal 5!
+          </div>
 
           <div class="card-datatable table-responsive">
               <table class="dt-fixedheader table">
@@ -58,6 +61,15 @@
         function submitSkor(id) {
             // Ambil nilai input dari form
             var skor = $('#skorInput-' + id).val();
+            if (skor > 5) {
+              $.ajax({
+                success: function(response) {
+                    // Tampilkan pesan sukses
+                    $('#failMessage').show().delay(1500).fadeOut();
+                }
+              })
+              return;
+            }
 
             // Kirim data dengan AJAX
             $.ajax({

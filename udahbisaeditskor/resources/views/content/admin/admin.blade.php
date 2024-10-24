@@ -54,12 +54,44 @@
       </a>
     </li>
   </ul>
+
+
   <div class="tab-content p-0 ms-0 ms-sm-2">
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
-      <div class="col-lg-3 col-12 action-table">
+      <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning w-40"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
         {{-- </button> --}}
+        <div class="dropdown">
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="javascript:void(0);">2024</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2025</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2026</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2027</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2028</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2029</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2030</a></li>
+          </ul>
+        </div>
+
+        <div class="dropdown">
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">January</button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="javascript:void(0);">January</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">February</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">March</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">April</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">May</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">June</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">July</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">August</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">September</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">October</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">November</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">December</a></li>
+          </ul>
+        </div>
       </div>
       <div class="card">
         <h5 class="card-header">Fixed Header</h5>
@@ -97,10 +129,40 @@
       </div>
     </div>
     <div class="tab-pane fade" id="navs-sales-id" role="tabpanel">
-      <div class="col-lg-3 col-12 action-table">
-        <button class="btn btn-warning w-40">
-          <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</span>
-        </button>
+      <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
+        {{-- <button class="btn btn-warning w-40"> --}}
+          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+        {{-- </button> --}}
+        <div class="dropdown">
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="javascript:void(0);">2024</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2025</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2026</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2027</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2028</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2029</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2030</a></li>
+          </ul>
+        </div>
+
+        <div class="dropdown">
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">January</button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="javascript:void(0);">January</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">February</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">March</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">April</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">May</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">June</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">July</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">August</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">September</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">October</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">November</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">December</a></li>
+          </ul>
+        </div>
       </div>
       <div class="card">
         <h5 class="card-header">Fixed Header</h5>
@@ -121,13 +183,17 @@
               </tr>
             </thead>
             <tbody>
-              <th>1</th>
-              <th>Akmal</th>
-              <th>akmal140</th>
-              <th>28-01-04</th>
-              <th>5</th>
-              <th>Active</th>
-              <th>True</th>
+              @foreach ($dataSP as $dSP)
+                <tr>
+                  <th>{{ $dSP->unsur }}</th>
+                  <th>{{ $dSP->skor }}</th>
+                  <th>{{ 'bobot unsur' }}</th>
+                  <th>{{ 'bobot komponen' }}</th>
+                  <th>{{ $dSP->nilai_unsur }}</th>
+                  <th>{{ $dSP->nilai_komponen }}</th>
+                  <th>{{ 'True' }}</th>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
@@ -135,8 +201,40 @@
     </div>
 
     <div class="tab-pane fade" id="navs-profit-id" role="tabpanel">
-      <div class="col-lg-3 col-12 action-table">
-          <a href="{{ route('admin-editskorSPIP') }}" class="btn btn-warning w-40"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+      <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
+        {{-- <button class="btn btn-warning w-40"> --}}
+          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+        {{-- </button> --}}
+        <div class="dropdown">
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="javascript:void(0);">2024</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2025</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2026</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2027</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2028</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2029</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">2030</a></li>
+          </ul>
+        </div>
+
+        <div class="dropdown">
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">January</button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="javascript:void(0);">January</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">February</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">March</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">April</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">May</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">June</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">July</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">August</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">September</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">October</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">November</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">December</a></li>
+          </ul>
+        </div>
       </div>
       <div class="card">
         <h5 class="card-header">Fixed Header</h5>
@@ -157,14 +255,71 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($dataSPIP as $dSPIP)
+              {{-- efektivitas --}}
+              <tr>
+                <th colspan="7">
+                    <strong>{{ 'Efektivitas dan Efisiensi' }}</strong>
+                </th>
+              </tr>
+              @foreach ($dataSPIP1 as $dSPIP1)
                 <tr>
-                  <th>{{ $dSPIP->unsur }}</th>
-                  <th>{{ $dSPIP->skor }}</th>
+                  <th>{{  $dSPIP1->unsur }}</th>
+                  <th>{{ $dSPIP1->skor }}</th>
                   <th>{{ 'bobot unsur' }}</th>
                   <th>{{ 'bobot komponen' }}</th>
-                  <th>{{ $dSPIP->nilai_unsur }}</th>
-                  <th>{{ $dSPIP->nilai_komponen }}</th>
+                  <th>{{ $dSPIP1->nilai_unsur }}</th>
+                  <th>{{ $dSPIP1->nilai_komponen }}</th>
+                  <th>{{ 'True' }}</th>
+                </tr>
+              @endforeach
+              {{-- kendala laporan --}}
+              <tr>
+                <th colspan="7">
+                    <strong>{{ 'Efektivitas dan Efisiensi' }}</strong>
+                </th>
+              </tr>
+              @foreach ($dataSPIP2 as $dSPIP2)
+                <tr>
+                  <th>{{ $dSPIP2->unsur }}</th>
+                  <th>{{ $dSPIP2->skor }}</th>
+                  <th>{{ 'bobot unsur' }}</th>
+                  <th>{{ 'bobot komponen' }}</th>
+                  <th>{{ $dSPIP2->nilai_unsur }}</th>
+                  <th>{{ $dSPIP2->nilai_komponen }}</th>
+                  <th>{{ 'True' }}</th>
+                </tr>
+              @endforeach
+              {{-- pengamanan aset --}}
+              <tr>
+                <th colspan="7">
+                    <strong>{{ 'Efektivitas dan Efisiensi' }}</strong>
+                </th>
+              </tr>
+              @foreach ($dataSPIP3 as $dSPIP3)
+                <tr>
+                  <th>{{ $dSPIP3->unsur }}</th>
+                  <th>{{ $dSPIP3->skor }}</th>
+                  <th>{{ 'bobot unsur' }}</th>
+                  <th>{{ 'bobot komponen' }}</th>
+                  <th>{{ $dSPIP3->nilai_unsur }}</th>
+                  <th>{{ $dSPIP3->nilai_komponen }}</th>
+                  <th>{{ 'True' }}</th>
+                </tr>
+              @endforeach
+              {{-- ketaatan pada peraturan --}}
+              <tr>
+                <th colspan="7" >
+                    <strong>{{ 'Efektivitas dan Efisiensi' }}</strong>
+                </th>
+              </tr>
+              @foreach ($dataSPIP4 as $dSPIP4)
+                <tr>
+                  <th>{{ $dSPIP4->unsur }}</th>
+                  <th>{{ $dSPIP4->skor }}</th>
+                  <th>{{ 'bobot unsur' }}</th>
+                  <th>{{ 'bobot komponen' }}</th>
+                  <th>{{ $dSPIP4->nilai_unsur }}</th>
+                  <th>{{ $dSPIP4->nilai_komponen }}</th>
                   <th>{{ 'True' }}</th>
                 </tr>
               @endforeach

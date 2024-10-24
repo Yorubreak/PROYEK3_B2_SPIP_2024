@@ -14,9 +14,16 @@ class ControllerAdmin extends Controller
 
     $dataPT =  DB::table('penetapan_tujuan')->orderBy('id', 'asc')->get();
     $dataSP =  DB::table('struktur_proses')->orderBy('id', 'asc')->get();
-    $dataSPIP = DB::table('pencapaian_tujuan')->orderBy('id', 'asc')->get();
+    $dataSPIP1 = DB::table('pencapaian_tujuan')
+                    ->whereIn('id', [9, 10])->orderBy('id', 'asc')->get();
+    $dataSPIP2 = DB::table('pencapaian_tujuan')
+                    ->whereIn('id', [11])->orderBy('id', 'asc')->get();
+    $dataSPIP3 = DB::table('pencapaian_tujuan')
+                    ->whereIn('id', [12, 13, 14])->orderBy('id', 'asc')->get();
+    $dataSPIP4 = DB::table('pencapaian_tujuan')
+                    ->whereIn('id', [15])->orderBy('id', 'asc')->get();
 
-    return view('content.admin.admin', compact('dataPT', 'dataSP', 'dataSPIP'));
+    return view('content.admin.admin', compact('dataPT', 'dataSP', 'dataSPIP1', 'dataSPIP2', 'dataSPIP3', 'dataSPIP4'));
   }
 
   public function editskorPT()
@@ -63,11 +70,10 @@ public function submitskorSPIP(Request $request, $id)
     // Update field skor
     $dSPIP['skor'] = $request->skor;
 
-    // Update data di database
     DB::table('pencapaian_tujuan')->whereId($id)->update($dSPIP);
-
     // Mengembalikan response JSON setelah sukses menyimpan
     return response()->json(['message' => 'Data skor berhasil disimpan']);
+    // Update data di database
 }
 
 }

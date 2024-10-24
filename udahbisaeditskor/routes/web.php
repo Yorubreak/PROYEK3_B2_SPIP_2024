@@ -165,6 +165,7 @@ use App\Http\Controllers\testPage as ControllersTestPage;
 use App\Http\Controllers\front_pages\Penilaian;
 //login
 use App\Http\Controllers\loginController;
+use App\Http\Controllers\admin\ControllerAdmin;
 
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
@@ -193,9 +194,13 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
-Route::get('/admin', [StrukturdanProses::class, 'index'])->name('admin');
-Route::get('/admin/editskor', [StrukturdanProses::class, 'editskor'])->name('admin-editskor');
-Route::put('/admin/submitskor/{id}', [StrukturdanProses::class, 'submitskor'])->name('admin-submitskor');
+Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
+Route::get('/admin/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
+Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
+
+Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
+Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
+
 
 
 
