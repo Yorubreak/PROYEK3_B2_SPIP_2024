@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Redis;
 
 class ControllerAdmin extends Controller
 {
+
+  //Ambil data dari database
   public function index()
   {
 
@@ -26,6 +28,8 @@ class ControllerAdmin extends Controller
     return view('content.admin.admin', compact('dataPT', 'dataSP', 'dataSPIP1', 'dataSPIP2', 'dataSPIP3', 'dataSPIP4'));
   }
 
+
+  //Edit Skor
   public function editskorPT()
   {
     $dataPT =  DB::table('penetapan_tujuan')->orderBy('id', 'asc')->get();
@@ -33,6 +37,12 @@ class ControllerAdmin extends Controller
     return view('content.admin.editskorPT', compact('dataPT'));
   }
 
+  public function editskorSP()
+  {
+    $dataSP =  DB::table('struktur_proses')->orderBy('id', 'asc')->get();
+
+    return view('content.admin.editskorSP', compact('dataSP'));
+  }
   public function editskorSPIP()
   {
     $dataSPIP = DB::table('pencapaian_tujuan')->orderBy('id', 'asc')->get();
@@ -41,39 +51,31 @@ class ControllerAdmin extends Controller
     return view('content.admin.editskorSPIP', compact('dataSPIP'));
   }
 
-  public function submitskorPT(Request $request, $id)
-{
-    // Ambil data berdasarkan ID
+
+  //Submit Skor (update skor ke database)
+  public function submitskorPT(Request $request, int $id)
+  {
     $dataPT = DB::table('penetapan_tujuan')->find($id);
-
-    // Ubah object menjadi array
-    $dataPen = (array) $dataPT;
-
-    // Update field skor
-    $dataPen['skor'] = $request->skor;
-
-    // Update data di database
-    DB::table('penetapan_tujuan')->whereId($id)->update($dataPen);
-
-    // Mengembalikan response JSON setelah sukses menyimpan
+    $dataPT->skor = $request->skor;
+    DB::table('penetapan_tujuan')->whereId($id)->update((array) $dataPT);
     return response()->json(['message' => 'Data skor berhasil disimpan']);
-}
+  }
+
+  public function submitskorSP(Request $request, int $id)
+  {
+    $dataSP = DB::table('struktur_proses')->find($id);
+    $dataSP->skor = $request->skor;
+    DB::table('penetapan_tujuan')->whereId($id)->update((array) $dataSP);
+    return response()->json(['message' => 'Data skor berhasil disimpan']);
+  }
+
 
 public function submitskorSPIP(Request $request, $id)
 {
-    // Ambil data berdasarkan ID
     $dataSPIP = DB::table('pencapaian_tujuan')->find($id);
-
-    // Ubah object menjadi array
-    $dSPIP = (array) $dataSPIP;
-
-    // Update field skor
-    $dSPIP['skor'] = $request->skor;
-
-    DB::table('pencapaian_tujuan')->whereId($id)->update($dSPIP);
-    // Mengembalikan response JSON setelah sukses menyimpan
+    $dataSPIP->skor = $request->skor;
+    DB::table('pencapaian_tujuan')->whereId($id)->update((array) $dataSPIP);
     return response()->json(['message' => 'Data skor berhasil disimpan']);
-    // Update data di database
 }
 
 }
