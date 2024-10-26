@@ -20,3 +20,4 @@ class SeederPT extends Seeder
 }
 
 //Nalen Ganteng
+//Nalen babi bangsat
