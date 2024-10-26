@@ -12,12 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('penetapan_tujuan', function (Blueprint $table) {
-            $table->id();
-            $table->string('unsur');
-            $table->integer('skor')->nullable();
-            $table->integer('nilai_unsur')->nullable();
-            $table->integer('nilai_komponen')->nullable();
-        });
+          $table->id();
+          $table->string('unsur');
+          $table->integer('skor')->nullable();
+          $table->integer('nilai_unsur')->nullable();
+          $table->integer('nilai_komponen')->nullable();
+          $table->unsignedBigInteger('bulan_id');  // Referensi ke tabel bulan
+          $table->timestamps();
+
+          // Definisikan relasi ke tabel bulan
+          $table->foreign('bulan_id')->references('id')->on('bulan')->onDelete('cascade');
+      });
+
     }
 
     /**

@@ -201,6 +201,9 @@ Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->nam
 Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
 Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
 
+Route::get('/getMonthsByYear/{year}', [ControllerAdmin::class, 'getMonthsByYear']);
+
+
 
 
 
