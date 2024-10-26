@@ -16,4 +16,10 @@ class loginController extends Controller
       ];
       return view('content.authentications.auth-login', compact('configData'));
   }
+
+  // public function register()
+  // {
+  //   return view('content.authentications.auth-register');
+  // }
+
 }

@@ -177,6 +177,7 @@ Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //login
 Route::get('/login', [loginController::class, 'index'])->name('auth-login');
+Route::get('/register', [Register::class, 'index'])->name('auth-register');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
