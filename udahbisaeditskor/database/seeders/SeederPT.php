@@ -18,3 +18,5 @@ class SeederPT extends Seeder
         ]);
     }
 }
+
+//Nalen Ganteng
