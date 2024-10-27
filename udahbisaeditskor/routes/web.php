@@ -180,7 +180,7 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //login
 Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
 Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
-Route::post('/create', [AuthController::class, 'create'])->name('auth-register.create');
+Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
