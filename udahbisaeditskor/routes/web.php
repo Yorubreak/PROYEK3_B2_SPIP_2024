@@ -166,6 +166,8 @@ use App\Http\Controllers\front_pages\Penilaian;
 //login
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\admin\ControllerAdmin;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
@@ -176,9 +178,9 @@ Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 // locale
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //login
-Route::get('/login', [auth::class, 'index'])->name('auth-login');
-Route::get('/register', [Register::class, 'index'])->name('auth-register');
-Route::post('/create', [Register::class, 'create'])->name('auth-register.create');
+Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
+Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
+Route::post('/create', [AuthController::class, 'create'])->name('auth-register.create');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');

@@ -2,7 +2,7 @@
 $customizerHidden = 'customizer-hide';
 @endphp
 
-@extends('layouts/layoutMaster')
+@extends('layouts/blankLayout')
 
 @section('title', 'Login Basic - Pages')
 
@@ -81,12 +81,12 @@ $customizerHidden = 'customizer-hide';
 
           <p class="text-center">
             <span>New on our platform?</span>
-            <a href="{{url('auth/register-basic')}}">
+            <a href="{{url('/register')}}">
               <span>Create an account</span>
             </a>
           </p>
 
-          <div class="divider my-4">
+          {{-- <div class="divider my-4">
             <div class="divider-text">or</div>
           </div>
 
@@ -102,7 +102,7 @@ $customizerHidden = 'customizer-hide';
             <a href="javascript:;" class="btn btn-icon btn-label-twitter">
               <i class="tf-icons fa-brands fa-twitter fs-5"></i>
             </a>
-          </div>
+          </div> --}}
         </div>
       </div>
       <!-- /Register -->
