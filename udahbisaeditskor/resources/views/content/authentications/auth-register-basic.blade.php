@@ -50,7 +50,8 @@ $customizerHidden = 'customizer-hide';
           <h4 class="mb-1 pt-2">Let's start analyze</h4>
           <p class="mb-4">Make your data look's more interesting</p>
 
-          <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
+          <form id="formAuthentication" class="mb-3" action="{{url('auth-register.create')}}" method="POST">
+            @csrf
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
               <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" autofocus>

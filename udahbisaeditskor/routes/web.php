@@ -176,8 +176,9 @@ Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 // locale
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //login
-Route::get('/login', [loginController::class, 'index'])->name('auth-login');
+Route::get('/login', [auth::class, 'index'])->name('auth-login');
 Route::get('/register', [Register::class, 'index'])->name('auth-register');
+Route::post('/create', [Register::class, 'create'])->name('auth-register.create');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
