@@ -81,12 +81,20 @@ public function submitskorSPIP(Request $request, $id)
 }
 
 
-public function getMonthsByYear($year) {
-  $months = DB::table('bulan')
-      ->where('tahun_id', $year)  // Pastikan kolom ini sesuai dengan skema database
-      ->pluck('bulan');  // Atau ganti dengan nama kolom bulan jika berbeda
-  return response()->json($months);
-}
+// public function getMonthsByYear($year) {
+//   $months = DB::table('bulan')
+//       ->where('tahun_id', $year)  // Pastikan kolom ini sesuai dengan skema database
+//       ->pluck('bulan');  // Atau ganti dengan nama kolom bulan jika berbeda
+//   return response()->json($months);
+// }
+
+  public function getBulanByTahunId($tahunId)
+  {
+      // Ambil bulan berdasarkan tahun_id
+      $bulan = DB::table('bulan')->where('tahun_id', $tahunId)->pluck('bulan');
+
+      return response()->json($bulan);
+  }
 
 
 }

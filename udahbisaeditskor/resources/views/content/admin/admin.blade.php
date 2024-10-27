@@ -58,28 +58,24 @@
 
   <div class="tab-content p-0 ms-0 ms-sm-2">
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
-      <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
+      <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
         {{-- <button class="btn btn-warning w-40"> --}}
           <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
         {{-- </button> --}}
         <div class="dropdown">
-          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">2023</button>
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">Tahun</button>
           <ul class="dropdown-menu">
-            {{-- onclick="updateTahun('{{ $thn->tahun }}')" --}}
               @foreach ($tahun as $thn)
-                  <li><a class="dropdown-item" href="javascript:void(0);" >{{ $thn->tahun }}</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0);" onclick="updateTahun('{{ $thn->id }}', '{{ $thn->tahun }}')">{{ $thn->tahun }}</a></li>
               @endforeach
           </ul>
         </div>
 
         <div class="dropdown">
-          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownBulan">January</button>
-          <ul class="dropdown-menu dropdown-menu-bulan">
-              {{-- <!-- Bulan akan diisi dinamis oleh JavaScript onclick="updateTahun('{{ $bln->bulan }}')"--> --}}
-              @foreach ($bulan as $bln)
-              <li><a class="dropdown-item" href="javascript:void(0);" >{{ $bln->bulan }}</a></li>
-              @endforeach
-          </ul>
+            <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownBulan">Bulan</button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-bulan" id="bulanDropdown">
+                <!-- Bulan akan diisi dinamis oleh JavaScript -->
+            </ul>
         </div>
       </div>
       <div class="card">
@@ -320,44 +316,29 @@
   </div>
 </div>
 
-<script type="text/javascript">
-      var selectedTahun = 2023;  // Set default tahun
-      var selectedBulan = 1;     // Set default bulan (misalkan Januari)
+<script>
+  function updateTahun(tahunId, tahunText) {
+      document.getElementById('dropdownTahun').innerText = tahunText;
 
-      function updateTahun(tahun) {
-        selectedTahun = tahun;
-        $('#dropdownTahun').text(tahun);  // Menampilkan tahun yang dipilih di dropdown
+      // Panggil endpoint untuk mendapatkan bulan berdasarkan tahunId
+      fetch(`/bulan-by-tahun/${tahunId}`)
+          .then(response => response.json())
+          .then(data => {
+              // Hapus opsi bulan sebelumnya
+              const bulanDropdown = document.getElementById('bulanDropdown');
+              bulanDropdown.innerHTML = '';
 
-        // AJAX untuk mengambil data bulan sesuai tahun yang dipilih
-        $.ajax({
-            url: `/getMonthsByYear/${tahun}`,  // Endpoint untuk mendapatkan bulan
-            method: 'GET',
-            success: function (data) {
-                $('#dropdownBulan').text('Pilih Bulan');  // Reset tampilan teks bulan
-                const bulanMenu = $('.dropdown-menu-bulan');  // Pastikan ini selector ke dropdown bulan
-                bulanMenu.empty();  // Kosongkan dropdown bulan
-
-                // Loop untuk menambahkan bulan ke dalam dropdown
-                data.forEach(function(bulan) {
-                    bulanMenu.append(`
-                        <li>
-                            <a class="dropdown-item" href="javascript:void(0);" onclick="updateBulan('${bulan}')">${bulan}</a>
-                        </li>
-                    `);
-                });
-            },
-            error: function() {
-                alert('Gagal mengambil data bulan.');
-            }
-        });
-      }
-
-      function updateBulan(bulan) {
-          selectedBulan = bulan;
-          $('#dropdownBulan').text(bulan);
-          fetchData();
-      }
-
-
-</script>
+              // Tambah opsi bulan baru
+              data.forEach(bulan => {
+                  const li = document.createElement('li');
+                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulan('${bulan}')">${bulan}</a>`;
+                  bulanDropdown.appendChild(li);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+  }
+  function updateBulan(bulanText) {
+    document.getElementById('dropdownBulan').innerText = bulanText;
+  }
+  </script>
 @endsection

@@ -15,51 +15,51 @@ class Seederbulan extends Seeder
     {
       DB::table('bulan')->insert([
         'bulan' => "Januari",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "Februari",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "Maret",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "April",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "Mei",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "Juni",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "Juli",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "Agustus",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "September",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "Oktober",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "November",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
       DB::table('bulan')->insert([
         'bulan' => "Desember",
-        'tahun_id' => 2
+        'tahun_id' => 6
       ]);
 
 
