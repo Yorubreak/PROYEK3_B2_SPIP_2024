@@ -338,30 +338,28 @@
 
     // Fetch data only if both tahunId and bulanId are set
     if (tahunId && bulanId) {
-        getData(bulanId);
+        getDataPT(bulanId);
     }
   }
 
-  function getData(bulanId) {
-    console.log(bulanId);
-    
-      fetch(`/databytahunbulan/${bulanId}`)
-          .then(response => response.json())
-          .then(data => {
-              const isiTabel = document.getElementById('isiTabel');
-              isiTabel.innerHTML = '';
+  function getDataPT(bulanId) {
+    fetch(`/databytahunbulan/${bulanId}`)
+        .then(response => response.json())
+        .then(data => {
+            const isiTabel = document.getElementById('isiTabel');
+            isiTabel.innerHTML = '';
 
-              data.forEach(dataPen => {
-                console.log(dataPen.unsur);
-                  const tr = document.createElement('tr');
-                  tr.innerHTML = `
-                      <td>${dataPen.unsur}</td>
-                      <td>${dataPen.skor}</td>`;
-                      isiTabel.appendChild(tr);
-              });
-          })
-          .catch(error => console.error('Error fetching data:', error));
-    }
+            data.forEach(dataPen => {
+              console.log(dataPen.unsur);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${dataPen.unsur}</td>
+                    <td>${dataPen.skor}</td>`;
+                    isiTabel.appendChild(tr);
+            });
+        })
+      .catch(error => console.error('Error fetching data:', error));
+  }
 </script>
 
 @endsection

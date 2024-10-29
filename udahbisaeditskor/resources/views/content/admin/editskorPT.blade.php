@@ -17,11 +17,11 @@
             <h5 class="card-header">Fixed Header</h5>
 
             <!-- Tempat notifikasi sukses -->
-            <div id="successMessage" class="alert alert-success" style="display: none;">
-                Data skor berhasil disimpan!
+            <div id="successMessage" class="alert alert-success transition ease-in-out" style="display: none; position: absolute; z-index: 100; margin-top: 1rem; margin-left: 70rem">
+                <span class="font-weight-bolder">Data skor berhasil disimpan!</span>
             </div>
-            <div id="failMessage" class="alert alert-danger" style="display: none;">
-              Skor maksimal 5!
+            <div id="failMessage" class="alert alert-danger transition ease-in-out" style="display: none; position: absolute; z-index: 100; margin-top: 1rem; margin-left: 70rem">
+              <span class="font-weight-bolder">Skor maksimal 5!</span>
             </div>
 
             <div class="card-datatable table-responsive">
