@@ -199,13 +199,17 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
 Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
-Route::get('/admin/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
+Route::get('/admin/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
 Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
 
 Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
 Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
 
 Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
+
+Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+
+
 
 
 

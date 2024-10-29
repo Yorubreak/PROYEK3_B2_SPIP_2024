@@ -14,7 +14,8 @@ class SeederPT extends Seeder
     public function run(): void
     {
         DB::table('penetapan_tujuan')->insert([
-          'unsur' => 'Kualitas Strategi Pencapaian Sasaran Strategis'
+          'unsur' => 'Pace Ilham Muhil',
+          'bulan_id' => 5
         ]);
     }
 }

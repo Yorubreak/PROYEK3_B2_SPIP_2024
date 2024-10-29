@@ -32,9 +32,9 @@ class ControllerAdmin extends Controller
 
 
   //Edit Skor
-  public function editskorPT()
+  public function editskorPT($bulanId)
   {
-    $dataPT =  DB::table('penetapan_tujuan')->orderBy('id', 'asc')->get();
+    $dataPT =  DB::table('penetapan_tujuan')->where('bulan_id', $bulanId)->orderBy('id', 'asc')->get();
 
     return view('content.admin.editskorPT', compact('dataPT'));
   }
@@ -80,21 +80,22 @@ public function submitskorSPIP(Request $request, $id)
     return response()->json(['message' => 'Data skor berhasil disimpan']);
 }
 
-
-// public function getMonthsByYear($year) {
-//   $months = DB::table('bulan')
-//       ->where('tahun_id', $year)  // Pastikan kolom ini sesuai dengan skema database
-//       ->pluck('bulan');  // Atau ganti dengan nama kolom bulan jika berbeda
-//   return response()->json($months);
-// }
-
   public function getBulanByTahunId($tahunId)
   {
       // Ambil bulan berdasarkan tahun_id
-      $bulan = DB::table('bulan')->where('tahun_id', $tahunId)->pluck('bulan');
+      $bulan = DB::table('bulan')->where('tahun_id', $tahunId)->select('id', 'bulan')->get();
 
       return response()->json($bulan);
   }
 
+  public function getDataByTahunBulan($bulanId)
+{
+    $dataPen = DB::table('penetapan_tujuan')
+                ->where('bulan_id', $bulanId)
+                ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
+                ->get();
+
+    return response()->json($dataPen);
+}
 
 }

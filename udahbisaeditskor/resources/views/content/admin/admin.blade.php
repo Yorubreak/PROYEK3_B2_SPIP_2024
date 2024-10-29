@@ -36,7 +36,7 @@
   </div>
   <ul class="nav nav-tabs widget-nav-tabs pb-3 gap-4 mx-1 d-flex flex-nowrap" role="tablist">
     <li class="nav-item">
-      <a href="javascript:void(0);" class="nav-link btn active d-flex flex-column align-items-center justify-content-center" role="tab" data-bs-toggle="tab" data-bs-target="#navs-orders-id" aria-controls="navs-orders-id" aria-selected="true">
+      <a href="javascript:void(0);" id="DataPT" class="nav-link btn active d-flex flex-column align-items-center justify-content-center" role="tab" data-bs-toggle="tab" data-bs-target="#navs-orders-id" aria-controls="navs-orders-id" aria-selected="true">
         <div class="badge bg-label-secondary rounded p-2"><i class="ti ti-shopping-cart ti-sm"></i></div>
         <h6 class="tab-widget-title mb-0 mt-2">PT</h6>
       </a>
@@ -60,7 +60,7 @@
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
       <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
         {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+          
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">Tahun</button>
@@ -77,15 +77,13 @@
                 <!-- Bulan akan diisi dinamis oleh JavaScript -->
             </ul>
         </div>
+        <a id="editSkorButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
       </div>
       <div class="card">
         <h5 class="card-header">Penetapan Tujuan</h5>
         <div class="card-datatable table-responsive">
           <table class="dt-fixedheader table">
             <thead>
-              @php
-                  $pembagi = 100;
-              @endphp
               <tr>
                 <th>komponen</th>
                 <th>skor</th>
@@ -96,18 +94,8 @@
                 <th>nilai akhir</th>
               </tr>
             </thead>
-            <tbody>
-              @foreach ($dataPT as $dPT)
-                <tr>
-                  <th>{{ $dPT->unsur }}</th>
-                  <th>{{ $dPT->skor }}</th>
-                  <th>{{ 'bobot unsur' }}</th>
-                  <th>{{ 'bobot komponen' }}</th>
-                  <th>{{ $dPT->nilai_unsur }}</th>
-                  <th>{{ $dPT->nilai_komponen }}</th>
-                  <th>{{ 'True' }}</th>
-                </tr>
-              @endforeach
+            <tbody id="isiTabel">
+
             </tbody>
           </table>
         </div>
@@ -116,7 +104,7 @@
     <div class="tab-pane fade" id="navs-sales-id" role="tabpanel">
       <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+          <a href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
@@ -188,7 +176,7 @@
     <div class="tab-pane fade" id="navs-profit-id" role="tabpanel">
       <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+          <a href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
@@ -317,28 +305,63 @@
 </div>
 
 <script>
-  function updateTahun(tahunId, tahunText) {
+  let tahunId = null;
+  let bulanId = null;
+
+  function updateTahun(selectedTahunId, tahunText) {
+      tahunId = selectedTahunId;
       document.getElementById('dropdownTahun').innerText = tahunText;
 
-      // Panggil endpoint untuk mendapatkan bulan berdasarkan tahunId
+      // Fetch months associated with selected tahunId
       fetch(`/bulan-by-tahun/${tahunId}`)
           .then(response => response.json())
           .then(data => {
-              // Hapus opsi bulan sebelumnya
               const bulanDropdown = document.getElementById('bulanDropdown');
               bulanDropdown.innerHTML = '';
 
-              // Tambah opsi bulan baru
               data.forEach(bulan => {
                   const li = document.createElement('li');
-                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulan('${bulan}')">${bulan}</a>`;
+                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulan('${bulan.id}','${bulan.bulan}')">${bulan.bulan}</a>`;
                   bulanDropdown.appendChild(li);
               });
           })
-          .catch(error => console.error('Error:', error));
+          .catch(error => console.error('Error fetching months:', error));
   }
-  function updateBulan(bulanText) {
+
+  function updateBulan(selectedBulanId, bulanText) {
+    bulanId = selectedBulanId;
     document.getElementById('dropdownBulan').innerText = bulanText;
+
+    // Update the Edit Skor button link with the selected bulanId
+    const editSkorButton = document.getElementById('editSkorButton');
+    editSkorButton.href = `/admin/editskorPT/${bulanId}`;
+
+    // Fetch data only if both tahunId and bulanId are set
+    if (tahunId && bulanId) {
+        getData(bulanId);
+    }
   }
-  </script>
+
+  function getData(bulanId) {
+    console.log(bulanId);
+    
+      fetch(`/databytahunbulan/${bulanId}`)
+          .then(response => response.json())
+          .then(data => {
+              const isiTabel = document.getElementById('isiTabel');
+              isiTabel.innerHTML = '';
+
+              data.forEach(dataPen => {
+                console.log(dataPen.unsur);
+                  const tr = document.createElement('tr');
+                  tr.innerHTML = `
+                      <td>${dataPen.unsur}</td>
+                      <td>${dataPen.skor}</td>`;
+                      isiTabel.appendChild(tr);
+              });
+          })
+          .catch(error => console.error('Error fetching data:', error));
+    }
+</script>
+
 @endsection
