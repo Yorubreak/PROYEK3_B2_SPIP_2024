@@ -179,6 +179,7 @@ Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //login
 Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
+Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
 Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
 Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 
@@ -198,6 +199,7 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
+// Admin
 Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
 Route::get('/admin/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
 Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
@@ -392,3 +394,13 @@ Route::get('/maps/leaflet', [Leaflet::class, 'index'])->name('maps-leaflet');
 Route::get('/laravel/user-management', [UserManagement::class, 'UserManagement'])->name('laravel-example-user-management');
 Route::resource('/user-list', UserManagement::class);
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
