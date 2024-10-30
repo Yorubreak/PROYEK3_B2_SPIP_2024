@@ -433,15 +433,15 @@ $navbarDetached = ($navbarDetached ?? '');
                 </a>
               </li>
               @endif
-              <li>
+              {{-- <li>
                 <a class="dropdown-item" href="{{url('app/invoice/list')}}">
                   <span class="d-flex align-items-center align-middle">
                     <i class="flex-shrink-0 ti ti-credit-card me-2 ti-sm"></i>
                     <span class="flex-grow-1 align-middle">Billing</span>
                     <span class="flex-shrink-0 badge badge-center rounded-pill bg-label-danger w-px-20 h-px-20">2</span>
                   </span> </a>
-              </li>
-              @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
+              </li> --}}
+              {{-- @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
               <li>
                 <div class="dropdown-divider"></div>
               </li>
@@ -480,10 +480,10 @@ $navbarDetached = ($navbarDetached ?? '');
               @foreach (Auth::user()->allTeams() as $team)
               {{-- Below commented code read by artisan command while installing jetstream. !! Do not remove if you want to use jetstream. --}}
 
-              {{-- <x-switchable-team :team="$team" /> --}}
-              @endforeach
+              {{-- <x-switchable-team : /> --}}
+              {{-- @endforeach
               @endif
-              @endif
+              @endif --}}
               <li>
                 <div class="dropdown-divider"></div>
               </li>
@@ -499,7 +499,7 @@ $navbarDetached = ($navbarDetached ?? '');
               </form>
               @else
               <li>
-                <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : url('auth/login-basic') }}">
+                <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : url('login') }}">
                   <i class='ti ti-login me-2'></i>
                   <span class="align-middle">Login</span>
                 </a>
