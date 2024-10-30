@@ -201,19 +201,23 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
 Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
 Route::get('/admin/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
+Route::get('/admin/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('admin-editskorSP');
 Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
 
 Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
+Route::put('/admin/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('admin-submitskorSP');
 Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
 
 Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
 
 Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
 
+Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
+
 Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
     // Set the bulanId in session or pass it as a parameter to the seeder
     session(['bulanId' => $bulanId]);
-    
+
     // Run the SeederPT seeder
     Artisan::call('db:seed', [
         '--class' => 'Database\\Seeders\\SeederPT'
@@ -222,6 +226,17 @@ Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
     return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
 });
 
+Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
+  // Set the bulanId in session or pass it as a parameter to the seeder
+  session(['bulanId' => $bulanId]);
+
+  // Run the SeederPT seeder
+  Artisan::call('db:seed', [
+      '--class' => 'Database\\Seeders\\SeederSP'
+  ]);
+
+  return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
+});
 
 
 
