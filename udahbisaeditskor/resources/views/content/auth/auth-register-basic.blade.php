@@ -127,7 +127,7 @@ $customizerHidden = 'customizer-hide';
   </div>
 </div>
 
-<script>
+<>
   document.addEventListener("DOMContentLoaded", function () {
     const togglePassword = document.getElementById("togglePassword");
     const passwordField = document.getElementById("password");
@@ -142,5 +142,12 @@ $customizerHidden = 'customizer-hide';
       this.querySelector("i").classList.toggle("ti-eye-off");
     });
   });
-</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('success'))
+  <script>
+    Swal.fire('{{ $message }}');
+  </script>
+@endif
+
 @endsection

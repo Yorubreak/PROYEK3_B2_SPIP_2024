@@ -139,12 +139,11 @@ $customizerHidden = 'customizer-hide';
   });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if($message = Session::get('error'))
-<script>
-  Swal.fire('{{ $message }}');
-</script>
+  <script>
+    Swal.fire('{{ $message }}');
+  </script>
 @endif
 
 @endsection
-
-
