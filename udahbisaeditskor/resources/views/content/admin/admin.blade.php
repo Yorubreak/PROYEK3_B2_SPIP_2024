@@ -318,9 +318,6 @@
           .catch(error => console.error('Error fetching months:', error));
   }
 
-<<<<<<< HEAD
-  function updateBulan(selectedBulanId, bulanText, selectedTahunId, tahunText) {
-=======
   function updateTahunSP(selectedTahunId, tahunText) {
     console.log(selectedTahunId, tahunText);
 
@@ -344,7 +341,6 @@
   }
 
   function updateBulan(selectedBulanId, bulanText) {
->>>>>>> c8b0d4092815c0a175a875dd32c216b90fce4da3
     bulanId = selectedBulanId;
     document.getElementById('dropdownBulan').innerText = bulanText;
 
@@ -354,9 +350,6 @@
 
     // Fetch data only if both tahunId and bulanId are set
     if (tahunId && bulanId) {
-<<<<<<< HEAD
-        getDataPT(bulanId, tahunId, tahunText, bulanText);
-=======
         getDataSP(bulanId);
     }
   }
@@ -373,13 +366,11 @@
     // Fetch data only if both tahunId and bulanId are set
     if (tahunId && bulanId) {
         getDataSP(bulanId);
->>>>>>> c8b0d4092815c0a175a875dd32c216b90fce4da3
     }
   }
 
   function getDataPT(bulanId,tahunId,tahunText,bulanText) {
     console.log(tahunId, tahunText);
-    
     fetch(`/databytahunbulan/${bulanId}`)
         .then(response => response.json())
         .then(data => {
@@ -404,9 +395,6 @@
       .catch(error => console.error('Error fetching data:', error));
   }
 
-<<<<<<< HEAD
-  function runSeederPT(bulanId,tahunId,tahunText,bulanText) {
-=======
   function getDataSP(bulanId) {
     fetch(`/databytahunbulanSP/${bulanId}`)
         .then(response => response.json())
@@ -433,7 +421,6 @@
   }
 
   function runSeederPT(bulanId) {
->>>>>>> c8b0d4092815c0a175a875dd32c216b90fce4da3
     console.log(bulanId);
     fetch(`/run-seederPT/${bulanId}/${tahunId}/${tahunText}/${bulanText}`)
         .then(response => response.json())

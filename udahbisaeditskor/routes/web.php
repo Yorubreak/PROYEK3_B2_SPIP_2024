@@ -213,20 +213,12 @@ Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPI
 Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
 
 Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
 
-<<<<<<< HEAD
 Route::get('/run-seederPT/{bulanId}/{tahunId}/{tahunText}/{bulanText}', function ($bulanId, $tahunId, $tahunText, $bulanText) {
     // Set the bulanId in session or pass it as a parameter to the seeder
     session(['bulanId' => $bulanId, 'tahunId' => $tahunId, 'tahunText' => $tahunText, 'bulanText' => $bulanText]);
     
-=======
-Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
-
-Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
-    // Set the bulanId in session or pass it as a parameter to the seeder
-    session(['bulanId' => $bulanId]);
-
->>>>>>> c8b0d4092815c0a175a875dd32c216b90fce4da3
     // Run the SeederPT seeder
     Artisan::call('db:seed', [
         '--class' => 'Database\\Seeders\\SeederPT'
