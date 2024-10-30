@@ -96,12 +96,6 @@
         </div>
         <a id="editSkorButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
       </div>
-      @if(Session::has('success'))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong>Sukses!</strong> {{ Session::get('success') }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      @endif
       <div class="card">
         <h5 class="card-header">Penetapan Tujuan</h5>
         <div class="card-datatable table-responsive">
@@ -117,7 +111,7 @@
                 <th>nilai akhir</th>
               </tr>
             </thead>
-            <tbody id="isiTabel">
+            <tbody id="isiTabelPT">
 
             </tbody>
           </table>
@@ -344,14 +338,14 @@
 
               data.forEach(bulan => {
                   const li = document.createElement('li');
-                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulan('${bulan.id}','${bulan.bulan}')">${bulan.bulan}</a>`;
+                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulan('${bulan.id}','${bulan.bulan}', '${tahunId}', '${tahunText}')">${bulan.bulan}</a>`;
                   bulanDropdown.appendChild(li);
               });
           })
           .catch(error => console.error('Error fetching months:', error));
   }
 
-  function updateBulan(selectedBulanId, bulanText) {
+  function updateBulan(selectedBulanId, bulanText, selectedTahunId, tahunText) {
     bulanId = selectedBulanId;
     document.getElementById('dropdownBulan').innerText = bulanText;
 
@@ -361,21 +355,23 @@
 
     // Fetch data only if both tahunId and bulanId are set
     if (tahunId && bulanId) {
-        getDataPT(bulanId);
+        getDataPT(bulanId, tahunId, tahunText, bulanText);
     }
   }
 
-  function getDataPT(bulanId) {
+  function getDataPT(bulanId,tahunId,tahunText,bulanText) {
+    console.log(tahunId, tahunText);
+    
     fetch(`/databytahunbulan/${bulanId}`)
         .then(response => response.json())
         .then(data => {
-            const isiTabel = document.getElementById('isiTabel');
-            isiTabel.innerHTML = '';
+            const isiTabelPT = document.getElementById('isiTabelPT');
+            isiTabelPT.innerHTML = '';
             if (data.length === 0) {
                 // If no data is found, show a message
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeederPT(${bulanId})">tambah data disini!!</a></td>`;
-                isiTabel.appendChild(tr);
+                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeederPT('${bulanId}', '${tahunId}', '${tahunText}', '${bulanText}')">tambah data disini!!</a></td>`;
+                isiTabelPT.appendChild(tr);
             }
             else{ data.forEach(dataPen => {
               console.log(dataPen.unsur);
@@ -383,16 +379,16 @@
                 tr.innerHTML = `
                     <td>${dataPen.unsur}</td>
                     <td>${dataPen.skor}</td>`;
-                    isiTabel.appendChild(tr);
+                    isiTabelPT.appendChild(tr);
             });
           }
         })
       .catch(error => console.error('Error fetching data:', error));
   }
 
-  function runSeederPT(bulanId) {
+  function runSeederPT(bulanId,tahunId,tahunText,bulanText) {
     console.log(bulanId);
-    fetch(`/run-seederPT/${bulanId}`)
+    fetch(`/run-seederPT/${bulanId}/${tahunId}/${tahunText}/${bulanText}`)
         .then(response => response.json())
         .then(result => {
             // Menampilkan alert sukses menggunakan SweetAlert2
