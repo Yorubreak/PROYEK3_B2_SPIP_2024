@@ -143,6 +143,4 @@ $customizerHidden = 'customizer-hide';
     });
   });
 </script>
-
-
 @endsection
