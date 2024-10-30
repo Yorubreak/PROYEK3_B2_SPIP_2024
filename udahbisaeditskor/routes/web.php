@@ -180,6 +180,7 @@ Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //login
 Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
+Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
 Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
 Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 
@@ -199,21 +200,33 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
+// Admin
 Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
 Route::get('/admin/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
+Route::get('/admin/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('admin-editskorSP');
 Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
 
 Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
+Route::put('/admin/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('admin-submitskorSP');
 Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
 
 Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
 
 Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
 
+<<<<<<< HEAD
 Route::get('/run-seederPT/{bulanId}/{tahunId}/{tahunText}/{bulanText}', function ($bulanId, $tahunId, $tahunText, $bulanText) {
     // Set the bulanId in session or pass it as a parameter to the seeder
     session(['bulanId' => $bulanId, 'tahunId' => $tahunId, 'tahunText' => $tahunText, 'bulanText' => $bulanText]);
     
+=======
+Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
+
+Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
+    // Set the bulanId in session or pass it as a parameter to the seeder
+    session(['bulanId' => $bulanId]);
+
+>>>>>>> c8b0d4092815c0a175a875dd32c216b90fce4da3
     // Run the SeederPT seeder
     Artisan::call('db:seed', [
         '--class' => 'Database\\Seeders\\SeederPT'
@@ -222,6 +235,17 @@ Route::get('/run-seederPT/{bulanId}/{tahunId}/{tahunText}/{bulanText}', function
     return response()->json(['success' => 'Data baru sudah di tambahkan pada bulan ' . $bulanText . ' tahun ' . $tahunText]);
 });
 
+Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
+  // Set the bulanId in session or pass it as a parameter to the seeder
+  session(['bulanId' => $bulanId]);
+
+  // Run the SeederPT seeder
+  Artisan::call('db:seed', [
+      '--class' => 'Database\\Seeders\\SeederSP'
+  ]);
+
+  return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
+});
 
 
 
@@ -410,3 +434,13 @@ Route::get('/maps/leaflet', [Leaflet::class, 'index'])->name('maps-leaflet');
 Route::get('/laravel/user-management', [UserManagement::class, 'UserManagement'])->name('laravel-example-user-management');
 Route::resource('/user-list', UserManagement::class);
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

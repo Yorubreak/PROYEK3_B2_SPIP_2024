@@ -74,7 +74,7 @@ $customizerHidden = 'customizer-hide';
                 <label class="form-label" for="password">Password</label>
                 <div class="input-group input-group-merge">
                     <input type="password" id="password" class="form-control" name="password" placeholder="••••••••" aria-describedby="password"/>
-                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off" id="togglePassword"></i></span>
                 </div>
                 @error('password')
                 <span class="invalid-feedback" role="alert"></span>
@@ -126,4 +126,23 @@ $customizerHidden = 'customizer-hide';
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordField = document.getElementById("password");
+
+    togglePassword.addEventListener("click", function () {
+      // Toggle the type attribute
+      const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+      passwordField.setAttribute("type", type);
+
+      // Toggle the icon
+      this.querySelector("i").classList.toggle("ti-eye");
+      this.querySelector("i").classList.toggle("ti-eye-off");
+    });
+  });
+</script>
+
+
 @endsection

@@ -2,15 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
   public function index()
   {
     return view('content.auth.auth-login-basic');
+  }
+
+  public function loginproc(Request $request)
+  {
+    $request->validate([
+      'email' => 'required',
+      'password' => 'required',
+    ]);
+
+    $data = [
+      'email' => $request->email,
+      'password' => $request->password
+    ];
+
+    Auth::attempt($data);
+
+    if(Auth::attempt($data)) {
+      return redirect()->route('admin');
+    }else{
+      return redirect()->route('auth-login')->with('error', 'Login failed! Please try again.');
+    }
+
   }
 
   public function register()

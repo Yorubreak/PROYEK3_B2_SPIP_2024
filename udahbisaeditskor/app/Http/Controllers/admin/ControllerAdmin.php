@@ -19,7 +19,7 @@ class ControllerAdmin extends Controller
     $dataPT =  DB::table('penetapan_tujuan')->orderBy('id', 'asc')->get();
     $dataSP =  DB::table('struktur_proses')->orderBy('id', 'asc')->get();
     $dataSPIP1 = DB::table('pencapaian_tujuan')
-                    ->whereIn('id', [9, 10])->orderBy('id', 'asc')->get();
+                    ->whereIn('id', values: [9, 10])->orderBy('id', 'asc')->get();
     $dataSPIP2 = DB::table('pencapaian_tujuan')
                     ->whereIn('id', [11])->orderBy('id', 'asc')->get();
     $dataSPIP3 = DB::table('pencapaian_tujuan')
@@ -67,7 +67,7 @@ class ControllerAdmin extends Controller
   {
     $dataSP = DB::table('struktur_proses')->find($id);
     $dataSP->skor = $request->skor;
-    DB::table('penetapan_tujuan')->whereId($id)->update((array) $dataSP);
+    DB::table('struktur_proses')->whereId($id)->update((array) $dataSP);
     return response()->json(['message' => 'Data skor berhasil disimpan']);
   }
 
@@ -103,6 +103,19 @@ public function submitskorSPIP(Request $request, $id)
                 ->get();
    
     return response()->json($dataPen);
+}
+
+public function getDataByTahunBulanSP($bulanId)
+{
+    $dataSTRP = DB::table('struktur_proses')
+                ->where('bulan_id', $bulanId)
+                ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
+                ->whereIn()
+                ->orderBy('id','asc')
+                ->get();
+
+
+    return response()->json($dataSTRP);
 }
 
 }

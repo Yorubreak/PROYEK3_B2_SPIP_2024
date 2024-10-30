@@ -26,8 +26,8 @@
 @section('content')
 
 <!-- Pastikan ada link ini di <head> atau tepat sebelum penutup </body> -->
-  
-  
+
+
 <div class="card-body">
   <div class="card-body row p-0 pb-3">
     <div class="col-12 col-md-8 card-separator">
@@ -77,7 +77,7 @@
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
       <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
         {{-- <button class="btn btn-warning w-40"> --}}
-          
+
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">Tahun</button>
@@ -94,7 +94,7 @@
                 <!-- Bulan akan diisi dinamis oleh JavaScript -->
             </ul>
         </div>
-        <a id="editSkorButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+        <a id="editSkorButtonPT" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
       </div>
       <div class="card">
         <h5 class="card-header">Penetapan Tujuan</h5>
@@ -119,43 +119,26 @@
       </div>
     </div>
     <div class="tab-pane fade" id="navs-sales-id" role="tabpanel">
-      <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
-        {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
-        {{-- </button> --}}
+      <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
         <div class="dropdown">
-          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahunSP">Tahun</button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="javascript:void(0);">2024</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">2025</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">2026</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">2027</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">2028</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">2029</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">2030</a></li>
+              @foreach ($tahun as $thn)
+                  <li><a class="dropdown-item" href="javascript:void(0);" onclick="updateTahunSP('{{ $thn->id }}', '{{ $thn->tahun }}')">{{ $thn->tahun }}</a></li>
+              @endforeach
           </ul>
         </div>
 
         <div class="dropdown">
-          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">January</button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="javascript:void(0);">January</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">February</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">March</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">April</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">May</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">June</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">July</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">August</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">September</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">October</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">November</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">December</a></li>
-          </ul>
+            <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownBulanSP">Bulan</button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-bulan" id="bulanDropdownSP">
+                <!-- Bulan akan diisi dinamis oleh JavaScript -->
+            </ul>
         </div>
+        <a id="editSkorButtonSP" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
       </div>
       <div class="card">
-        <h5 class="card-header">Fixed Header</h5>
+        <h5 class="card-header">Struktur dan Proses</h5>
         <div class="card-datatable table-responsive">
           <table class="dt-fixedheader table">
             <thead>
@@ -172,18 +155,8 @@
                 <th>nilai akhir</th>
               </tr>
             </thead>
-            <tbody>
-              @foreach ($dataSP as $dSP)
-                <tr>
-                  <th>{{ $dSP->unsur }}</th>
-                  <th>{{ $dSP->skor }}</th>
-                  <th>{{ 'bobot unsur' }}</th>
-                  <th>{{ 'bobot komponen' }}</th>
-                  <th>{{ $dSP->nilai_unsur }}</th>
-                  <th>{{ $dSP->nilai_komponen }}</th>
-                  <th>{{ 'True' }}</th>
-                </tr>
-              @endforeach
+            <tbody id="isiTabelSP">
+
             </tbody>
           </table>
         </div>
@@ -244,7 +217,7 @@
                 <th>nilai akhir</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody >
               {{-- efektivitas --}}
               <tr>
                 <th colspan="7">
@@ -345,17 +318,62 @@
           .catch(error => console.error('Error fetching months:', error));
   }
 
+<<<<<<< HEAD
   function updateBulan(selectedBulanId, bulanText, selectedTahunId, tahunText) {
+=======
+  function updateTahunSP(selectedTahunId, tahunText) {
+    console.log(selectedTahunId, tahunText);
+
+      tahunId = selectedTahunId;
+      document.getElementById('dropdownTahunSP').innerText = tahunText;
+
+      // Fetch months associated with selected tahunId
+      fetch(`/bulan-by-tahun/${tahunId}`)
+          .then(response => response.json())
+          .then(data => {
+              const bulanDropdown = document.getElementById('bulanDropdownSP');
+              bulanDropdown.innerHTML = '';
+
+              data.forEach(bulan => {
+                  const li = document.createElement('li');
+                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulanSP('${bulan.id}','${bulan.bulan}')">${bulan.bulan}</a>`;
+                  bulanDropdown.appendChild(li);
+              });
+          })
+          .catch(error => console.error('Error fetching months:', error));
+  }
+
+  function updateBulan(selectedBulanId, bulanText) {
+>>>>>>> c8b0d4092815c0a175a875dd32c216b90fce4da3
     bulanId = selectedBulanId;
     document.getElementById('dropdownBulan').innerText = bulanText;
 
     // Update the Edit Skor button link with the selected bulanId
-    const editSkorButton = document.getElementById('editSkorButton');
-    editSkorButton.href = `/admin/editskorPT/${bulanId}`;
+    const editSkorButtonPT = document.getElementById('editSkorButtonPT');
+    editSkorButtonPT.href = `/admin/editskorPT/${bulanId}`;
 
     // Fetch data only if both tahunId and bulanId are set
     if (tahunId && bulanId) {
+<<<<<<< HEAD
         getDataPT(bulanId, tahunId, tahunText, bulanText);
+=======
+        getDataSP(bulanId);
+    }
+  }
+
+  function updateBulanSP(selectedBulanId, bulanText) {
+    bulanId = selectedBulanId;
+    document.getElementById('dropdownBulanSP').innerText = bulanText;
+
+    // Update the Edit Skor button link with the selected bulanId
+
+    const editSkorButtonSP = document.getElementById('editSkorButtonSP');
+    editSkorButtonSP.href = `/admin/editskorSP/${bulanId}`;
+
+    // Fetch data only if both tahunId and bulanId are set
+    if (tahunId && bulanId) {
+        getDataSP(bulanId);
+>>>>>>> c8b0d4092815c0a175a875dd32c216b90fce4da3
     }
   }
 
@@ -386,7 +404,36 @@
       .catch(error => console.error('Error fetching data:', error));
   }
 
+<<<<<<< HEAD
   function runSeederPT(bulanId,tahunId,tahunText,bulanText) {
+=======
+  function getDataSP(bulanId) {
+    fetch(`/databytahunbulanSP/${bulanId}`)
+        .then(response => response.json())
+        .then(data => {
+            const isiTabelSP = document.getElementById('isiTabelSP');
+            isiTabelSP.innerHTML = '';
+            if (data.length === 0) {
+                // If no data is found, show a message
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeederSP(${bulanId})">tambah data disini!!</a></td>`;
+                isiTabelSP.appendChild(tr);
+            }
+            else{ data.forEach(dataSTRP => {
+              console.log(dataSTRP.unsur);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${dataSTRP.unsur}</td>
+                    <td>${dataSTRP.skor}</td>`;
+                    isiTabelSP.appendChild(tr);
+            });
+          }
+        })
+      .catch(error => console.error('Error fetching data:', error));
+  }
+
+  function runSeederPT(bulanId) {
+>>>>>>> c8b0d4092815c0a175a875dd32c216b90fce4da3
     console.log(bulanId);
     fetch(`/run-seederPT/${bulanId}/${tahunId}/${tahunText}/${bulanText}`)
         .then(response => response.json())
@@ -414,6 +461,33 @@
         });
 }
 
+function runSeederSP(bulanId) {
+    console.log(bulanId);
+    fetch(`/run-seederSP/${bulanId}`)
+        .then(response => response.json())
+        .then(result => {
+            // Menampilkan alert sukses menggunakan SweetAlert2
+            Swal.fire({
+                title: 'Berhasil!',
+                text: result.success,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
+            // Refresh data tabel untuk memperbarui data dengan baris baru
+            getDataPT(bulanId);
+        })
+        .catch(error => {
+            console.error('Error running seeder:', error);
+            // Menampilkan alert error menggunakan SweetAlert2
+            Swal.fire({
+                title: 'Gagal!',
+                text: 'Gagal menjalankan SeederSP. Silakan coba lagi.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+}
 
 </script>
 
