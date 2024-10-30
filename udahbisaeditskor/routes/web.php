@@ -227,16 +227,16 @@ Route::get('/run-seederPT/{bulanId}/{tahunId}/{tahunText}/{bulanText}', function
     return response()->json(['success' => 'Data baru sudah di tambahkan pada bulan ' . $bulanText . ' tahun ' . $tahunText]);
 });
 
-Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
+Route::get('/run-seederSP/{bulanId}/{tahunId}/{tahunText}/{bulanText}', function ($bulanId, $tahunId, $tahunText, $bulanText) {
   // Set the bulanId in session or pass it as a parameter to the seeder
-  session(['bulanId' => $bulanId]);
+  session(['bulanId' => $bulanId, 'tahunId' => $tahunId, 'tahunText' => $tahunText, 'bulanText' => $bulanText]);
 
   // Run the SeederPT seeder
   Artisan::call('db:seed', [
       '--class' => 'Database\\Seeders\\SeederSP'
   ]);
 
-  return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
+  return response()->json(['success' => 'Data baru sudah di tambahkan pada bulan ' . $bulanText . ' tahun ' . $tahunText]);
 });
 
 

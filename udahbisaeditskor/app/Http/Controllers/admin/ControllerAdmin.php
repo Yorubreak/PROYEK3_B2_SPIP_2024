@@ -95,12 +95,6 @@ public function submitskorSPIP(Request $request, $id)
                 ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
                 ->orderBy('id', 'asc')
                 ->get();
-    // $dataSPIP1 = DB::table('pencapaian_tujuan')
-    //             ->where('bulan_id', $bulanId)
-    //             ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
-    //             ->whereIn('id', [9, 10])
-    //             ->orderBy('id', 'asc')
-    //             ->get();
    
     return response()->json($dataPen);
 }
@@ -112,7 +106,6 @@ public function getDataByTahunBulanSP($bulanId)
                 ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
                 ->orderBy('id','asc')
                 ->get();
-
 
     return response()->json($dataSTRP);
 }
