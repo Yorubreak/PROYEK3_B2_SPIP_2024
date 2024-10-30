@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\StrukturdanProses;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\dashboard\Analytics;
@@ -208,6 +209,18 @@ Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPI
 Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
 
 Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+
+Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
+    // Set the bulanId in session or pass it as a parameter to the seeder
+    session(['bulanId' => $bulanId]);
+    
+    // Run the SeederPT seeder
+    Artisan::call('db:seed', [
+        '--class' => 'Database\\Seeders\\SeederPT'
+    ]);
+
+    return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
+});
 
 
 

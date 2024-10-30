@@ -25,6 +25,9 @@
 
 @section('content')
 
+<!-- Pastikan ada link ini di <head> atau tepat sebelum penutup </body> -->
+  
+  
 <div class="card-body">
   <div class="card-body row p-0 pb-3">
     <div class="col-12 col-md-8 card-separator">
@@ -57,6 +60,20 @@
 
 
   <div class="tab-content p-0 ms-0 ms-sm-2">
+    <!-- Notifikasi Alert -->
+
+    @if(Session::has('success'))
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          Swal.fire({
+            title: 'Success!',
+            text: "{{ Session::get('success') }}",
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+        });
+      </script>
+    @endif
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
       <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
         {{-- <button class="btn btn-warning w-40"> --}}
@@ -79,6 +96,12 @@
         </div>
         <a id="editSkorButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
       </div>
+      @if(Session::has('success'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Sukses!</strong> {{ Session::get('success') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      @endif
       <div class="card">
         <h5 class="card-header">Penetapan Tujuan</h5>
         <div class="card-datatable table-responsive">
@@ -303,7 +326,7 @@
     </div>
   </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   let tahunId = null;
   let bulanId = null;
@@ -348,8 +371,13 @@
         .then(data => {
             const isiTabel = document.getElementById('isiTabel');
             isiTabel.innerHTML = '';
-
-            data.forEach(dataPen => {
+            if (data.length === 0) {
+                // If no data is found, show a message
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeederPT(${bulanId})">tambah data disini!!</a></td>`;
+                isiTabel.appendChild(tr);
+            }
+            else{ data.forEach(dataPen => {
               console.log(dataPen.unsur);
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -357,9 +385,40 @@
                     <td>${dataPen.skor}</td>`;
                     isiTabel.appendChild(tr);
             });
+          }
         })
       .catch(error => console.error('Error fetching data:', error));
   }
+
+  function runSeederPT(bulanId) {
+    console.log(bulanId);
+    fetch(`/run-seederPT/${bulanId}`)
+        .then(response => response.json())
+        .then(result => {
+            // Menampilkan alert sukses menggunakan SweetAlert2
+            Swal.fire({
+                title: 'Berhasil!',
+                text: result.success,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
+            // Refresh data tabel untuk memperbarui data dengan baris baru
+            getDataPT(bulanId);
+        })
+        .catch(error => {
+            console.error('Error running seeder:', error);
+            // Menampilkan alert error menggunakan SweetAlert2
+            Swal.fire({
+                title: 'Gagal!',
+                text: 'Gagal menjalankan SeederPT. Silakan coba lagi.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+}
+
+
 </script>
 
 @endsection
