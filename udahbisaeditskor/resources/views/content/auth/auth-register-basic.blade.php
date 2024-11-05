@@ -127,21 +127,29 @@ $customizerHidden = 'customizer-hide';
   </div>
 </div>
 
-<>
+<script>
   document.addEventListener("DOMContentLoaded", function () {
     const togglePassword = document.getElementById("togglePassword");
     const passwordField = document.getElementById("password");
 
-    togglePassword.addEventListener("click", function () {
-      // Toggle the type attribute
-      const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
-      passwordField.setAttribute("type", type);
+    if (togglePassword && passwordField) {
+      togglePassword.addEventListener("click", function () {
+        // Toggle the type attribute
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
 
-      // Toggle the icon
-      this.querySelector("i").classList.toggle("ti-eye");
-      this.querySelector("i").classList.toggle("ti-eye-off");
-    });
+        // Toggle the icon class
+        if (type === "text") {
+          togglePassword.classList.remove("ti-eye-off");
+          togglePassword.classList.add("ti-eye");
+        } else {
+          togglePassword.classList.remove("ti-eye");
+          togglePassword.classList.add("ti-eye-off");
+        }
+      });
+    }
   });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if($message = Session::get('success'))

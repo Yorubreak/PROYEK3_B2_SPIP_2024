@@ -474,7 +474,7 @@ $navbarDetached = ($navbarDetached ?? '');
                                 </div>
                               </div>
                               <div>
-                                <span class="d-block">{{ Auth::user()->name }}</span>
+                                <span class="d-block">{{ Auth::user()->username }}</span>
                                 <small class="text-muted">{{ Auth::user()->email }}</small>
                               </div>
                             </div>

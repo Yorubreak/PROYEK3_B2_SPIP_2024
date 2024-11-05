@@ -168,4 +168,15 @@ $configData = Helper::appClasses();
   </section> --}}
 </div>
 
+{{-- @if($message = Session::get('success'))
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: '{{ $message }}',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  </script>
+@endif --}}
+
 @endsection

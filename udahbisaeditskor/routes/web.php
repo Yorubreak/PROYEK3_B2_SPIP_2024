@@ -199,7 +199,7 @@ Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-con
 Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
-Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
+Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
 // Admin
 Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
   Route::get('/', [ControllerAdmin::class, 'index'])->name('admin-page');

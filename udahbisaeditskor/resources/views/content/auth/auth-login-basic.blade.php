@@ -54,7 +54,7 @@ $customizerHidden = 'customizer-hide';
             @csrf
             <div class="mb-3">
               <label for="email" class="form-label">Email or Username</label>
-              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email or username" autofocus>
+              <input type="text" class="form-control" id="login" name="login" placeholder="Enter your email or username" autofocus>
               @error('email')
                 <span class="invalid-feedback" role="alert"></span>
                     <strong>{{ $message }}</strong>
@@ -127,20 +127,35 @@ $customizerHidden = 'customizer-hide';
     const togglePassword = document.getElementById("togglePassword");
     const passwordField = document.getElementById("password");
 
-    togglePassword.addEventListener("click", function () {
-      // Toggle the type attribute
-      const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
-      passwordField.setAttribute("type", type);
+    if (togglePassword && passwordField) {
+      togglePassword.addEventListener("click", function () {
+        // Toggle the type attribute
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
 
-      // Toggle the icon
-      this.querySelector("i").classList.toggle("ti-eye");
-      this.querySelector("i").classList.toggle("ti-eye-off");
-    });
+        // Toggle the icon class
+        if (type === "text") {
+          togglePassword.classList.remove("ti-eye-off");
+          togglePassword.classList.add("ti-eye");
+        } else {
+          togglePassword.classList.remove("ti-eye");
+          togglePassword.classList.add("ti-eye-off");
+        }
+      });
+    }
   });
 </script>
 
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if($message = Session::get('error'))
+  <script>
+    Swal.fire('{{ $message }}');
+  </script>
+@endif
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('success'))
   <script>
     Swal.fire('{{ $message }}');
   </script>

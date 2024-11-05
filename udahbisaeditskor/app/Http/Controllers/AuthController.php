@@ -14,28 +14,29 @@ class AuthController extends Controller
   {
     return view('content.auth.auth-login-basic');
   }
-
   public function loginproc(Request $request)
   {
-    $request->validate([
-      'email' => 'required',
-      'password' => 'required',
-    ]);
+      $request->validate([
+          'login' => 'required', // Mengganti 'email' menjadi 'login'
+          'password' => 'required',
+      ]);
 
-    $data = [
-      'email' => $request->email,
-      'password' => $request->password
-    ];
+      // Cek apakah input merupakan email atau username
+      $fieldType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-    Auth::attempt($data);
+      $data = [
+          $fieldType => $request->login,
+          'password' => $request->password,
+      ];
 
-    if(Auth::attempt($data)) {
-      return redirect()->route('admin.admin-page')->with('success', 'Login successful!');
-    }else{
-      return redirect()->route('auth-login')->with('error', 'Login failed! Please try again.');
-    }
-
+      if (Auth::attempt($data)) {
+          return redirect()->route('admin.admin-page')->with('success', 'Login successful!');
+      } else {
+          return redirect()->route('auth-login')->with('error', 'Login failed! Please try again.');
+      }
   }
+
+
 
   public function register()
   {
@@ -64,8 +65,9 @@ class AuthController extends Controller
       return redirect()->route('auth-login')->with('success', 'Registration successful! Please login.');
   }
 
-  public function logout(){
-    Auth::logout();
-    return redirect()->route('/')->with('success','Logout successful!');
+  public function logout()
+  {
+      Auth::logout();
+      return redirect()->route('front-pages-landing')->with('success', 'Logout successful!');
   }
 }

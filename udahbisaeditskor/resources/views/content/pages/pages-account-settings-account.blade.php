@@ -76,11 +76,11 @@
             </div>
             <div class="mb-3 col-md-6">
               <label for="email" class="form-label">E-mail</label>
-              <input class="form-control" type="text" id="email" name="email" value="john.doe@example.com" placeholder="john.doe@example.com" />
+              <span class="d-block">{{ Auth::user()->email }}</span>
             </div>
             <div class="mb-3 col-md-6">
               <label for="organization" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="username" value="{{config('variables.creatorName')}}" />
+              <span class="d-block">{{ Auth::user()->username }}</span>
             </div>
           <div class="mt-2">
             <button type="submit" class="btn btn-primary me-2">Save changes</button>
