@@ -488,25 +488,17 @@ $navbarDetached = ($navbarDetached ?? '');
                 <div class="dropdown-divider"></div>
               </li>
               @if (Auth::check())
-              <li>
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                  <i class='ti ti-logout me-2'></i>
-                  <span class="align-middle">Logout</span>
-                </a>
-              </li>
-              <form method="POST" id="logout-form" action="{{ route('logout') }}">
-                @csrf
-              </form>
-              @else
-              <li>
-                <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : url('login') }}">
-                  <i class='ti ti-login me-2'></i>
-                  <span class="align-middle">Login</span>
-                </a>
-              </li>
+                <li>
+                  <a class="dropdown-item" href="{{ route('auth-logout') }}"
+                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class='ti ti-logout me-2'></i>
+                    <span class="align-middle">Logout</span>
+                  </a>
+                </li>
+                <form method="POST" id="logout-form" action="{{ route('auth-logout') }}" style="display: none;">
+                  @csrf
+                </form>
               @endif
-            </ul>
-          </li>
           <!--/ User -->
         </ul>
       </div>

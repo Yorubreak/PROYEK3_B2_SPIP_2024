@@ -60,7 +60,7 @@
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
       <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+          <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">2023</button>
@@ -120,7 +120,7 @@
     <div class="tab-pane fade" id="navs-sales-id" role="tabpanel">
       <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+          <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
@@ -192,7 +192,7 @@
     <div class="tab-pane fade" id="navs-profit-id" role="tabpanel">
       <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="{{ route('admin-editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+          <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>

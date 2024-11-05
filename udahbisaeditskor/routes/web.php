@@ -182,6 +182,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
 Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
 Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
 Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth-logout');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
@@ -200,14 +201,18 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
 // Admin
-Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
-Route::get('/admin/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
-Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
+  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin-page');
+  Route::get('/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
+  Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
+  Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
+  Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
+  Route::get('/getMonthsByYear/{year}', [ControllerAdmin::class, 'getMonthsByYear'])->name('getMonthsByYear');
+});
 
-Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
-Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
 
-Route::get('/getMonthsByYear/{year}', [ControllerAdmin::class, 'getMonthsByYear']);
+
+
 
 
 
