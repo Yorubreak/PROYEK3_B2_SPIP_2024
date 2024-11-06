@@ -55,7 +55,7 @@ $customizerHidden = 'customizer-hide';
             <div class="mb-3">
               <label for="email" class="form-label">Email or Username</label>
               <input type="text" class="form-control" id="login" name="login" placeholder="Enter your email or username" autofocus>
-              @error('email')
+              @error('login')
                 <span class="invalid-feedback" role="alert"></span>
                     <strong>{{ $message }}</strong>
                 </span>

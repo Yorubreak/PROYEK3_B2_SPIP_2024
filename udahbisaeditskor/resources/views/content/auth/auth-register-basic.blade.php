@@ -53,6 +53,24 @@ $customizerHidden = 'customizer-hide';
           <form id="formAuthentication" class="mb-3" action="{{ route('auth-create') }}" method="POST">
             @csrf
             <div class="mb-3">
+              <label for="fisrtname" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter your First Name" >
+              @error('firstname')
+                  <span class="invalid-feedback" role="alert"></span>
+                      <strong>{{ $message }}</strong>
+                  </span>
+              @enderror
+            </div>
+            <div class="mb-3">
+              <label for="lastname" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your Last Name" >
+              @error('lastname')
+                  <span class="invalid-feedback" role="alert"></span>
+                      <strong>{{ $message }}</strong>
+                  </span>
+              @enderror
+            </div>
+            <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" >
                 @error('username')
@@ -157,5 +175,21 @@ $customizerHidden = 'customizer-hide';
     Swal.fire('{{ $message }}');
   </script>
 @endif
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: `
+                @foreach ($errors->all() as $error)
+                    {{ $error }} <br>
+                @endforeach
+            `,
+            confirmButtonText: 'Coba Lagi'
+        });
+    </script>
+@endif
+
 
 @endsection

@@ -75,11 +75,21 @@
           <div class="row">
             <div class="mb-3 col-md-6">
               <label for="firstName" class="form-label">First Name</label>
-              <input class="form-control" type="text" id="firstName" name="firstName" value="John" autofocus />
+              <input class="form-control" type="text" id="firstname" name="firstname" value="{{ Auth::user()->firstname }}" autofocus />
+              @error('firstname')
+              <span class="invalid-feedback" role="alert"></span>
+                  <strong>{{ $message }}</strong>
+              </span>
+              @enderror
             </div>
             <div class="mb-3 col-md-6">
               <label for="lastName" class="form-label">Last Name</label>
-              <input class="form-control" type="text" name="lastName" id="lastName" value="Doe" />
+              <input class="form-control" type="text" name="lastname" id="lastname" value="{{ Auth::user()->lastname }}" />
+              @error('lastname')
+              <span class="invalid-feedback" role="alert"></span>
+                  <strong>{{ $message }}</strong>
+              </span>
+              @enderror
             </div>
             <div class="mb-3 col-md-6">
               <label for="email" class="form-label">E-mail</label>

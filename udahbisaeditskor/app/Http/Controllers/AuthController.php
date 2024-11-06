@@ -18,14 +18,28 @@ class AuthController extends Controller
   }
   public function loginproc(Request $request)
   {
+      // Validasi input dengan pesan error kustom untuk field 'login' dan 'password'
       $request->validate([
           'login' => 'required', // Mengganti 'email' menjadi 'login'
           'password' => 'required',
+      ], [
+          // Pesan error khusus untuk 'login' dan 'password'
+          'login.required' => 'The email or username field is required.',
+          'password.required' => 'The password field is required.'
       ]);
 
       // Cek apakah input merupakan email atau username
       $fieldType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
+      // Cek apakah username atau email sudah terdaftar
+      $userExists = User::where($fieldType, $request->login)->exists();
+
+      if (!$userExists) {
+          // Jika username atau email tidak terdaftar
+          return redirect()->route('auth-login')->with('error', 'The ' . $fieldType . ' is not registered.');
+      }
+
+      // Jika username atau email terdaftar, lanjutkan ke proses autentikasi
       $data = [
           $fieldType => $request->login,
           'password' => $request->password,
@@ -40,6 +54,8 @@ class AuthController extends Controller
 
 
 
+
+
   public function register()
   {
     return view('content.auth.auth-register-basic');
@@ -48,61 +64,79 @@ class AuthController extends Controller
 
   public function create(Request $request)
   {
+      // Validasi input termasuk cek unik pada username dan email dengan pesan khusus
       $validator = Validator::make($request->all(), [
-          'username' => 'required',
-          'email' => 'required',
-          'password' => 'required',
+          'firstname' => 'required|string|max:255',
+          'lastname' => 'nullable|string|max:255',
+          'username' => 'required|string|max:255|unique:users,username',
+          'email' => 'required|email|unique:users,email',
+          'password' => 'required|min:8',
+      ], [
+          // Pesan error khusus
+          'username.unique' => 'Username sudah terdaftar, silakan pilih username lain.',
+          'email.unique' => 'Email sudah terdaftar, silakan gunakan email lain.'
       ]);
 
+      // Jika validasi gagal, kembalikan ke halaman sebelumnya dengan pesan error
       if ($validator->fails()) {
           return redirect()->back()->withInput()->withErrors($validator);
       }
 
-      $data['username'] = $request->username;
-      $data['email'] = $request->email;
-      $data['password'] = Hash::make($request->password);
+      // Simpan data pengguna ke database
+      User::create([
+          'firstname' => $request->firstname,
+          'lastname' => $request->lastname,
+          'username' => $request->username,
+          'email' => $request->email,
+          'password' => Hash::make($request->password),
+      ]);
 
-      User::create($data);
-
-      return redirect()->route('auth-login')->with('success', 'Registration successful! Please login.');
+      // Redirect ke halaman login dengan pesan sukses
+      return redirect()->route('auth-login')->with('success', 'Registrasi berhasil! Silakan login.');
   }
+
+
 
   public function edit($id)
   {
       $user = User::findOrFail($id);
       return view('content.pages.pages-account-settings-account', compact('user'));
   }
+
   public function update(Request $request, $id)
-  {
-      $validator = Validator::make($request->all(), [
-          'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-      ]);
+{
+    // Validasi data
+    $request->validate([
+        'firstname' => 'required|string|max:255',
+        'lastname' => 'nullable|string|max:255',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // validasi untuk image
+    ]);
 
-      if ($validator->fails()) {
-          return redirect()->back()
-              ->with('error', 'Failed to update profile image.')
-              ->withInput()
-              ->withErrors($validator);
-      }
+    // Dapatkan user berdasarkan ID
+    $user = User::findOrFail($id);
 
-      $user = User::findOrFail($id);
+    // Update fields
+    $user->firstname = $request->input('firstname');
+    $user->lastname = $request->input('lastname');
 
-      if ($request->hasFile('image')) {
-          $path = $request->file('image')->store('profile', 'public');
+    // Jika ada file image yang diupload, update image
+    if ($request->hasFile('image')) {
+        // Hapus gambar lama jika ada
+        if ($user->image) {
+            Storage::disk('public')->delete($user->image);
+        }
+        // Simpan gambar baru
+        $path = $request->file('image')->store('profile', 'public');
+        $user->image = $path;
+    }
 
-          // Hapus gambar lama jika ada
-          if ($user->image) {
-              Storage::disk('public')->delete($user->image);
-          }
+    // Simpan perubahan
+    $user->save();
 
-          // Simpan path baru di database
-          $user->image = $path;
-      }
+    // Redirect ke halaman profil dengan pesan sukses
+    return redirect()->route('admin.pages-account-settings-account', ['id' => $user->id])->with('success', 'Profile updated successfully.');
+}
 
-      $user->save();
-
-      return redirect()->route('admin.pages-account-settings-account', ['id' => $id])->with('success', 'Profile image updated successfully.');
-  }
 
 
   public function editpas($id)
