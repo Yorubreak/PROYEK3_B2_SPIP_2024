@@ -229,7 +229,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], 
   });
 
   Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
-  Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
+  Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
+  Route::get('/pages/account-settings-security/{id}', [AuthController::class, 'editpas'])->name('pages-account-settings-security');
 });
 
 

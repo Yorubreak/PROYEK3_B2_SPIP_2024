@@ -71,6 +71,16 @@ class AuthController extends Controller
       return view('content.pages.pages-account-settings-account', compact('user'));
   }
 
+  public function update(Request $request, $id){
+    dd($request->all());
+  }
+
+  public function editpas($id)
+  {
+      $user = User::findOrFail($id);
+      return view('content.pages.pages-account-settings-security', compact('user'));
+  }
+
   public function logout()
   {
       Auth::logout();

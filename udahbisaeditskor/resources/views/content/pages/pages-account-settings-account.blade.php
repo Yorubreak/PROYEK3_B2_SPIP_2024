@@ -39,33 +39,33 @@
   <div class="col-md-12">
     <ul class="nav nav-pills flex-column flex-md-row mb-4">
       <li class="nav-item"><a class="nav-link active" href="javascript:void(0);"><i class="ti-xs ti ti-users me-1"></i> Account</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ route('admin.pages-account-settings-security') }}"><i class="ti-xs ti ti-lock me-1"></i> Security</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ route('admin.pages-account-settings-security', ['id' => Auth::user()->id]) }}"><i class="ti-xs ti ti-lock me-1"></i> Security</a></li>
     </ul>
     <div class="card mb-4">
       <h5 class="card-header">Profile Details</h5>
       <!-- Account -->
-    <form action= "{{ route('auth-create') }}" method ="POST" enctype="multiplart/form-data" >
-      <div class="card-body">
-        <div class="d-flex align-items-start align-items-sm-center gap-4">
-          <img src="{{ asset('assets/img/avatars/14.png') }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
-          <div class="button-wrapper">
-            <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
-              <span class="d-none d-sm-block">Upload new photo</span>
-              <i class="ti ti-upload d-block d-sm-none"></i>
-              <input type="file" id="upload" class="form-control" hidden accept="image/png, image/jpeg" name="photo"/>
-            </label>
-            <button type="button" class="btn btn-label-secondary account-image-reset mb-3">
-              <i class="ti ti-refresh-dot d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Reset</span>
-            </button>
-
-            <div class="text-muted">Allowed JPG, GIF or PNG. Max size of 800K</div>
+      <form action="{{ route('admin.update.profil', ['id' => Auth::user()->id]) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div class="card-body">
+          <div class="d-flex align-items-start align-items-sm-center gap-4">
+            <img src="{{ asset('assets/img/avatars/14.png') }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
+            <div class="button-wrapper">
+              <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
+                <span class="d-none d-sm-block">Upload new photo</span>
+                <i class="ti ti-upload d-block d-sm-none"></i>
+                <input type="file" id="upload" class="form-control" hidden accept="image/png, image/jpeg" name="photo"/>
+              </label>
+              <button type="button" class="btn btn-label-secondary account-image-reset mb-3">
+                <i class="ti ti-refresh-dot d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Reset</span>
+              </button>
+              <div class="text-muted">Allowed JPG, GIF or PNG. Max size of 800K</div>
+            </div>
           </div>
         </div>
-      </div>
-      <hr class="my-0">
-      <div class="card-body">
-        <form id="formAccountSettings" method="POST" onsubmit="return false">
+        <hr class="my-0">
+        <div class="card-body">
           <div class="row">
             <div class="mb-3 col-md-6">
               <label for="firstName" class="form-label">First Name</label>
@@ -83,11 +83,13 @@
               <label for="organization" class="form-label">Username</label>
               <span class="d-block">{{ Auth::user()->username }}</span>
             </div>
+          </div>
           <div class="mt-2">
             <button type="submit" class="btn btn-primary me-2">Save changes</button>
             <button type="reset" class="btn btn-label-secondary">Cancel</button>
           </div>
-        </form>
+        </div>
+      </form>
       </div>
       <!-- /Account -->
     </div>

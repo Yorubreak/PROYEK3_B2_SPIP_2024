@@ -47,7 +47,7 @@ $configData = Helper::appClasses();
 <div class="row">
   <div class="col-md-12">
     <ul class="nav nav-pills flex-column flex-md-row mb-4">
-      <li class="nav-item"><a class="nav-link" href="{{ route('admin.pages-account-settings-account') }}"><i class="ti-xs ti ti-users me-1"></i> Account</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ route('admin.pages-account-settings-account', ['id' => Auth::user()->id]) }}""><i class="ti-xs ti ti-users me-1"></i> Account</a></li>
       <li class="nav-item"><a class="nav-link active" href="javascript:void(0);"><i class="ti-xs ti ti-lock me-1"></i> Security</a></li>
     </ul>
     <!-- Change Password -->
