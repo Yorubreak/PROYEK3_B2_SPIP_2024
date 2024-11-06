@@ -183,6 +183,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
 Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
 Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
 Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth-logout');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
@@ -199,8 +200,9 @@ Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-con
 Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
-Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
+Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
 // Admin
+<<<<<<< HEAD
 Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
 Route::get('/admin/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
 Route::get('/admin/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('admin-editskorSP');
@@ -241,6 +243,24 @@ Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
 });
 
 
+=======
+Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
+  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin-page');
+  Route::get('/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
+  Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
+  Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
+  Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
+  Route::get('/getMonthsByYear/{year}', [ControllerAdmin::class, 'getMonthsByYear'])->name('getMonthsByYear');
+  Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
+  Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
+});
+
+
+
+
+
+
+>>>>>>> nalen
 
 
 
@@ -305,8 +325,6 @@ Route::get('/pages/profile-user', [UserProfile::class, 'index'])->name('pages-pr
 Route::get('/pages/profile-teams', [UserTeams::class, 'index'])->name('pages-profile-teams');
 Route::get('/pages/profile-projects', [UserProjects::class, 'index'])->name('pages-profile-projects');
 Route::get('/pages/profile-connections', [UserConnections::class, 'index'])->name('pages-profile-connections');
-Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
-Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
 Route::get('/pages/account-settings-billing', [AccountSettingsBilling::class, 'index'])->name('pages-account-settings-billing');
 Route::get('/pages/account-settings-notifications', [AccountSettingsNotifications::class, 'index'])->name('pages-account-settings-notifications');
 Route::get('/pages/account-settings-connections', [AccountSettingsConnections::class, 'index'])->name('pages-account-settings-connections');

@@ -10,7 +10,11 @@
 @section('content')
 {{-- <div class="col-md-6"> --}}
   {{-- <form action="{{ route('admin-submitskor') }}" method="POST"> --}}
+<<<<<<< HEAD
     
+=======
+    <a href="{{ route('admin.admin-page') }}" class="btn btn-warning w-40"><i class="ti ti-pencil ti-xs me-2"></i>Kembali</a>
+>>>>>>> nalen
     <div class="tab-content p-0 ms-0 ms-sm-2">
     <a href="{{ route('admin') }}" class="btn btn-warning w-40 mb-2"><i class="ti ti-pencil ti-xs me-2"></i>Kembali</a>
       <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">

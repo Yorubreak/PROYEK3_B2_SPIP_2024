@@ -31,7 +31,7 @@
 <div class="card-body">
   <div class="card-body row p-0 pb-3">
     <div class="col-12 col-md-8 card-separator">
-      <h3>Welcome back, Akmal 👋🏻 </h3>
+      <h3>Welcome back, {{ Auth::user()->username }} 👋🏻 </h3>
       <div class="col-12 col-lg-8">
         <p>Your progress this week is Awesome. let's keep it up and get a lot of points reward !</p>
       </div>
@@ -77,7 +77,11 @@
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
       <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
         {{-- <button class="btn btn-warning w-40"> --}}
+<<<<<<< HEAD
 
+=======
+          <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+>>>>>>> nalen
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">Tahun</button>
@@ -125,7 +129,14 @@
       </div>
     </div>
     <div class="tab-pane fade" id="navs-sales-id" role="tabpanel">
+<<<<<<< HEAD
       <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
+=======
+      <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
+        {{-- <button class="btn btn-warning w-40"> --}}
+          <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+        {{-- </button> --}}
+>>>>>>> nalen
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahunSP">Tahun</button>
           <ul class="dropdown-menu">
@@ -172,7 +183,11 @@
     <div class="tab-pane fade" id="navs-profit-id" role="tabpanel">
       <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
+<<<<<<< HEAD
           <a href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+=======
+          <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+>>>>>>> nalen
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
@@ -483,4 +498,18 @@ function runSeederSP(bulanId) {
 
 </script>
 
+<<<<<<< HEAD
+=======
+{{-- @if($message = Session::get('success'))
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: '{{ $message }}',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  </script>
+@endif --}}
+
+>>>>>>> nalen
 @endsection
