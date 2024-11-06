@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class AuthController extends Controller
 {
@@ -70,10 +72,38 @@ class AuthController extends Controller
       $user = User::findOrFail($id);
       return view('content.pages.pages-account-settings-account', compact('user'));
   }
+  public function update(Request $request, $id)
+  {
+      $validator = Validator::make($request->all(), [
+          'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+      ]);
 
-  public function update(Request $request, $id){
-    dd($request->all());
+      if ($validator->fails()) {
+          return redirect()->back()
+              ->with('error', 'Failed to update profile image.')
+              ->withInput()
+              ->withErrors($validator);
+      }
+
+      $user = User::findOrFail($id);
+
+      if ($request->hasFile('image')) {
+          $path = $request->file('image')->store('profile', 'public');
+
+          // Hapus gambar lama jika ada
+          if ($user->image) {
+              Storage::disk('public')->delete($user->image);
+          }
+
+          // Simpan path baru di database
+          $user->image = $path;
+      }
+
+      $user->save();
+
+      return redirect()->route('admin.pages-account-settings-account', ['id' => $id])->with('success', 'Profile image updated successfully.');
   }
+
 
   public function editpas($id)
   {
@@ -85,5 +115,20 @@ class AuthController extends Controller
   {
       Auth::logout();
       return redirect()->route('front-pages-landing')->with('success', 'Logout successful!');
+  }
+
+  public function resetImage($id){
+    $user = User::findOrFail($id);
+
+    // Hapus gambar dari penyimpanan jika ada
+    if ($user->image) {
+        Storage::disk('public')->delete($user->image);
+    }
+
+    // Set kolom image menjadi null atau default
+    $user->image = null;
+    $user->save();
+
+    return response()->json(['success' => true, 'message' => 'Profile image reset to default.']);
   }
 }

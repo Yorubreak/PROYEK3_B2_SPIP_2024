@@ -49,18 +49,24 @@
         @method('PUT')
         <div class="card-body">
           <div class="d-flex align-items-start align-items-sm-center gap-4">
-            <img src="{{ asset('assets/img/avatars/14.png') }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
+            <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('assets/img/avatars/14.png') }}"
+                 alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
             <div class="button-wrapper">
               <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
                 <span class="d-none d-sm-block">Upload new photo</span>
                 <i class="ti ti-upload d-block d-sm-none"></i>
-                <input type="file" id="upload" class="form-control" hidden accept="image/png, image/jpeg" name="photo"/>
+                <input type="file" id="upload" class="form-control" id="image" name="image"/>
               </label>
-              <button type="button" class="btn btn-label-secondary account-image-reset mb-3">
+              <button type="button" class="btn btn-label-secondary account-image-reset mb-3" onclick="resetImage()">
                 <i class="ti ti-refresh-dot d-block d-sm-none"></i>
                 <span class="d-none d-sm-block">Reset</span>
               </button>
-              <div class="text-muted">Allowed JPG, GIF or PNG. Max size of 800K</div>
+              <div class="text-muted">Allowed JPG,PNG, and JPEG. Max size of 2MB</div>
+              @error('image')
+              <span class="invalid-feedback" role="alert"></span>
+                  <strong>{{ $message }}</strong>
+              </span>
+              @enderror
             </div>
           </div>
         </div>
@@ -95,5 +101,30 @@
     </div>
   </div>
 </div>
+
+<script>
+  function resetImage() {
+      if (confirm('Are you sure you want to reset your profile image to the default?')) {
+          fetch("{{ route('admin.reset.image', ['id' => Auth::user()->id]) }}", {
+              method: 'POST',
+              headers: {
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ _method: 'PUT' })
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  // Ganti gambar dengan default secara langsung tanpa refresh
+                  document.getElementById('uploadedAvatar').src = "{{ asset('assets/img/avatars/14.png') }}";
+              } else {
+                  alert('Failed to reset image.');
+              }
+          })
+          .catch(error => console.error('Error:', error));
+      }
+  }
+</script>
 
 @endsection

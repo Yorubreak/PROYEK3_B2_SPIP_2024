@@ -448,40 +448,40 @@ $navbarDetached = ($navbarDetached ?? '');
                     <div class="dropdown-divider"></div>
                   </li>
                   @if (Auth::check())
-                    <li class="nav-item">
-                      <a class="dropdown-item" href="{{ route('auth-logout') }}"
-                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class='ti ti-logout me-2'></i>
-                        <span class="align-middle">Logout</span>
-                      </a>
-                    </li>
-                    <form method="POST" id="logout-form" action="{{ route('auth-logout') }}" style="display: none;">
-                      @csrf
-                    </form>
-                    <li class="nav-item dropdown dropdown-user">
-                      <a class="nav-link dropdown-toggle hide-arrow" href="{{ route('admin.pages-account-settings-account', ['id' => Auth::user()->id]) }}" data-bs-toggle="dropdown">
-                        <div class="avatar avatar-online">
-                          <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}" alt="User Avatar" class="h-auto rounded-circle">
-                        </div>
-                      </a>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                          <a class="dropdown-item" href="{{ route('admin.pages-account-settings-account', ['id' => Auth::user()->id]) }}">
-                            <div class="d-flex align-items-center">
-                              <div class="flex-shrink-0 me-3">
-                                <div class="avatar avatar-online">
-                                  <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}" alt="User Avatar" class="h-auto rounded-circle">
-                                </div>
-                              </div>
-                              <div>
-                                <span class="d-block">{{ Auth::user()->username }}</span>
-                                <small class="text-muted">{{ Auth::user()->email }}</small>
+                  <li class="nav-item dropdown dropdown-user">
+                    <a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
+                      <div class="avatar" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('assets/img/avatars/14.png') }}" alt="User Avatar">
+                    </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li>
+                        <a class="dropdown-item" href="{{ route('admin.pages-account-settings-account', ['id' => Auth::user()->id]) }}">
+                          <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 me-3">
+                              <div class="avatar dropdown-avatar">
+                                <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('assets/img/avatars/14.png') }}" alt="User Avatar">
                               </div>
                             </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
+                            <div>
+                              <span class="d-block">{{ Auth::user()->username }}</span>
+                              <small class="text-muted">{{ Auth::user()->email }}</small>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{{ route('auth-logout') }}"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                          <i class="ti ti-logout me-2"></i>
+                          <span class="align-middle">Logout</span>
+                        </a>
+                      </li>
+                      <form method="POST" id="logout-form" action="{{ route('auth-logout') }}" style="display: none;">
+                        @csrf
+                      </form>
+                    </ul>
+                  </li>
                   @endif
                 </ul>
               </div>
@@ -498,5 +498,26 @@ $navbarDetached = ($navbarDetached ?? '');
       @if(isset($navbarDetached) && $navbarDetached == '')
     </div>
     @endif
+
+    <style>
+      .avatar img {
+          width: 32px;
+          height: 32px;
+          object-fit: cover;
+          border-radius: 50%;
+          padding: 0;
+          margin: 0;
+      }
+      </style>
+
+      <style>
+        .dropdown-avatar img {
+          width: 32px;
+          height: 32px;
+          object-fit: cover;
+          border-radius: 50%;
+      }
+      </style>
+
   </nav>
   <!-- / Navbar -->
