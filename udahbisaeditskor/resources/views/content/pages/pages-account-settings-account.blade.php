@@ -51,7 +51,7 @@
             <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
               <span class="d-none d-sm-block">Upload new photo</span>
               <i class="ti ti-upload d-block d-sm-none"></i>
-              <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
+              <input type="file" id="upload" class="form-control" hidden accept="image/png, image/jpeg" name="photo"/>
             </label>
             <button type="button" class="btn btn-label-secondary account-image-reset mb-3">
               <i class="ti ti-refresh-dot d-block d-sm-none"></i>
