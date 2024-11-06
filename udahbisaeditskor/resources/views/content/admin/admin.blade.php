@@ -77,11 +77,8 @@
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
       <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
         {{-- <button class="btn btn-warning w-40"> --}}
-<<<<<<< HEAD
 
-=======
-          <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
->>>>>>> nalen
+          {{-- <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a> --}}
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">Tahun</button>
@@ -129,14 +126,10 @@
       </div>
     </div>
     <div class="tab-pane fade" id="navs-sales-id" role="tabpanel">
-<<<<<<< HEAD
       <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
-=======
-      <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+          {{-- <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a> --}}
         {{-- </button> --}}
->>>>>>> nalen
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahunSP">Tahun</button>
           <ul class="dropdown-menu">
@@ -183,11 +176,7 @@
     <div class="tab-pane fade" id="navs-profit-id" role="tabpanel">
       <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
-<<<<<<< HEAD
-          <a href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
-=======
-          <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
->>>>>>> nalen
+          {{-- <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a> --}}
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
@@ -324,7 +313,7 @@
       document.getElementById('dropdownTahun').innerText = tahunText;
 
       // Fetch months associated with selected tahunId
-      fetch(`/bulan-by-tahun/${tahunId}`)
+      fetch(`admin/bulan-by-tahun/${tahunId}`)
           .then(response => response.json())
           .then(data => {
               const bulanDropdown = document.getElementById('bulanDropdown');
@@ -367,11 +356,11 @@
 
     // Update the Edit Skor button link with the selected bulanId
     const editSkorButtonPT = document.getElementById('editSkorButtonPT');
-    editSkorButtonPT.href = `/admin/editskorPT/${bulanId}`;
+    editSkorButtonPT.href = `admin/editskorPT/${bulanId}`;
 
     // Fetch data only if both tahunId and bulanId are set
     if (tahunId && bulanId) {
-        getDataSP(bulanId);
+        getDataPT(bulanId);
     }
   }
 
@@ -391,7 +380,7 @@
   }
 
   function getDataPT(bulanId) {
-    fetch(`/databytahunbulan/${bulanId}`)
+    fetch(`admin/databytahunbulan/${bulanId}`)
         .then(response => response.json())
         .then(data => {
             const isiTabel = document.getElementById('isiTabel');
@@ -442,7 +431,7 @@
 
   function runSeederPT(bulanId) {
     console.log(bulanId);
-    fetch(`/run-seederPT/${bulanId}`)
+    fetch(`admin/run-seederPT/${bulanId}`)
         .then(response => response.json())
         .then(result => {
             // Menampilkan alert sukses menggunakan SweetAlert2
@@ -498,8 +487,6 @@ function runSeederSP(bulanId) {
 
 </script>
 
-<<<<<<< HEAD
-=======
 {{-- @if($message = Session::get('success'))
   <script>
     Swal.fire({
@@ -511,5 +498,4 @@ function runSeederSP(bulanId) {
   </script>
 @endif --}}
 
->>>>>>> nalen
 @endsection

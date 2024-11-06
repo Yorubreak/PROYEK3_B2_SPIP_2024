@@ -459,14 +459,14 @@ $navbarDetached = ($navbarDetached ?? '');
                       @csrf
                     </form>
                     <li class="nav-item dropdown dropdown-user">
-                      <a class="nav-link dropdown-toggle hide-arrow" href="{{ route('admin.pages-account-settings-account') }}" data-bs-toggle="dropdown">
+                      <a class="nav-link dropdown-toggle hide-arrow" href="{{ route('admin.pages-account-settings-account', ['id' => Auth::user()->id]) }}" data-bs-toggle="dropdown">
                         <div class="avatar avatar-online">
                           <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}" alt="User Avatar" class="h-auto rounded-circle">
                         </div>
                       </a>
                       <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                          <a class="dropdown-item" href="{{ route('admin.pages-account-settings-account') }}">
+                          <a class="dropdown-item" href="{{ route('admin.pages-account-settings-account', ['id' => Auth::user()->id]) }}">
                             <div class="d-flex align-items-center">
                               <div class="flex-shrink-0 me-3">
                                 <div class="avatar avatar-online">

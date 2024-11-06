@@ -44,6 +44,7 @@
     <div class="card mb-4">
       <h5 class="card-header">Profile Details</h5>
       <!-- Account -->
+    <form action= "{{ route('auth-create') }}" method ="POST" enctype="multiplart/form-data" >
       <div class="card-body">
         <div class="d-flex align-items-start align-items-sm-center gap-4">
           <img src="{{ asset('assets/img/avatars/14.png') }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />

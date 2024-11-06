@@ -30,7 +30,7 @@ class AuthController extends Controller
       ];
 
       if (Auth::attempt($data)) {
-          return redirect()->route('admin.admin-page')->with('success', 'Login successful!');
+          return redirect()->route('admin.admin')->with('success', 'Login successful!');
       } else {
           return redirect()->route('auth-login')->with('error', 'Login failed! Please try again.');
       }
@@ -63,6 +63,12 @@ class AuthController extends Controller
       User::create($data);
 
       return redirect()->route('auth-login')->with('success', 'Registration successful! Please login.');
+  }
+
+  public function edit($id)
+  {
+      $user = User::findOrFail($id);
+      return view('content.pages.pages-account-settings-account', compact('user'));
   }
 
   public function logout()

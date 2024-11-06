@@ -201,66 +201,54 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
-// Admin
-<<<<<<< HEAD
-Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
-Route::get('/admin/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
-Route::get('/admin/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('admin-editskorSP');
-Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
-
-Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
-Route::put('/admin/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('admin-submitskorSP');
-Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
-
-Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
-
-Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
-
-Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
-
-Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
-    // Set the bulanId in session or pass it as a parameter to the seeder
-    session(['bulanId' => $bulanId]);
-
-    // Run the SeederPT seeder
-    Artisan::call('db:seed', [
-        '--class' => 'Database\\Seeders\\SeederPT'
-    ]);
-
-    return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
-});
-
-Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
-  // Set the bulanId in session or pass it as a parameter to the seeder
-  session(['bulanId' => $bulanId]);
-
-  // Run the SeederPT seeder
-  Artisan::call('db:seed', [
-      '--class' => 'Database\\Seeders\\SeederSP'
-  ]);
-
-  return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
-});
-
-
-=======
 Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
-  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin-page');
-  Route::get('/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
+  // Admin
+  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
+  Route::get('/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
+  Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
   Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
+
   Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
+  Route::put('/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('submitskorSP');
   Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
-  Route::get('/getMonthsByYear/{year}', [ControllerAdmin::class, 'getMonthsByYear'])->name('getMonthsByYear');
-  Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
+
+  Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
+  Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+  Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
+
+  Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
+      session(['bulanId' => $bulanId]);
+      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederPT']);
+      return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
+  });
+
+  Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
+      session(['bulanId' => $bulanId]);
+      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederSP']);
+      return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
+  });
+
+  Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
   Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
 });
 
 
+// Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
+//   Route::get('/', [ControllerAdmin::class, 'index'])->name('admin-page');
+//   Route::get('/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
+//   Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
+//   Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
+//   Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
+//   Route::get('/getMonthsByYear/{year}', [ControllerAdmin::class, 'getMonthsByYear'])->name('getMonthsByYear');
+//   Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
+//   Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
+// });
 
 
 
 
->>>>>>> nalen
+
+
 
 
 
