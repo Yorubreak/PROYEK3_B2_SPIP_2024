@@ -8,7 +8,7 @@
 
 
 @section('content')
-  <a href="{{ route('admin') }}" class="btn btn-warning w-40"><i class="ti ti-pencil ti-xs me-2"></i>Kembali</a>
+  <a href="{{ route('admin.admin') }}" class="btn btn-warning w-40"><i class="ti ti-pencil ti-xs me-2"></i>Kembali</a>
   <div class="tab-content p-0 ms-0 ms-sm-2">
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
       <div class="card">

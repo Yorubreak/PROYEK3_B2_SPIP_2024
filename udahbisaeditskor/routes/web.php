@@ -183,6 +183,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
 Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
 Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
 Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth-logout');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
@@ -199,46 +200,55 @@ Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-con
 Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
-Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
-// Admin
-Route::get('/admin', [ControllerAdmin::class, 'index'])->name('admin');
-Route::get('/admin/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('admin-editskorPT');
-Route::get('/admin/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('admin-editskorSP');
-Route::get('/admin/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('admin-editskorSPIP');
+Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
+  // Admin
+  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
+  Route::get('/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
+  Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
+  Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
 
-Route::put('/admin/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('admin-submitskorPT');
-Route::put('/admin/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('admin-submitskorSP');
-Route::put('/admin/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('admin-submitskorSP');
+  Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
+  Route::put('/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('submitskorSP');
+  Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
 
-Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
+  Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
+  Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+  Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
 
-Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+  Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
+      session(['bulanId' => $bulanId]);
+      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederPT']);
+      return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
+  });
 
-Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
+  Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
+      session(['bulanId' => $bulanId]);
+      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederSP']);
+      return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
+  });
 
-Route::get('/run-seederPT/{bulanId}/{tahunId}/{tahunText}/{bulanText}', function ($tahunId, $bulanId, $tahunText, $bulanText) {
-    // Set the bulanId in session or pass it as a parameter to the seeder
-    session(['bulanId' => $bulanId, 'tahunId' => $tahunId, 'tahunText' => $tahunText, 'bulanText' => $bulanText]);
-
-    // Run the SeederPT seeder
-    Artisan::call('db:seed', [
-        '--class' => 'Database\\Seeders\\SeederPT'
-    ]);
-
-    return response()->json(['success' => 'Berhasil menambah data bulan ' . $bulanText . ' tahun ' . $tahunText]);
+  Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
+  Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
+  Route::get('/pages/account-settings-security/{id}', [AuthController::class, 'editpas'])->name('pages-account-settings-security');
+  Route::put('/reset-image/{id}', [AuthController::class, 'resetImage'])->name('reset.image');
 });
 
-Route::get('/run-seederSP/{bulanId}/{tahunId}/{tahunText}/{bulanText}', function ($tahunId, $bulanId, $tahunText, $bulanText) {
-  // Set the bulanId in session or pass it as a parameter to the seeder
-  session(['bulanId' => $bulanId, 'tahunId' => $tahunId, 'tahunText' => $tahunText, 'bulanText' => $bulanText]);
 
-  // Run the SeederPT seeder
-  Artisan::call('db:seed', [
-      '--class' => 'Database\\Seeders\\SeederSP'
-  ]);
+// Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
+//   Route::get('/', [ControllerAdmin::class, 'index'])->name('admin-page');
+//   Route::get('/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
+//   Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
+//   Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
+//   Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
+//   Route::get('/getMonthsByYear/{year}', [ControllerAdmin::class, 'getMonthsByYear'])->name('getMonthsByYear');
+//   Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
+//   Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
+// });
 
-  return response()->json(['success' => 'Berhasil menambah data bulan  ' . $bulanText . ' tahun  ' . $tahunText]);
-});
+
+
+
 
 
 
@@ -305,8 +315,6 @@ Route::get('/pages/profile-user', [UserProfile::class, 'index'])->name('pages-pr
 Route::get('/pages/profile-teams', [UserTeams::class, 'index'])->name('pages-profile-teams');
 Route::get('/pages/profile-projects', [UserProjects::class, 'index'])->name('pages-profile-projects');
 Route::get('/pages/profile-connections', [UserConnections::class, 'index'])->name('pages-profile-connections');
-Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
-Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
 Route::get('/pages/account-settings-billing', [AccountSettingsBilling::class, 'index'])->name('pages-account-settings-billing');
 Route::get('/pages/account-settings-notifications', [AccountSettingsNotifications::class, 'index'])->name('pages-account-settings-notifications');
 Route::get('/pages/account-settings-connections', [AccountSettingsConnections::class, 'index'])->name('pages-account-settings-connections');

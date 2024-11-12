@@ -20,7 +20,7 @@
 'resources/assets/js/app-academy-dashboard.js',
 'resources/assets/js/tables-datatables-extensions.js'
 ])
-@endsection 
+@endsection
 
 
 @section('content')
@@ -31,7 +31,7 @@
 <div class="card-body">
   <div class="card-body row p-0 pb-3">
     <div class="col-12 col-md-8 card-separator">
-      <h3>Welcome back, Akmal 👋🏻 </h3>
+      <h3>Welcome back, {{ Auth::user()->username }} 👋🏻 </h3>
       <div class="col-12 col-lg-8">
         <p>Your progress this week is Awesome. let's keep it up and get a lot of points reward !</p>
       </div>
@@ -78,6 +78,7 @@
       <div class="col-lg-5 col-12 action-table d-flex align-items-center justify-content-start gap-2">
         {{-- <button class="btn btn-warning w-40"> --}}
 
+          {{-- <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a> --}}
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">Tahun</button>
@@ -134,6 +135,9 @@
     </div>
     <div class="tab-pane fade" id="navs-sales-id" role="tabpanel">
       <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
+        {{-- <button class="btn btn-warning w-40"> --}}
+          {{-- <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a> --}}
+        {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahunSP">Tahun</button>
           <ul class="dropdown-menu">
@@ -180,7 +184,7 @@
     <div class="tab-pane fade" id="navs-profit-id" role="tabpanel">
       <div class="col-lg-3 col-12 action-table d-flex align-items-center justify-content-start gap-1">
         {{-- <button class="btn btn-warning w-40"> --}}
-          <a href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+          {{-- <a href="{{ route('admin.editskorPT') }}" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a> --}}
         {{-- </button> --}}
         <div class="dropdown">
           <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">2023</button>
@@ -318,7 +322,7 @@
       document.getElementById('dropdownTahun').innerText = tahunText;
 
       // Fetch months associated with selected tahunId
-      fetch(`/bulan-by-tahun/${tahunId}`)
+      fetch(`admin/bulan-by-tahun/${tahunId}`)
           .then(response => response.json())
           .then(data => {
               const bulanDropdown = document.getElementById('bulanDropdown');
@@ -361,7 +365,7 @@
 
     // Update the Edit Skor button link with the selected bulanId
     const editSkorButtonPT = document.getElementById('editSkorButtonPT');
-    editSkorButtonPT.href = `/admin/editskorPT/${bulanId}`;
+    editSkorButtonPT.href = `admin/editskorPT/${bulanId}`;
 
     // Fetch data only if both tahunId and bulanId are set
     if (tahunId && bulanId) {
@@ -384,8 +388,8 @@
     }
   }
 
-  function getDataPT(tahunId, bulanId, tahunText, bulanText) {
-    fetch(`/databytahunbulan/${bulanId}`)
+  function getDataPT(bulanId) {
+    fetch(`admin/databytahunbulan/${bulanId}`)
         .then(response => response.json())
         .then(data => {
             const isiTabel = document.getElementById('isiTabel');
@@ -436,7 +440,7 @@
 
   function runSeederPT(tahunId, bulanId, tahunText, bulanText) {
     console.log(bulanId);
-    fetch(`/run-seederPT/${bulanId}/${tahunId}/${tahunText}/${bulanText}`)
+    fetch(`admin/run-seederPT/${bulanId}/${tahunId}/${tahunText}/${bulanText}`)
         .then(response => response.json())
         .then(result => {
             // Menampilkan alert sukses menggunakan SweetAlert2
@@ -493,5 +497,16 @@ function runSeederSP(tahunId, bulanId, tahunText, bulanText) {
 }
 
 </script>
+
+{{-- @if($message = Session::get('success'))
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: '{{ $message }}',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  </script>
+@endif --}}
 
 @endsection
