@@ -196,6 +196,7 @@ Route::get('/admin/editskorSPIP', [StrukturdanProses::class, 'editskorSPIP'])->n
 Route::put('/admin/submitskorPT/{id}', [StrukturdanProses::class, 'submitskorPT'])->name('admin-submitskorPT');
 Route::put('/admin/submitskorSPIP/{id}', [StrukturdanProses::class, 'submitskorSPIP'])->name('admin-submitskorSP');
 
+Route::get('/admin/nyobapace', [StrukturdanProses::class, 'nyobapace'])->name('admin-nyobapace');
 
 
 

@@ -70,4 +70,10 @@ public function submitskorSPIP(Request $request, $id)
     return response()->json(['message' => 'Data skor berhasil disimpan']);
 }
 
+public function nyobapace()
+{
+    return view('content.admin.nyobapace');
+}
+
+
 }
