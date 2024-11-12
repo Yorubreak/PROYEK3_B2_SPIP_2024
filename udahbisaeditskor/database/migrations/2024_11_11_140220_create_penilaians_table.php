@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tabel_utama', function (Blueprint $table) {
-          $table->id();
-          $table->string('elemen');
+        Schema::create('penilaians', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tabel_utama');
+        Schema::dropIfExists('penilaians');
     }
 };

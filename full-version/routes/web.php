@@ -163,6 +163,8 @@ use App\Http\Controllers\maps\Leaflet;
 use App\Http\Controllers\pages\TestPage;
 use App\Http\Controllers\testPage as ControllersTestPage;
 use App\Http\Controllers\front_pages\Penilaian;
+//login
+use App\Http\Controllers\loginController;
 
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
@@ -172,6 +174,8 @@ Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard
 Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 // locale
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+//login
+Route::get('/login', [loginController::class, 'index'])->name('auth-login');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');

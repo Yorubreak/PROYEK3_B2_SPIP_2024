@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tabel_penetapan_tujuan', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        Schema::create('tahun', function (Blueprint $table) {
+          $table->id();
+          $table->string('tahun');  // Menyimpan tahun (YYYY)
+          $table->timestamps();
+      });
     }
 
     /**
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tabel_penetapan_tujuan');
+        Schema::dropIfExists('tahun');
     }
 };

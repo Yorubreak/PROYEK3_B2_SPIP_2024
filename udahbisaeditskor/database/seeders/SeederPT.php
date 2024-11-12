@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class SeederPT extends Seeder
 {
@@ -13,8 +14,13 @@ class SeederPT extends Seeder
      */
     public function run(): void
     {
+        $bulanId = Session::get('bulanId');
+
         DB::table('penetapan_tujuan')->insert([
-          'unsur' => 'Kualitas Strategi Pencapaian Sasaran Strategis'
+          'unsur' =>  'Kualitas Sasaran Strategis',
+          'bulan_id' => $bulanId
         ]);
     }
 }
+
+

@@ -2,7 +2,7 @@
 $customizerHidden = 'customizer-hide';
 @endphp
 
-@extends('layouts/layoutMaster')
+@extends('layouts/blankLayout')
 
 @section('title', 'Login Basic - Pages')
 
@@ -28,11 +28,12 @@ $customizerHidden = 'customizer-hide';
 
 @section('page-script')
 @vite([
-  'resources/assets/js/pages-auth.js'
+  // 'resources/assets/js/pages-auth.js'
 ])
 @endsection
 
 @section('content')
+
 <div class="container-xxl">
   <div class="authentication-wrapper authentication-basic container-p-y">
     <div class="authentication-inner py-4">
@@ -40,20 +41,25 @@ $customizerHidden = 'customizer-hide';
       <div class="card">
         <div class="card-body">
           <!-- Logo -->
-          <div class="app-brand justify-content-center mb-4 mt-2">
-            <a href="{{url('/')}}" class="app-brand-link gap-2">
-              <span class="app-brand-logo demo">@include('_partials.macros',["height"=>20,"withbg"=>'fill: #fff;'])</span>
-              <span class="app-brand-text demo text-body fw-bold ms-1">{{config('variables.templateName')}}</span>
+          <div class="app-brand justify-content-center">
+            <a href="{{url('/')}}" class="app-brand-link">
+              <img src="{{asset('assets/img/branding/logo.png')}}" alt="logo" class="mb-3" style="width:60px">
             </a>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-1 pt-2">Welcome to {{config('variables.templateName')}}! 👋</h4>
+          <h4 class="mb-1 pt-2">Welcome to {{config('variables.templateName')}}!</h4>
           <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-          <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
+          <form id="formAuthentication" class="mb-3" action="{{ route('loginproc') }}" method="POST">
+            @csrf
             <div class="mb-3">
               <label for="email" class="form-label">Email or Username</label>
-              <input type="text" class="form-control" id="email" name="email-username" placeholder="Enter your email or username" autofocus>
+              <input type="text" class="form-control" id="login" name="login" placeholder="Enter your email or username" autofocus>
+              @error('login')
+                <span class="invalid-feedback" role="alert"></span>
+                    <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
             <div class="mb-3 form-password-toggle">
               <div class="d-flex justify-content-between">
@@ -64,9 +70,14 @@ $customizerHidden = 'customizer-hide';
               </div>
               <div class="input-group input-group-merge">
                 <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off" id="togglePassword"></i></span>
               </div>
             </div>
+            @error('password')
+              <span class="invalid-feedback" role="alert"></span>
+                  <strong>{{ $message }}</strong>
+              </span>
+            @enderror
             <div class="mb-3">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="remember-me">
@@ -82,12 +93,12 @@ $customizerHidden = 'customizer-hide';
 
           <p class="text-center">
             <span>New on our platform?</span>
-            <a href="{{url('auth/register-basic')}}">
+            <a href="{{url('/register')}}">
               <span>Create an account</span>
             </a>
           </p>
 
-          <div class="divider my-4">
+          {{-- <div class="divider my-4">
             <div class="divider-text">or</div>
           </div>
 
@@ -103,11 +114,51 @@ $customizerHidden = 'customizer-hide';
             <a href="javascript:;" class="btn btn-icon btn-label-twitter">
               <i class="tf-icons fa-brands fa-twitter fs-5"></i>
             </a>
-          </div>
+          </div> --}}
         </div>
       </div>
       <!-- /Register -->
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordField = document.getElementById("password");
+
+    if (togglePassword && passwordField) {
+      togglePassword.addEventListener("click", function () {
+        // Toggle the type attribute
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
+
+        // Toggle the icon class
+        if (type === "text") {
+          togglePassword.classList.remove("ti-eye-off");
+          togglePassword.classList.add("ti-eye");
+        } else {
+          togglePassword.classList.remove("ti-eye");
+          togglePassword.classList.add("ti-eye-off");
+        }
+      });
+    }
+  });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('error'))
+  <script>
+    Swal.fire('{{ $message }}');
+  </script>
+@endif
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('success'))
+  <script>
+    Swal.fire('{{ $message }}');
+  </script>
+@endif
+
 @endsection

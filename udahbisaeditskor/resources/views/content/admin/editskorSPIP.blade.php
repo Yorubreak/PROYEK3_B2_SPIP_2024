@@ -10,7 +10,7 @@
 @section('content')
 {{-- <div class="col-md-6"> --}}
   {{-- <form action="{{ route('admin-submitskor') }}" method="POST"> --}}
-    <a href="{{ route('admin') }}" class="btn btn-warning w-40"><i class="ti ti-pencil ti-xs me-2"></i>Kembali</a>
+    <a href="{{ route('admin.admin') }}" class="btn btn-warning w-40"><i class="ti ti-pencil ti-xs me-2"></i>Kembali</a>
     <div class="tab-content p-0 ms-0 ms-sm-2">
       <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
         <div class="card">
@@ -19,6 +19,9 @@
             <!-- Tempat notifikasi sukses -->
             <div id="successMessage" class="alert alert-success" style="display: none;">
                 Data skor berhasil disimpan!
+            </div>
+            <div id="failMessage" class="alert alert-danger" style="display: none;">
+              Skor maksimal 5!
             </div>
 
             <div class="card-datatable table-responsive">
@@ -61,6 +64,15 @@
         function submitSkor(id) {
             // Ambil nilai input dari form
             var skor = $('#skorInput-' + id).val();
+            if (skor > 5) {
+              $.ajax({
+                success: function(response) {
+                    // Tampilkan pesan sukses
+                    $('#failMessage').show().delay(1500).fadeOut();
+                }
+              })
+              return;
+            }
 
             // Kirim data dengan AJAX
             $.ajax({

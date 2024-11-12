@@ -1,2 +1,2 @@
 <?php
-/pages/profile-user
+/pages/profile-user;

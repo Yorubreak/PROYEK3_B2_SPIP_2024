@@ -41,15 +41,14 @@ $customizerHidden = 'customizer-hide';
       <div class="card">
         <div class="card-body">
           <!-- Logo -->
-          <div class="app-brand justify-content-center mb-4 mt-2">
-            <a href="{{url('/')}}" class="app-brand-link gap-2">
-              <span class="app-brand-logo demo">@include('_partials.macros',["height"=>20,"withbg"=>'fill: #fff;'])</span>
-              <span class="app-brand-text demo text-body fw-bold ms-1">{{config('variables.templateName')}}</span>
+          <div class="app-brand justify-content-center">
+            <a href="{{url('/')}}" class="app-brand-link">
+              <img src="{{asset('assets/img/branding/logo.png')}}" alt="logo" class="mb-3" style="width:55px">
             </a>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-1 pt-2">Adventure starts here 🚀</h4>
-          <p class="mb-4">Make your app management easy and fun!</p>
+          <h4 class="mb-1 pt-2">Let's start analyze</h4>
+          <p class="mb-4">Make your data look's more interesting</p>
 
           <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
             <div class="mb-3">

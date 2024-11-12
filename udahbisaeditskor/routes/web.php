@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\StrukturdanProses;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\dashboard\Analytics;
@@ -163,6 +164,11 @@ use App\Http\Controllers\maps\Leaflet;
 use App\Http\Controllers\pages\TestPage;
 use App\Http\Controllers\testPage as ControllersTestPage;
 use App\Http\Controllers\front_pages\Penilaian;
+//login
+use App\Http\Controllers\loginController;
+use App\Http\Controllers\admin\ControllerAdmin;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
@@ -172,6 +178,12 @@ Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard
 Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 // locale
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+//login
+Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
+Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
+Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
+Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth-logout');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
@@ -188,13 +200,58 @@ Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-con
 Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
-Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
-Route::get('/admin', [StrukturdanProses::class, 'index'])->name('admin');
-Route::get('/admin/editskorPT', [StrukturdanProses::class, 'editskorPT'])->name('admin-editskorPT');
-Route::get('/admin/editskorSPIP', [StrukturdanProses::class, 'editskorSPIP'])->name('admin-editskorSPIP');
+Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
+  // Admin
+  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
+  Route::get('/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
+  Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
+  Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
 
-Route::put('/admin/submitskorPT/{id}', [StrukturdanProses::class, 'submitskorPT'])->name('admin-submitskorPT');
-Route::put('/admin/submitskorSPIP/{id}', [StrukturdanProses::class, 'submitskorSPIP'])->name('admin-submitskorSP');
+  Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
+  Route::put('/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('submitskorSP');
+  Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
+
+  Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
+  Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+  Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
+
+  Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
+      session(['bulanId' => $bulanId]);
+      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederPT']);
+      return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
+  });
+
+  Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
+      session(['bulanId' => $bulanId]);
+      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederSP']);
+      return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
+  });
+
+  Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
+  Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
+  Route::get('/pages/account-settings-security/{id}', [AuthController::class, 'editpas'])->name('pages-account-settings-security');
+  Route::put('/reset-image/{id}', [AuthController::class, 'resetImage'])->name('reset.image');
+});
+
+
+// Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
+//   Route::get('/', [ControllerAdmin::class, 'index'])->name('admin-page');
+//   Route::get('/editskorPT', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
+//   Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
+//   Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
+//   Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
+//   Route::get('/getMonthsByYear/{year}', [ControllerAdmin::class, 'getMonthsByYear'])->name('getMonthsByYear');
+//   Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
+//   Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
+// });
+
+
+
+
+
+
+
 
 Route::get('/admin/nyobapace', [StrukturdanProses::class, 'nyobapace'])->name('admin-nyobapace');
 
@@ -259,8 +316,6 @@ Route::get('/pages/profile-user', [UserProfile::class, 'index'])->name('pages-pr
 Route::get('/pages/profile-teams', [UserTeams::class, 'index'])->name('pages-profile-teams');
 Route::get('/pages/profile-projects', [UserProjects::class, 'index'])->name('pages-profile-projects');
 Route::get('/pages/profile-connections', [UserConnections::class, 'index'])->name('pages-profile-connections');
-Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
-Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
 Route::get('/pages/account-settings-billing', [AccountSettingsBilling::class, 'index'])->name('pages-account-settings-billing');
 Route::get('/pages/account-settings-notifications', [AccountSettingsNotifications::class, 'index'])->name('pages-account-settings-notifications');
 Route::get('/pages/account-settings-connections', [AccountSettingsConnections::class, 'index'])->name('pages-account-settings-connections');
@@ -381,3 +436,13 @@ Route::get('/maps/leaflet', [Leaflet::class, 'index'])->name('maps-leaflet');
 Route::get('/laravel/user-management', [UserManagement::class, 'UserManagement'])->name('laravel-example-user-management');
 Route::resource('/user-list', UserManagement::class);
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
