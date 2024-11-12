@@ -95,7 +95,7 @@ public function submitskorSPIP(Request $request, $id)
                 ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
                 ->orderBy('id', 'asc')
                 ->get();
-   
+
     return response()->json($dataPen);
 }
 
@@ -108,6 +108,11 @@ public function getDataByTahunBulanSP($bulanId)
                 ->get();
 
     return response()->json($dataSTRP);
+}
+
+public function nyobapace()
+{
+    return view('content.admin.nyobapace');
 }
 
 }
