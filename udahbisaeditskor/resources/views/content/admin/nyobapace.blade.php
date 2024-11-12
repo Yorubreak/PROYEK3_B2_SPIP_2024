@@ -2,6 +2,14 @@
 
 @section('content')
 <div class="container mt-4">
+    <div class="card-body row p-0 pb-3">
+        <div class="col-12 col-md-8 card-separator">
+            <h3>Selamat Datang Akmal 👋🏻 </h3>
+            <div class="col-12 col-lg-8">
+                <p>Your progress this week is Awesome. let's keep it up and get a lot of points reward !</p>
+            </div>
+        </div>
+    </div>
     <h3>Tabel Penilaian SPIP</h3>
     <table class="table table-bordered table-striped">
         <thead>
