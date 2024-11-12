@@ -53,6 +53,24 @@ $customizerHidden = 'customizer-hide';
           <form id="formAuthentication" class="mb-3" action="{{ route('auth-create') }}" method="POST">
             @csrf
             <div class="mb-3">
+              <label for="fisrtname" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter your First Name" >
+              @error('firstname')
+                  <span class="invalid-feedback" role="alert"></span>
+                      <strong>{{ $message }}</strong>
+                  </span>
+              @enderror
+            </div>
+            <div class="mb-3">
+              <label for="lastname" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your Last Name" >
+              @error('lastname')
+                  <span class="invalid-feedback" role="alert"></span>
+                      <strong>{{ $message }}</strong>
+                  </span>
+              @enderror
+            </div>
+            <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" >
                 @error('username')
@@ -132,17 +150,46 @@ $customizerHidden = 'customizer-hide';
     const togglePassword = document.getElementById("togglePassword");
     const passwordField = document.getElementById("password");
 
-    togglePassword.addEventListener("click", function () {
-      // Toggle the type attribute
-      const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
-      passwordField.setAttribute("type", type);
+    if (togglePassword && passwordField) {
+      togglePassword.addEventListener("click", function () {
+        // Toggle the type attribute
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
 
-      // Toggle the icon
-      this.querySelector("i").classList.toggle("ti-eye");
-      this.querySelector("i").classList.toggle("ti-eye-off");
-    });
+        // Toggle the icon class
+        if (type === "text") {
+          togglePassword.classList.remove("ti-eye-off");
+          togglePassword.classList.add("ti-eye");
+        } else {
+          togglePassword.classList.remove("ti-eye");
+          togglePassword.classList.add("ti-eye-off");
+        }
+      });
+    }
   });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('success'))
+  <script>
+    Swal.fire('{{ $message }}');
+  </script>
+@endif
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: `
+                @foreach ($errors->all() as $error)
+                    {{ $error }} <br>
+                @endforeach
+            `,
+            confirmButtonText: 'Coba Lagi'
+        });
+    </script>
+@endif
 
 
 @endsection
