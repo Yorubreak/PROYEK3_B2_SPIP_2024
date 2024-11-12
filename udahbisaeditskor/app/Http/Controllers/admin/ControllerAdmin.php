@@ -103,7 +103,6 @@ public function getDataByTahunBulanSP($bulanId)
     $dataSTRP = DB::table('struktur_proses')
                 ->where('bulan_id', $bulanId)
                 ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
-                ->whereIn()
                 ->orderBy('id','asc')
                 ->get();
 

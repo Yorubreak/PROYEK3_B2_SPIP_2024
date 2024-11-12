@@ -17,7 +17,7 @@ class SeederPT extends Seeder
         $bulanId = Session::get('bulanId');
 
         DB::table('penetapan_tujuan')->insert([
-          'unsur' => "data bulan : {$bulanId}"  ,
+          'unsur' =>  'Kualitas Sasaran Strategis',
           'bulan_id' => $bulanId
         ]);
     }

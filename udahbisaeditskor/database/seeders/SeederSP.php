@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use DB;
-use Session;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class SeederSP extends Seeder
 {

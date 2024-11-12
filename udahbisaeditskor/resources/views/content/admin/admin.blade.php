@@ -20,12 +20,12 @@
 'resources/assets/js/app-academy-dashboard.js',
 'resources/assets/js/tables-datatables-extensions.js'
 ])
-@endsection
+@endsection 
 
 
 @section('content')
 
-<!-- Pastikan ada link ini di <head> atau tepat sebelum penutup </body> -->
+
 
 
 <div class="card-body">
@@ -39,19 +39,19 @@
   </div>
   <ul class="nav nav-tabs widget-nav-tabs pb-3 gap-4 mx-1 d-flex flex-nowrap" role="tablist">
     <li class="nav-item">
-      <a href="javascript:void(0);" id="DataPT" class="nav-link btn active d-flex flex-column align-items-center justify-content-center" role="tab" data-bs-toggle="tab" data-bs-target="#navs-orders-id" aria-controls="navs-orders-id" aria-selected="true">
+      <a href="javascript:void(0);" onclick="getDataPT()" class="nav-link btn active d-flex flex-column align-items-center justify-content-center" role="tab" data-bs-toggle="tab" data-bs-target="#navs-orders-id" aria-controls="navs-orders-id" aria-selected="true">
         <div class="badge bg-label-secondary rounded p-2"><i class="ti ti-shopping-cart ti-sm"></i></div>
         <h6 class="tab-widget-title mb-0 mt-2">PT</h6>
       </a>
     </li>
     <li class="nav-item">
-      <a href="javascript:void(0);" class="nav-link btn d-flex flex-column align-items-center justify-content-center" role="tab" data-bs-toggle="tab" data-bs-target="#navs-sales-id" aria-controls="navs-sales-id" aria-selected="false">
+      <a href="javascript:void(0);" onclick="getDataSP()" class="nav-link btn d-flex flex-column align-items-center justify-content-center" role="tab" data-bs-toggle="tab" data-bs-target="#navs-sales-id" aria-controls="navs-sales-id" aria-selected="false">
         <div class="badge bg-label-secondary rounded p-2"><i class="ti ti-chart-bar ti-sm"></i></div>
         <h6 class="tab-widget-title mb-0 mt-2"> S&P</h6>
       </a>
     </li>
     <li class="nav-item">
-      <a href="javascript:void(0);" class="nav-link btn d-flex flex-column align-items-center justify-content-center" role="tab" data-bs-toggle="tab" data-bs-target="#navs-profit-id" aria-controls="navs-profit-id" aria-selected="false">
+      <a href="javascript:void(0);"  class="nav-link btn d-flex flex-column align-items-center justify-content-center" role="tab" data-bs-toggle="tab" data-bs-target="#navs-profit-id" aria-controls="navs-profit-id" aria-selected="false">
         <div class="badge bg-label-secondary rounded p-2"><i class="ti ti-currency-dollar ti-sm"></i></div>
         <h6 class="tab-widget-title mb-0 mt-2">PTSPIP</h6>
       </a>
@@ -75,7 +75,7 @@
       </script>
     @endif
     <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
-      <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
+      <div class="col-lg-5 col-12 action-table d-flex align-items-center justify-content-start gap-2">
         {{-- <button class="btn btn-warning w-40"> --}}
 
         {{-- </button> --}}
@@ -93,6 +93,14 @@
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-bulan" id="bulanDropdown">
                 <!-- Bulan akan diisi dinamis oleh JavaScript -->
             </ul>
+        </div>
+        <div class="dropdown">
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropDownEditbobot">Edit Bobot</button>
+          <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Penetapan Tujuan</a></li>
+                  <li><a class="dropdown-item" href="#">Struktur dan Proses</a></li>
+                  <li><a class="dropdown-item" href="#">Pencapaian Tujuan</a></li>
+          </ul>
         </div>
         <a id="editSkorButtonPT" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
       </div>
@@ -305,6 +313,7 @@
   let bulanId = null;
 
   function updateTahun(selectedTahunId, tahunText) {
+    console.log(selectedTahunId, tahunText);
       tahunId = selectedTahunId;
       document.getElementById('dropdownTahun').innerText = tahunText;
 
@@ -317,7 +326,7 @@
 
               data.forEach(bulan => {
                   const li = document.createElement('li');
-                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulan('${bulan.id}','${bulan.bulan}')">${bulan.bulan}</a>`;
+                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulan('${bulan.id}','${bulan.bulan}','${tahunId}', '${tahunText}')">${bulan.bulan}</a>`;
                   bulanDropdown.appendChild(li);
               });
           })
@@ -339,14 +348,14 @@
 
               data.forEach(bulan => {
                   const li = document.createElement('li');
-                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulanSP('${bulan.id}','${bulan.bulan}')">${bulan.bulan}</a>`;
+                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulanSP('${bulan.id}','${bulan.bulan}', '${tahunId}', '${tahunText}')">${bulan.bulan}</a>`;
                   bulanDropdown.appendChild(li);
               });
           })
           .catch(error => console.error('Error fetching months:', error));
   }
 
-  function updateBulan(selectedBulanId, bulanText) {
+  function updateBulan(selectedBulanId, bulanText, tahunId, tahunText) {
     bulanId = selectedBulanId;
     document.getElementById('dropdownBulan').innerText = bulanText;
 
@@ -356,7 +365,7 @@
 
     // Fetch data only if both tahunId and bulanId are set
     if (tahunId && bulanId) {
-        getDataSP(bulanId);
+        getDataPT(tahunId, bulanId, tahunText, bulanText);
     }
   }
 
@@ -371,11 +380,11 @@
 
     // Fetch data only if both tahunId and bulanId are set
     if (tahunId && bulanId) {
-        getDataSP(bulanId);
+        getDataSP(tahunId, bulanId, tahunText, bulanText);
     }
   }
 
-  function getDataPT(bulanId) {
+  function getDataPT(tahunId, bulanId, tahunText, bulanText) {
     fetch(`/databytahunbulan/${bulanId}`)
         .then(response => response.json())
         .then(data => {
@@ -384,7 +393,7 @@
             if (data.length === 0) {
                 // If no data is found, show a message
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeederPT(${bulanId})">tambah data disini!!</a></td>`;
+                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeederPT('${bulanId}', '${tahunId}', '${tahunText}', '${bulanText}')">tambah data disini!!</a></td>`;
                 isiTabel.appendChild(tr);
             }
             else{ data.forEach(dataPen => {
@@ -400,7 +409,7 @@
       .catch(error => console.error('Error fetching data:', error));
   }
 
-  function getDataSP(bulanId) {
+  function getDataSP(tahunId, bulanId, tahunText, bulanText) {
     fetch(`/databytahunbulanSP/${bulanId}`)
         .then(response => response.json())
         .then(data => {
@@ -409,7 +418,7 @@
             if (data.length === 0) {
                 // If no data is found, show a message
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeederSP(${bulanId})">tambah data disini!!</a></td>`;
+                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeederSP('${bulanId}', '${tahunId}', '${tahunText}', '${bulanText}')">tambah data disini!!</a></td>`;
                 isiTabelSP.appendChild(tr);
             }
             else{ data.forEach(dataSTRP => {
@@ -425,9 +434,9 @@
       .catch(error => console.error('Error fetching data:', error));
   }
 
-  function runSeederPT(bulanId) {
+  function runSeederPT(tahunId, bulanId, tahunText, bulanText) {
     console.log(bulanId);
-    fetch(`/run-seederPT/${bulanId}`)
+    fetch(`/run-seederPT/${bulanId}/${tahunId}/${tahunText}/${bulanText}`)
         .then(response => response.json())
         .then(result => {
             // Menampilkan alert sukses menggunakan SweetAlert2
@@ -439,7 +448,7 @@
             });
 
             // Refresh data tabel untuk memperbarui data dengan baris baru
-            getDataPT(bulanId);
+            getDataPT(tahunId, bulanId, tahunText, bulanText);
         })
         .catch(error => {
             console.error('Error running seeder:', error);
@@ -453,9 +462,9 @@
         });
 }
 
-function runSeederSP(bulanId) {
+function runSeederSP(tahunId, bulanId, tahunText, bulanText) {
     console.log(bulanId);
-    fetch(`/run-seederSP/${bulanId}`)
+    fetch(`/run-seederSP/${bulanId}/${tahunId}/${tahunText}/${bulanText}`)
         .then(response => response.json())
         .then(result => {
             // Menampilkan alert sukses menggunakan SweetAlert2
@@ -467,7 +476,9 @@ function runSeederSP(bulanId) {
             });
 
             // Refresh data tabel untuk memperbarui data dengan baris baru
-            getDataPT(bulanId);
+            getDataSP(tahunId, bulanId, tahunText, bulanText
+
+            );
         })
         .catch(error => {
             console.error('Error running seeder:', error);

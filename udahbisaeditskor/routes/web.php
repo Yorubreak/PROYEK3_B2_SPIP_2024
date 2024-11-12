@@ -216,28 +216,28 @@ Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTah
 
 Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
 
-Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
+Route::get('/run-seederPT/{bulanId}/{tahunId}/{tahunText}/{bulanText}', function ($tahunId, $bulanId, $tahunText, $bulanText) {
     // Set the bulanId in session or pass it as a parameter to the seeder
-    session(['bulanId' => $bulanId]);
+    session(['bulanId' => $bulanId, 'tahunId' => $tahunId, 'tahunText' => $tahunText, 'bulanText' => $bulanText]);
 
     // Run the SeederPT seeder
     Artisan::call('db:seed', [
         '--class' => 'Database\\Seeders\\SeederPT'
     ]);
 
-    return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
+    return response()->json(['success' => 'Berhasil menambah data bulan ' . $bulanText . ' tahun ' . $tahunText]);
 });
 
-Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
+Route::get('/run-seederSP/{bulanId}/{tahunId}/{tahunText}/{bulanText}', function ($tahunId, $bulanId, $tahunText, $bulanText) {
   // Set the bulanId in session or pass it as a parameter to the seeder
-  session(['bulanId' => $bulanId]);
+  session(['bulanId' => $bulanId, 'tahunId' => $tahunId, 'tahunText' => $tahunText, 'bulanText' => $bulanText]);
 
   // Run the SeederPT seeder
   Artisan::call('db:seed', [
       '--class' => 'Database\\Seeders\\SeederSP'
   ]);
 
-  return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
+  return response()->json(['success' => 'Berhasil menambah data bulan  ' . $bulanText . ' tahun  ' . $tahunText]);
 });
 
 
