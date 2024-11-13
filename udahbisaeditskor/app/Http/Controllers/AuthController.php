@@ -63,7 +63,7 @@ class AuthController extends Controller
 
     public function forgotpassword_action(Request $request)
     {
-        $validatedData =$request->validate([
+        $validatedData = $request->validate([
             'email' => 'required|email|exists:users,email',
         ],
         [
@@ -72,28 +72,37 @@ class AuthController extends Controller
             'email.exists' => 'The email address is not registered.',
         ]);
 
-
-        // dd($request->all());
-
         $token = Str::random(60);
 
-        PasswordResetToken:: updateOrCreate(
-          ['email' => $request->email,
-        ],
-          [
-              'email' => $request->email,
-              'token' => $token,
-              'created_at' => now(),
-          ]
-      );
+        PasswordResetToken::updateOrCreate(
+            ['email' => $request->email],
+            [
+                'email' => $request->email,
+                'token' => $token,
+                'created_at' => now(),
+            ]
+        );
 
-        try {Mail::to($request->email)->send(new ResetPasswordMail($token));
+        $link = route('validasi-forgot-password', ['token' => $token]) . '?email=' . urlencode($request->email);
+
+        try {
+          Mail::to($request->email)->send(new ResetPasswordMail($link));
         } catch (\Exception $e) {
-          return redirect()->route('forgot-password')->with('error', 'Failed to send email. Please try again later.');
+            return redirect()->route('forgot-password')->with('error', 'Failed to send email. Please try again later.');
         }
 
         return redirect()->route('forgot-password')->with('success', 'Please check your email for password reset instructions.');
     }
+
+
+    public function validasiforgotpassword(Request $request, $token)
+    {
+        $email = $request->query('email');
+        return view('content.auth.auth-forgot-cover', compact('token', 'email'));
+    }
+
+
+
 
 
     public function register()
