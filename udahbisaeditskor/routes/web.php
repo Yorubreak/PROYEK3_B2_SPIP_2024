@@ -201,9 +201,11 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
+Route::get('/nyobatabel', [ControllerAdmin::class, 'getElemenKomponens'])->name('nyobatabel');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
   // Admin
   Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
+
   Route::get('/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
   Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
   Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
@@ -212,7 +214,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], 
   Route::put('/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('submitskorSP');
   Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
 
-  Route::get('/bulan-by-tahun/{tahunId}', [ControllerAdmin::class, 'getBulanByTahunId']);
+  Route::get('/bulan-by-tahun/{tahun}', [ControllerAdmin::class, 'getBulanByTahunId']);
   Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
   Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
 
