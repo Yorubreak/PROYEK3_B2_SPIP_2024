@@ -84,5 +84,18 @@ $customizerHidden = 'customizer-hide';
 </script>
 @endif
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: '{{ $message }}',
+        position: 'center', // Mengatur posisi di tengah
+        showConfirmButton: false,
+        timer: 1500
+    });
+</script>
+@endif
+
 
 @endsection

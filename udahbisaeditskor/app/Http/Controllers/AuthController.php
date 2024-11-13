@@ -71,29 +71,27 @@ class AuthController extends Controller
             'email.exists' => 'The email address is not registered.',
         ]);
 
-        // Cek apakah email ada di request untuk menghindari akses pada null
-        if (!$request->has('email')) {
-            return redirect()->route('forgot-password')->with('error', 'Email is required.');
-        }
-
         $token = Str::random(60);
 
         PasswordResetToken::updateOrCreate(
+            ['email' => $request['email']],
             [
-                'email' => $request->email
-            ],
-            [
-                'email' => $request->email,
+                'email' => $request['email'],
                 'token' => $token,
                 'created_at' => now(),
             ]
         );
 
-        // Mengirim email
-        Mail::to($request->email)->send(new ResetPasswordMail($token));
+        // try {
+        Mail::to($request['email'])->send(new ResetPasswordMail($token));
+
+        // } catch (\Exception $e) {
+        //     return redirect()->route('forgot-password')->with('error', 'Failed to send email. Please try again later.');
+        // // }
 
         return redirect()->route('forgot-password')->with('success', 'Please check your email for password reset instructions.');
     }
+
 
     public function register()
     {
