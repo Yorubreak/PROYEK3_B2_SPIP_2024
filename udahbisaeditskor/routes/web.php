@@ -206,34 +206,33 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], 
   // Admin
   Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
 
-  Route::get('/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
-  Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
-  Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
-
-  Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
-  Route::put('/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('submitskorSP');
-  Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
-
-  Route::get('/bulan-by-tahun/{tahun}', [ControllerAdmin::class, 'getBulanByTahunId']);
-  Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
-  Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
-
-  Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
-      session(['bulanId' => $bulanId]);
-      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederPT']);
-      return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
-  });
-
-  Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
-      session(['bulanId' => $bulanId]);
-      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederSP']);
-      return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
-  });
-
   Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
   Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
   Route::get('/pages/account-settings-security/{id}', [AuthController::class, 'editpas'])->name('pages-account-settings-security');
   Route::put('/reset-image/{id}', [AuthController::class, 'resetImage'])->name('reset.image');
+});
+
+Route::get('/editskor/{bulan}/{tahun}', [ControllerAdmin::class, 'editskor'])->name('editskor');
+Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
+Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
+
+Route::put('/submitskor/{id_komponen}', [ControllerAdmin::class, 'submitskor'])->name('submitskor');
+Route::put('/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('submitskorSP');
+Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
+
+Route::get('/bulan-by-tahun/{tahun}', [ControllerAdmin::class, 'getBulanByTahunId']);
+Route::get('/databytahunbulan/{tahun}/{bulan}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+
+Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
+    session(['bulanId' => $bulanId]);
+    Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederPT']);
+    return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
+});
+
+Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
+    session(['bulanId' => $bulanId]);
+    Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederSP']);
+    return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
 });
 
 

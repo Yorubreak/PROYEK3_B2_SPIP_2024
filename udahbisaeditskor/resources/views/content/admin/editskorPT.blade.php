@@ -31,25 +31,56 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($dataPT as $dPT)
+                      @foreach ($data[0] as $elm)
+                        <tr>
+                            <td colspan="3" style="text-transform: uppercase;"><strong>{{ $elm->nama_komponen }}</strong></td>
+                        </tr>
+                        @foreach ($data[1]->where('kom_id_komponen', $elm->id_komponen) as $uns)
+                          @if ($uns->has_child == true)
+                          <tr>
+                            <td colspan="3"><strong>&nbsp;&nbsp;&nbsp;{{ $uns->nama_komponen }}</strong></td>
+                          </tr>
+                          @endif
+                          @if ($uns->has_child == false)
                             <tr>
-                                <th>{{ $dPT->unsur }}</th>
-                                <form id="skorForm-{{ $dPT->id }}" method="POST">
+                              <td><strong>&nbsp;&nbsp;&nbsp;{{ $uns->nama_komponen }}</strong></td>
+                              <form id="skorForm-{{ $uns->id_komponen }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <th>
+                                  <div>
+                                      <input type="text" class="form-control" id="skorInput-{{ $uns->id_komponen }}" placeholder="Skor ...." name="skor" value="{{ old('skor', $uns->skor) }}" />
+                                  </div>
+                                </th>
+                                <th>
+                                    <button type="button" class="btn btn-success" onclick="submitSkor({{ $uns->id_komponen }})">
+                                        <i class="ti ti-check ti-xs me-2"></i>Submit Skor
+                                    </button>
+                                </th>
+                              </form>
+                            </tr>
+                          @endif
+                          @foreach ($data[2]->where('kom_id_komponen', $uns->id_komponen) as $sub)
+                              <tr>
+                                  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $sub->nama_komponen }}</td>
+                                  <form id="skorForm-{{ $uns->id_komponen }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <th>
-                                        <div>
-                                            <input type="text" class="form-control" id="skorInput-{{ $dPT->id }}" placeholder="Skor ...." name="skor" value="{{ old('skor', $dPT->skor) }}" />
-                                        </div>
+                                      <div>
+                                          <input type="text" class="form-control" id="skorInput-{{ $sub->id_komponen }}" placeholder="Skor ...." name="skor" value="{{ old('skor', $sub->skor) }}" />
+                                      </div>
                                     </th>
                                     <th>
-                                        <button type="button" class="btn btn-success" onclick="submitSkor({{ $dPT->id }})">
+                                        <button type="button" class="btn btn-success" onclick="submitSkor({{ $sub->id_komponen }})">
                                             <i class="ti ti-check ti-xs me-2"></i>Submit Skor
                                         </button>
                                     </th>
-                                </form>
-                            </tr>
+                                  </form>
+                              </tr>
+                          @endforeach
                         @endforeach
+                      @endforeach
                     </tbody>
                 </table>
             </div>
@@ -58,9 +89,9 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
-        function submitSkor(id) {
+        function submitSkor(id_komponen) {
             // Ambil nilai input dari form
-            var skor = $('#skorInput-' + id).val();
+            var skor = $('#skorInput-' + id_komponen).val();
             if (skor > 5) {
               $.ajax({
                 success: function(response) {
@@ -73,7 +104,7 @@
 
             // Kirim data dengan AJAX
             $.ajax({
-                url: "{{ url('admin/submitskorPT') }}/" + id,  // URL untuk mengirim data
+                url: "{{ url('/submitskor') }}/" + id_komponen,  // URL untuk mengirim data
                 method: "PUT",
                 data: {
                     _token: "{{ csrf_token() }}",  // Token CSRF untuk keamanan

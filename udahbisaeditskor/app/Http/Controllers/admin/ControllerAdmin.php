@@ -55,21 +55,43 @@ class ControllerAdmin extends Controller
 
 public function getBulanByTahunId($tahun)
 {
-    // Ambil bulan berdasarkan tahun_id
-    $bulan = Periode::where('tahun', $tahun)->pluck('bulan');
-    //
+    // Daftar nama bulan dalam urutan kalender
+
+    // Query untuk mengambil bulan berdasarkan tahun dan urutkan sesuai dengan $bulanOrder
+    $bulan = Periode::where('tahun', $tahun)->orderby('no_bln', 'asc')->pluck('bulan');
 
     return response()->json($bulan);
 }
 
 
-
   //Edit Skor
-  public function editskorPT($bulanId)
+  public function editskor($bulan, $tahun)
   {
-    $dataPT =  DB::table('penetapan_tujuan')->where('bulan_id', $bulanId)->orderBy('id', 'asc')->get();
+    $elmn = Komponen::where('tipe_komponen', 'Elemen')
+                  ->whereIn('tahun', [$tahun])
+                  ->whereIn('bulan', [$bulan])
+                  ->orderby('id_komponen', 'asc')
+                  ->get();
 
-    return view('content.admin.editskorPT', compact('dataPT'));
+    // Retrieve 'Unsur' type components where kom_id_komponen matches the id_komponen of the elemen
+    $unsr = Komponen::where('tipe_komponen', 'Unsur')
+                    ->whereIn('kom_id_komponen', $elmn->pluck('id_komponen'))
+                    ->whereIn('tahun', [$tahun])
+                    ->whereIn('bulan', [$bulan])
+                    ->orderby('id_komponen', 'asc')
+                    ->get();
+
+    // Retrieve 'Sub Unsur' type components where kom_id_komponen matches the id_komponen of the unsur
+    $subunsr = Komponen::where('tipe_komponen', 'Sub Unsur')
+                        ->whereIn('kom_id_komponen', $unsr->pluck('id_komponen'))
+                        ->whereIn('tahun', [$tahun])
+                        ->whereIn('bulan', [$bulan])
+                        ->orderby('id_komponen', 'asc')
+                        ->get();
+
+    $data = [$elmn, $unsr, $subunsr];
+
+    return view('content.admin.editskorPT', compact('data'));
   }
 
   public function editskorSP()
@@ -88,13 +110,12 @@ public function getBulanByTahunId($tahun)
 
 
   //Submit Skor (update skor ke database)
-  public function submitskorPT(Request $request, int $id)
-  {
-    $dataPT = DB::table('penetapan_tujuan')->find($id);
-    $dataPT->skor = $request->skor;
-    DB::table('penetapan_tujuan')->whereId($id)->update((array) $dataPT);
+  public function submitskor(Request $request, int $id_komponen)
+{
+    Komponen::where('id_komponen', $id_komponen)->update(['skor' => $request->skor]);
     return response()->json(['message' => 'Data skor berhasil disimpan']);
-  }
+}
+
 
   public function submitskorSP(Request $request, int $id)
   {
@@ -115,26 +136,32 @@ public function submitskorSPIP(Request $request, $id)
 
 
 
-  public function getDataByTahunBulan($bulanId)
+  public function getDataByTahunBulan($tahun, $bulan)
 {
-    $dataPen = DB::table('penetapan_tujuan')
-                ->where('bulan_id', $bulanId)
-                ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
-                ->get();
+  $elmn = Komponen::where('tipe_komponen', 'Elemen')
+                  ->whereIn('tahun', [$tahun])
+                  ->whereIn('bulan', [$bulan])
+                  ->orderby('id_komponen', 'asc')
+                  ->get();
 
-    return response()->json($dataPen);
-}
+  // Retrieve 'Unsur' type components where kom_id_komponen matches the id_komponen of the elemen
+  $unsr = Komponen::where('tipe_komponen', 'Unsur')
+                  ->whereIn('kom_id_komponen', $elmn->pluck('id_komponen'))
+                  ->whereIn('tahun', [$tahun])
+                  ->whereIn('bulan', [$bulan])
+                  ->orderby('id_komponen', 'asc')
+                  ->get();
 
-public function getDataByTahunBulanSP($bulanId)
-{
-    $dataSTRP = DB::table('struktur_proses')
-                ->where('bulan_id', $bulanId)
-                ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
-                ->orderBy('id','asc')
-                ->get();
+  // Retrieve 'Sub Unsur' type components where kom_id_komponen matches the id_komponen of the unsur
+  $subunsr = Komponen::where('tipe_komponen', 'Sub Unsur')
+                      ->whereIn('kom_id_komponen', $unsr->pluck('id_komponen'))
+                      ->whereIn('tahun', [$tahun])
+                      ->whereIn('bulan', [$bulan])
+                      ->orderby('id_komponen', 'asc')
+                      ->get();
 
-
-    return response()->json($dataSTRP);
+  $data = [$elmn, $unsr, $subunsr];
+    return response()->json($data);
 }
 
 }

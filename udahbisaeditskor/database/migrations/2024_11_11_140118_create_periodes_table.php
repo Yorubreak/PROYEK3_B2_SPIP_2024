@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('periodes', function (Blueprint $table) {
             $table->string('tahun');
             $table->string('bulan');
+            $table->integer('no_bln');
             $table->timestamps();
 
             $table->primary(['tahun', 'bulan']);
