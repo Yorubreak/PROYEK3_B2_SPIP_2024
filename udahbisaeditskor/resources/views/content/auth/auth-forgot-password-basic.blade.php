@@ -1,7 +1,7 @@
 @php
 $customizerHidden = 'customizer-hide';
 @endphp
-@extends('layouts/layoutMaster')
+@extends('layouts/blankLayout')
 
 @section('title', 'Forgot Password Basic - Pages')
 
@@ -55,7 +55,7 @@ $customizerHidden = 'customizer-hide';
             <button class="btn btn-primary d-grid w-100">Send Reset Link</button>
           </form>
           <div class="text-center">
-            <a href="{{url('auth/login-basic')}}" class="d-flex align-items-center justify-content-center">
+            <a href="{{url('/login')}}" class="d-flex align-items-center justify-content-center">
               <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
               Back to login
             </a>
