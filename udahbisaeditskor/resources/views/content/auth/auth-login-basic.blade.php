@@ -150,15 +150,26 @@ $customizerHidden = 'customizer-hide';
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if($message = Session::get('error'))
   <script>
-    Swal.fire('{{ $message }}');
+    Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: "{{ $message }}"
+    });
   </script>
 @endif
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if($message = Session::get('success'))
-  <script>
-    Swal.fire('{{ $message }}');
-  </script>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '{{ $message }}',
+        position: 'center', // Mengatur posisi di tengah
+        showConfirmButton: false,
+        timer: 1500
+    });
+</script>
 @endif
+
 
 @endsection
