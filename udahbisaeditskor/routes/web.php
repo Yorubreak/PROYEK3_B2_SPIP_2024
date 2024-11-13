@@ -253,7 +253,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], 
 
 
 
-Route::get('/admin/nyobapace', [StrukturdanProses::class, 'nyobapace'])->name('admin-nyobapace');
 
 
 

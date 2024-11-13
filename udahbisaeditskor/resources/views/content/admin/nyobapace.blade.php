@@ -1,5 +1,6 @@
-@extends('layouts/horizontalLayout')
+@extends('layouts/layoutMaster')
 
+<<<<<<< HEAD
 @section('content')
 <div class="container mt-4">
     <div class="card-body row p-0 pb-3">
@@ -155,3 +156,5 @@
     </table>
 </div>
 @endsection
+=======
+>>>>>>> parent of 4cc6003 (pace ganteng)

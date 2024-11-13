@@ -131,7 +131,7 @@
               @foreach ($dataPT as $dPT)
                 <tr>
                   <th>{{ $dPT->unsur }}</th>
-                  <th>{{ $dPT->skor }}</th>   
+                  <th>{{ $dPT->skor }}</th>
                   <th>{{ 'bobot unsur' }}</th>
                   <th>{{ 'bobot komponen' }}</th>
                   <th>{{ $dPT->nilai_unsur }}</th>
