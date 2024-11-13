@@ -185,8 +185,9 @@ Route::get('/register', [AuthController::class, 'register'])->name('auth-registe
 Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth-logout');
 Route::get('/forgot-password', [AuthController::class, 'forgotpassword'])->name('forgot-password');
-Route::get('/forgot-password-act', [AuthController::class, 'forgotpassword_action'])->name('forgot-password-action');
-
+Route::post('/forgot-password-act', [AuthController::class, 'forgotpassword_action'])->name('forgot-password-action');
+Route::get('/validasi-forgot-password/{token}', [AuthController::class, 'validasiforgotpassword'])->name('validasi-forgot-password');
+Route::post('/validasi-forgot-password-act', [AuthController::class, 'validasiforgotpasswordact'])->name('validasi-forgot-password-act');
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
 Route::get('/layouts/content-navbar', [ContentNavbar::class, 'index'])->name('layouts-content-navbar');
