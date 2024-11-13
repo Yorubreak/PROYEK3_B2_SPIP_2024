@@ -52,9 +52,10 @@ class AuthController extends Controller
       }
   }
 
-
-
-
+  public function forgotpassword()
+  {
+    return view('content.auth.auth-forgot-password-basic');
+  }
 
   public function register()
   {

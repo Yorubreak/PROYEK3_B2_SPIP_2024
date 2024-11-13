@@ -184,6 +184,8 @@ Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc
 Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
 Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth-logout');
+Route::get('/forgot-password', [AuthController::class, 'forgotpassword'])->name('forgot-password');
+Route::get('/forgot-password-act', [AuthController::class, 'forgotpassword_action'])->name('forgot-password-action');
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
@@ -334,9 +336,9 @@ Route::get('/auth/register-cover', [RegisterCover::class, 'index'])->name('auth-
 Route::get('/auth/register-multisteps', [RegisterMultiSteps::class, 'index'])->name('auth-register-multisteps');
 Route::get('/auth/verify-email-basic', [VerifyEmailBasic::class, 'index'])->name('auth-verify-email-basic');
 Route::get('/auth/verify-email-cover', [VerifyEmailCover::class, 'index'])->name('auth-verify-email-cover');
-Route::get('/auth/reset-password-basic', [ResetPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
+// Route::get('/auth/reset-password-basic', [ResetPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 Route::get('/auth/reset-password-cover', [ResetPasswordCover::class, 'index'])->name('auth-reset-password-cover');
-Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
+// Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 Route::get('/auth/forgot-password-cover', [ForgotPasswordCover::class, 'index'])->name('auth-forgot-password-cover');
 Route::get('/auth/two-steps-basic', [TwoStepsBasic::class, 'index'])->name('auth-two-steps-basic');
 Route::get('/auth/two-steps-cover', [TwoStepsCover::class, 'index'])->name('auth-two-steps-cover');
