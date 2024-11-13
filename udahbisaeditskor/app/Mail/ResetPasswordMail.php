@@ -3,7 +3,10 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class ResetPasswordMail extends Mailable
@@ -11,11 +14,8 @@ class ResetPasswordMail extends Mailable
     use Queueable, SerializesModels;
 
     protected $token;
-
     /**
      * Create a new message instance.
-     *
-     * @param string $token
      */
     public function __construct($token)
     {
@@ -23,16 +23,35 @@ class ResetPasswordMail extends Mailable
     }
 
     /**
-     * Build the message.
-     *
-     * @return $this
+     * Get the message envelope.
      */
-    public function build()
+    public function envelope(): Envelope
     {
-        return $this->subject('Reset Password E-Mail')
-                    ->view('content.auth.auth-forgot')
-                    ->with([
-                        'token' => $this->token,
-                    ]);
+        return new Envelope(
+            subject: 'Reset Password Mail',
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+          view: 'content.auth.auth-forgot',
+          with: [
+              'token' => $this->token,
+          ]
+      );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
     }
 }

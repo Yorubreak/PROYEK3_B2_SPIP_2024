@@ -63,31 +63,34 @@ class AuthController extends Controller
 
     public function forgotpassword_action(Request $request)
     {
-        $request->validate([
+        $validatedData =$request->validate([
             'email' => 'required|email|exists:users,email',
-        ], [
+        ],
+        [
             'email.required' => 'Email is required.',
             'email.email' => 'Please enter a valid email address.',
             'email.exists' => 'The email address is not registered.',
         ]);
 
+
+        // dd($request->all());
+
         $token = Str::random(60);
 
-        PasswordResetToken::updateOrCreate(
-            ['email' => $request['email']],
-            [
-                'email' => $request['email'],
-                'token' => $token,
-                'created_at' => now(),
-            ]
-        );
+        PasswordResetToken:: updateOrCreate(
+          ['email' => $request->email,
+        ],
+          [
+              'email' => $request->email,
+              'token' => $token,
+              'created_at' => now(),
+          ]
+      );
 
-        // try {
-        Mail::to($request['email'])->send(new ResetPasswordMail($token));
-
-        // } catch (\Exception $e) {
-        //     return redirect()->route('forgot-password')->with('error', 'Failed to send email. Please try again later.');
-        // // }
+        try {Mail::to($request->email)->send(new ResetPasswordMail($token));
+        } catch (\Exception $e) {
+          return redirect()->route('forgot-password')->with('error', 'Failed to send email. Please try again later.');
+        }
 
         return redirect()->route('forgot-password')->with('success', 'Please check your email for password reset instructions.');
     }

@@ -51,7 +51,7 @@ $customizerHidden = 'customizer-hide';
             @csrf
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus required>
             </div>
             @error('email')
               <small class="text-danger">{{ $message }}</small>
