@@ -5,7 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Month;
+use App\Models\Komponen;
+use App\Models\Periode;
 
 class ControllerAdmin extends Controller
 {
@@ -29,6 +30,38 @@ class ControllerAdmin extends Controller
 
     return view('content.admin.admin', compact('dataPT', 'dataSP', 'dataSPIP1', 'dataSPIP2', 'dataSPIP3', 'dataSPIP4', 'tahun', 'bulan'));
   }
+
+  public function getElemenKomponens()
+{
+    // Retrieve 'Elemen' type components
+    $elemen = Komponen::where('tipe_komponen', 'Elemen')->get();
+
+    // Retrieve 'Unsur' type components where kom_id_komponen matches the id_komponen of the elemen
+    $unsur = Komponen::where('tipe_komponen', 'Unsur')
+                    ->whereIn('kom_id_komponen', $elemen->pluck('id_komponen'))
+                    ->get();
+
+    // Retrieve 'Sub Unsur' type components where kom_id_komponen matches the id_komponen of the unsur
+    $subunsur = Komponen::where('tipe_komponen', 'Sub Unsur')
+                        ->whereIn('kom_id_komponen', $unsur->pluck('id_komponen'))
+                        ->get();
+
+    $bulan = Periode::distinct()->pluck('bulan');
+    $tahun = Periode::distinct()->pluck('tahun');
+
+    // Return the data to the view
+    return view('content.admin.nyobapace', compact('elemen', 'unsur', 'subunsur', 'tahun', 'bulan'));
+}
+
+public function getBulanByTahunId($tahun)
+{
+    // Ambil bulan berdasarkan tahun_id
+    $bulan = Periode::where('tahun', $tahun)->pluck('bulan');
+    //
+
+    return response()->json($bulan);
+}
+
 
 
   //Edit Skor
@@ -80,13 +113,7 @@ public function submitskorSPIP(Request $request, $id)
     return response()->json(['message' => 'Data skor berhasil disimpan']);
 }
 
-  public function getBulanByTahunId($tahunId)
-  {
-      // Ambil bulan berdasarkan tahun_id
-      $bulan = DB::table('bulan')->where('tahun_id', $tahunId)->select('id', 'bulan')->get();
 
-      return response()->json($bulan);
-  }
 
   public function getDataByTahunBulan($bulanId)
 {
