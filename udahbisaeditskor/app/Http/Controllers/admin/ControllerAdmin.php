@@ -5,7 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Month;
+use App\Models\Komponen;
+use App\Models\Periode;
 
 class ControllerAdmin extends Controller
 {
@@ -30,13 +31,67 @@ class ControllerAdmin extends Controller
     return view('content.admin.admin', compact('dataPT', 'dataSP', 'dataSPIP1', 'dataSPIP2', 'dataSPIP3', 'dataSPIP4', 'tahun', 'bulan'));
   }
 
+  public function getElemenKomponens()
+{
+    // Retrieve 'Elemen' type components
+    $elemen = Komponen::where('tipe_komponen', 'Elemen')->get();
+
+    // Retrieve 'Unsur' type components where kom_id_komponen matches the id_komponen of the elemen
+    $unsur = Komponen::where('tipe_komponen', 'Unsur')
+                    ->whereIn('kom_id_komponen', $elemen->pluck('id_komponen'))
+                    ->get();
+
+    // Retrieve 'Sub Unsur' type components where kom_id_komponen matches the id_komponen of the unsur
+    $subunsur = Komponen::where('tipe_komponen', 'Sub Unsur')
+                        ->whereIn('kom_id_komponen', $unsur->pluck('id_komponen'))
+                        ->get();
+
+    $bulan = Periode::distinct()->pluck('bulan');
+    $tahun = Periode::distinct()->pluck('tahun');
+
+    // Return the data to the view
+    return view('content.admin.nyobapace', compact('elemen', 'unsur', 'subunsur', 'tahun', 'bulan'));
+}
+
+public function getBulanByTahunId($tahun)
+{
+    // Daftar nama bulan dalam urutan kalender
+
+    // Query untuk mengambil bulan berdasarkan tahun dan urutkan sesuai dengan $bulanOrder
+    $bulan = Periode::where('tahun', $tahun)->orderby('no_bln', 'asc')->pluck('bulan');
+
+    return response()->json($bulan);
+}
+
 
   //Edit Skor
-  public function editskorPT($bulanId)
+  public function editskor($bulan, $tahun)
   {
-    $dataPT =  DB::table('penetapan_tujuan')->where('bulan_id', $bulanId)->orderBy('id', 'asc')->get();
+    $elmn = Komponen::where('tipe_komponen', 'Elemen')
+                  ->whereIn('tahun', [$tahun])
+                  ->whereIn('bulan', [$bulan])
+                  ->orderby('id_komponen', 'asc')
+                  ->get();
 
-    return view('content.admin.editskorPT', compact('dataPT'));
+    // Retrieve 'Unsur' type components where kom_id_komponen matches the id_komponen of the elemen
+    $unsr = Komponen::where('tipe_komponen', 'Unsur')
+                    ->whereIn('kom_id_komponen', $elmn->pluck('id_komponen'))
+                    ->whereIn('tahun', [$tahun])
+                    ->whereIn('bulan', [$bulan])
+                    ->orderby('id_komponen', 'asc')
+                    ->get();
+
+    // Retrieve 'Sub Unsur' type components where kom_id_komponen matches the id_komponen of the unsur
+    $subunsr = Komponen::where('tipe_komponen', 'Sub Unsur')
+                        ->whereIn('kom_id_komponen', $unsr->pluck('id_komponen'))
+                        ->whereIn('tahun', [$tahun])
+                        ->whereIn('bulan', [$bulan])
+                        ->orderby('id_komponen', 'asc')
+                        ->get();
+
+    $data = [$elmn, $unsr, $subunsr];
+
+    return view('content.admin.editskorPT', compact('data'));
   }
 
   public function editskorSP()
@@ -55,13 +110,12 @@ class ControllerAdmin extends Controller
 
 
   //Submit Skor (update skor ke database)
-  public function submitskorPT(Request $request, int $id)
-  {
-    $dataPT = DB::table('penetapan_tujuan')->find($id);
-    $dataPT->skor = $request->skor;
-    DB::table('penetapan_tujuan')->whereId($id)->update((array) $dataPT);
+  public function submitskor(Request $request, int $id_komponen)
+{
+    Komponen::where('id_komponen', $id_komponen)->update(['skor' => $request->skor]);
     return response()->json(['message' => 'Data skor berhasil disimpan']);
-  }
+}
+
 
   public function submitskorSP(Request $request, int $id)
   {
@@ -80,34 +134,34 @@ public function submitskorSPIP(Request $request, $id)
     return response()->json(['message' => 'Data skor berhasil disimpan']);
 }
 
-  public function getBulanByTahunId($tahunId)
-  {
-      // Ambil bulan berdasarkan tahun_id
-      $bulan = DB::table('bulan')->where('tahun_id', $tahunId)->select('id', 'bulan')->get();
 
-      return response()->json($bulan);
-  }
 
-  public function getDataByTahunBulan($bulanId)
+  public function getDataByTahunBulan($tahun, $bulan)
 {
-    $dataPen = DB::table('penetapan_tujuan')
-                ->where('bulan_id', $bulanId)
-                ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
-                ->orderBy('id', 'asc')
-                ->get();
+  $elmn = Komponen::where('tipe_komponen', 'Elemen')
+                  ->whereIn('tahun', [$tahun])
+                  ->whereIn('bulan', [$bulan])
+                  ->orderby('id_komponen', 'asc')
+                  ->get();
 
-    return response()->json($dataPen);
-}
+  // Retrieve 'Unsur' type components where kom_id_komponen matches the id_komponen of the elemen
+  $unsr = Komponen::where('tipe_komponen', 'Unsur')
+                  ->whereIn('kom_id_komponen', $elmn->pluck('id_komponen'))
+                  ->whereIn('tahun', [$tahun])
+                  ->whereIn('bulan', [$bulan])
+                  ->orderby('id_komponen', 'asc')
+                  ->get();
 
-public function getDataByTahunBulanSP($bulanId)
-{
-    $dataSTRP = DB::table('struktur_proses')
-                ->where('bulan_id', $bulanId)
-                ->select('unsur', 'skor', 'nilai_unsur', 'nilai_komponen')
-                ->orderBy('id','asc')
-                ->get();
+  // Retrieve 'Sub Unsur' type components where kom_id_komponen matches the id_komponen of the unsur
+  $subunsr = Komponen::where('tipe_komponen', 'Sub Unsur')
+                      ->whereIn('kom_id_komponen', $unsr->pluck('id_komponen'))
+                      ->whereIn('tahun', [$tahun])
+                      ->whereIn('bulan', [$bulan])
+                      ->orderby('id_komponen', 'asc')
+                      ->get();
 
-    return response()->json($dataSTRP);
+  $data = [$elmn, $unsr, $subunsr];
+    return response()->json($data);
 }
 
 public function nyobapace()
