@@ -13,14 +13,14 @@ class ResetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $link;
+    protected $token;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($link)
+    public function __construct($token)
     {
-        $this->link = $link;
+        $this->token = $token;
     }
 
     /**
@@ -41,7 +41,7 @@ class ResetPasswordMail extends Mailable
         return new Content(
             view: 'content.auth.auth-forgot',
             with: [
-                'link' => $this->link, // Pass the link to the view
+              'token' => $this->token,
             ]
         );
     }

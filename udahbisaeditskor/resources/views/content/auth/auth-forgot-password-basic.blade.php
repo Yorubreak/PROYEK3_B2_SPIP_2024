@@ -97,5 +97,16 @@ $customizerHidden = 'customizer-hide';
 </script>
 @endif
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('failed'))
+  <script>
+    Swal.fire({
+    icon: "failed",
+    title: "Oops...",
+    text: "{{ $message }}"
+    });
+  </script>
+@endif
+
 
 @endsection
