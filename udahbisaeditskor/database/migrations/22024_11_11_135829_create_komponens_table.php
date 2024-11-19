@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('komponens', function (Blueprint $table) {
             $table->id('id_komponen');
-            $table->string('nama_komponen')->unique();
+            $table->string('nama_komponen');
             $table->string('bulan');
             $table->string('tahun');
             $table->integer('kom_id_komponen')->nullable();
             $table->string('tipe_komponen');
+            $table->boolean('has_child')->nullable();
             $table->float('bobot_komponen')->nullable();
             $table->float('bobot_unsur')->nullable();
             $table->float('nilai_komponen')->nullable();

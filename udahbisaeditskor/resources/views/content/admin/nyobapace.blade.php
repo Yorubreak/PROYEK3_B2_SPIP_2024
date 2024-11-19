@@ -1,18 +1,20 @@
 @extends('layouts/horizontalLayout')
 
 @section('content')
+<?php
+?>
 <div class="container mt-4">
     <div class="card-body row p-0 pb-3">
         <div class="col-12 col-md-8 card-separator">
-            <h3>Selamat Datang Staff Kami 👋🏻 </h3>
+          <h3>Selamat Datang, {{ Auth::user()->username }} 👋🏻 </h3>
             <div class="col-12 col-lg-8">
                 <p>Ayo Nilai Kinerja Organisasi ini supaya keefektifan kinerja Organisasi ini Terkontrol!</p>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2">
+    <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2 mb-2">
       <div class="dropdown">
-        <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">Tahun</button>
+        <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">2023</button>
         <ul class="dropdown-menu">
             @foreach ($tahun as $thn)
                 <li><a class="dropdown-item" href="javascript:void(0);" onclick="updateTahun('{{ $thn }}')">{{ $thn }}</a></li>
@@ -22,7 +24,7 @@
       </div>
 
       <div class="dropdown">
-          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownBulan">Bulan</button>
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownBulan">Januari</button>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-bulan" id="bulanDropdown">
               <!-- Bulan akan diisi dinamis oleh JavaScript -->
           </ul>
@@ -45,30 +47,22 @@
             </tr>
         </thead>
         <tbody id="isiTabel">
-{{--
-          @foreach ($elemen as $elm)
-            <tr>
-                <td><strong>{{ $elm->nama_komponen }}</strong></td>
-            </tr>
-            @foreach ($unsur->where('kom_id_komponen', $elm->id_komponen) as $uns)
-              <tr>
-                  <td><strong>&nbsp;&nbsp;&nbsp;{{ $uns->nama_komponen }}</strong></td>
-              </tr>
-              @foreach ($subunsur->where('kom_id_komponen', $uns->id_komponen) as $sub)
-                  <tr>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $sub->nama_komponen }}</td>
-                  </tr>
-              @endforeach
-            @endforeach
-          @endforeach --}}
+
         </tbody>
     </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  let tahun = null;
-  let bulan = null;
+  let tahun = '2023';
+  let bulan = 'Januari';
+
+  window.onload = function() {
+    console.log("Halaman telah dimuat ulang!");
+    getData(tahun, bulan); // Panggil fungsi yang diinginkan
+    updateTahun(tahun);
+    updateBulan(bulan, tahun);
+};
 
   function updateTahun(tahun) {
     console.log(tahun);
@@ -123,7 +117,7 @@
             if (data[0].length === 0) {
                 // If no data is found, show a message
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeederPT('${bulan}', '${tahun}')">tambah data disini!!</a></td>`;
+                tr.innerHTML = `<td colspan="7" style="text-align: center;">Tidak ada data, <a href="javascript:void(0)" onclick="runSeeder('${bulan}', '${tahun}')">tambah data disini!!</a></td>`;
                 isiTabel.appendChild(tr);
             } else {
                 // Iterate through each element (komponen)
@@ -140,15 +134,17 @@
                         const tr = document.createElement('tr');
                         tr.innerHTML = `<td colspan = "6" ><strong>&nbsp;&nbsp;&nbsp;${uns.nama_komponen}</strong></td>`;
                         isiTabel.appendChild(tr);
+                      
                       }else{
                         // Create a row for each unsur (with indentation)
                         const tr = document.createElement('tr');
                         tr.innerHTML = `<td><strong>&nbsp;&nbsp;&nbsp;${uns.nama_komponen}</strong></td>
-                                        <td text-align: center>&nbsp;&nbsp;&nbsp;${uns.skor}</td>
-                                        <td text-align: center>&nbsp;&nbsp;&nbsp;${uns.bobot_unsur}</td>
-                                        <td text-align: center>&nbsp;&nbsp;&nbsp;${uns.bobot_komponen}</td>
-                                        <td text-align: center>&nbsp;&nbsp;&nbsp;${uns.nilai_unsur}</td>
-                                        <td text-align: center>&nbsp;&nbsp;&nbsp;${uns.nilai_komponen}</td>`;
+                                        <td style="text-align: center;">${uns.skor}</td>
+                                        <td style="text-align: center;">${uns.bobot_unsur}</td>
+                                        <td style="text-align: center;">${uns.bobot_komponen}</td>
+                                        <td style="text-align: center;">${uns.nilai_unsur}</td>
+                                        <td  style="text-align: center;">${uns.nilai_komponen}</td>
+                                        `;
                         isiTabel.appendChild(tr);
                       }
                         // Filter and iterate through the 'subunsur' array for each unsur
@@ -157,11 +153,11 @@
                               // Create a row for each subunsur (with further indentation)
                               const tr = document.createElement('tr');
                               tr.innerHTML = `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${sub.nama_komponen}</td>
-                                              <td text-align: center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${sub.skor}</td>
-                                              <td text-align: center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${sub.bobot_unsur}</td>
-                                              <td text-align: center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${sub.bobot_komponen}</td>
-                                              <td text-align: center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${sub.nilai_unsur}</td>
-                                              <td text-align: center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${sub.nilai_komponen}</td>`;
+                                              <td  style="text-align: center;">${sub.skor}</td>
+                                              <td  style="text-align: center;">${sub.bobot_unsur}</td>
+                                              <td  style="text-align: center;">${sub.bobot_komponen}</td>
+                                              <td  style="text-align: center;">${sub.nilai_unsur}</td>
+                                              <td  style="text-align: center;">${sub.nilai_komponen}</td>`;
                               isiTabel.appendChild(tr);
                           });
                     });
@@ -169,6 +165,32 @@
             }
         })
         .catch(error => console.error('Error fetching data:', error));
+}
+
+function runSeeder(bulan, tahun) {
+    console.log(bulan, tahun);
+    fetch(`/run-seeder/${bulan}/${tahun}`)
+        .then(response => response.json())
+        .then(result => {
+            // Menampilkan alert sukses menggunakan SweetAlert2
+            Swal.fire({
+                title: 'Berhasil!',
+                text: result.success,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+            getData(tahun, bulan);
+        })
+        .catch(error => {
+            console.error('Error running seeder:', error);
+            // Menampilkan alert error menggunakan SweetAlert2
+            Swal.fire({
+                title: 'Gagal!',
+                text: 'Gagal menjalankan Seeder. Silakan coba lagi.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
 }
 
 </script>
