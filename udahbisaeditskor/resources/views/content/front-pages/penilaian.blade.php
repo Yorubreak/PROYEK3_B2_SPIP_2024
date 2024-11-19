@@ -243,9 +243,6 @@ $configData = Helper::appClasses();
 
 </script>
 
-
-
-
 @endsection
 
 @section('content')
