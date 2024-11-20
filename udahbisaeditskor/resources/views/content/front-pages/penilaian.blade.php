@@ -281,6 +281,7 @@ $configData = Helper::appClasses();
       <div class="row justify-content-center">
         <!-- Generated Leads 1 -->
         <div class="col-md-4 mb-4">
+          <a href="content.front-page.view_user">
           <div class="card">
             <div class="card-body">
               <div class="d-flex justify-content-between">
@@ -294,6 +295,7 @@ $configData = Helper::appClasses();
               </div>
             </div>
           </div>
+        </a>
         </div>
         <!-- /Generated Leads 1 -->
 

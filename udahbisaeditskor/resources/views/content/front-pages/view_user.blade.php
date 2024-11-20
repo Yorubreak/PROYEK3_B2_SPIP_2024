@@ -241,22 +241,171 @@
       }
     });
   });
+
+  document.addEventListener('DOMContentLoaded', function () {
+      const config = {
+        colors: {
+          primary: '#696cff',
+          warning: '#ffb74d'
+        }
+      };
+
+      const cardColor = '#ffffff';
+      const labelColor = '#6c757d';
+      const legendColor = '#6c757d';
+
+      const totalRevenueChartEl = document.querySelector('#totalRevenueChart');
+      if (totalRevenueChartEl) {
+        const totalRevenueChartOptions = {
+          series: [
+            {
+              name: 'Earning',
+              data: [270, 210, 180, 200, 250, 280, 250, 270, 150]
+            },
+            {
+              name: 'Expense',
+              data: [-140, -160, -180, -150, -100, -60, -80, -100, -180]
+            }
+          ],
+          chart: {
+            height: 200,
+            parentHeightOffset: 0,
+            stacked: true,
+            type: 'bar',
+            toolbar: { show: false }
+          },
+          tooltip: {
+            enabled: false
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: '40%',
+              borderRadius: 9,
+              startingShape: 'rounded',
+              endingShape: 'rounded'
+            }
+          },
+          colors: [config.colors.primary, config.colors.warning],
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'smooth',
+            width: 6,
+            lineCap: 'round',
+            colors: [cardColor]
+          },
+          legend: {
+            show: true,
+            horizontalAlign: 'right',
+            position: 'top',
+            fontFamily: 'Public Sans',
+            markers: {
+              height: 12,
+              width: 12,
+              radius: 12,
+              offsetX: -3,
+              offsetY: 2
+            },
+            labels: {
+              colors: legendColor
+            },
+            itemMargin: {
+              horizontal: 10,
+              vertical: 2
+            }
+          },
+          grid: {
+            show: false,
+            padding: {
+              bottom: -8,
+              top: 20
+            }
+          },
+          xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'],
+            labels: {
+              style: {
+                fontSize: '13px',
+                colors: labelColor,
+                fontFamily: 'Public Sans'
+              }
+            },
+            axisTicks: {
+              show: false
+            },
+            axisBorder: {
+              show: false
+            }
+          },
+          yaxis: {
+            labels: {
+              offsetX: -16,
+              style: {
+                fontSize: '13px',
+                colors: labelColor,
+                fontFamily: 'Public Sans'
+              }
+            },
+            min: -200,
+            max: 300,
+            tickAmount: 5
+          }
+        };
+
+        console.log('Chart Options:', totalRevenueChartOptions);
+        console.log('Chart Element:', totalRevenueChartEl);
+
+        const totalRevenueChart = new ApexCharts(totalRevenueChartEl, totalRevenueChartOptions);
+        totalRevenueChart.render();
+      } else {
+        console.error('Element with ID "totalRevenueChart" not found.');
+      }
+    });
 </script>
 
 @endsection
 
+@section('content')
 <div class="container mt-5">
-  <!-- Segment 1 -->
-  <section id="segment1">
-      <h2>Segment 1</h2>
-      <p>Konten untuk Segment 1</p>
-  </section>
+    <!-- Header -->
+    <section id="segment1" style="margin-top: 9%">
+      <h2>Struktur dan Proses</h2>
+      <p>Lingkungan Pengendalian</p>
+
+      <!-- Grid untuk Card -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+        @foreach ($cards as $card)
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-white border-bottom-0">
+              <h6 class="card-title text-wrap">{{ $card['title'] }}</h6>
+            </div>
+            <div class="card-body d-flex flex-column">
+              <p class="mb-1">Skor</p>
+              <h4 class="mb-2">{{ $card['score'] }}</h4>
+              <div class="progress mb-4" style="height: 8px;">
+                <div class="progress-bar bg-primary" style="width: {{ $card['score_width'] }}%" role="progressbar" aria-valuenow="{{ $card['score_width'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <p class="mb-1">Nilai Unsur</p>
+              <h4 class="mb-2">{{ $card['element_value'] }}</h4>
+              <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-warning" style="width: {{ $card['element_width'] }}%" role="progressbar" aria-valuenow="{{ $card['element_width'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endforeach
+      </div>
+    </section>
 
   <!-- Segment 2 -->
   <section id="segment2" class="mt-5">
-      <h2>Segment 2</h2>
-      <p>Konten untuk Segment 2</p>
+    <h2>Segment 2</h2>
+    <p>Konten untuk Segment 2</p>
   </section>
+
 
   <!-- Segment 3: Penilaian Risiko & Pemantauan -->
   <section id="segment3" class="mt-5">
@@ -435,9 +584,35 @@
       </div>
     </div>
 </section>
+@endsection
 
-</div>
+<style>
+  /* Tetapkan tinggi tetap untuk judul */
+  .card-title {
+    min-height: 48px; /* Sesuaikan agar cukup untuk 2 baris teks */
+    line-height: 1.2; /* Jarak antar baris teks */
+    font-size: 16px;
+  }
+
+  /* Flexbox untuk menyusun elemen dalam card-body */
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    justify-content: space-between; /* Membuat progress bar selalu di bawah */
+  }
+
+  /* Atur tinggi card secara seragam */
+  .card {
+    min-height: 320px; /* Sesuaikan dengan desain */
+    border-radius: 10px;
+    max-height: 250px;
+  }
+
+  .progress {
+    height: 8px; /* Tinggi progress bar */
+  }
+</style>
 
 
-</body>
-</html>
+
