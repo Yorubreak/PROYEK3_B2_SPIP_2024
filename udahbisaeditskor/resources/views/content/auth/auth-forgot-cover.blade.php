@@ -44,14 +44,11 @@
           </div>
           <!-- /Logo -->
           <h4 class="mb-1 pt-2">Reset Password</h4>
-          <p class="mb-2">for {{ $email }}</p>
           <p class="mb-3">Please enter your new password below</p>
-
 
           <form id="formAuthentication" class="mb-3" action="{{ route('validasi-forgot-password-act') }}" method="POST">
             @csrf
             <input type="hidden" name="token" value="{{ $token }}">
-            <input type="hidden" name="email" value="{{ $email }}">
 
             <div class="mb-3 form-password-toggle">
               <label for="password" class="form-label">New Password</label>
@@ -62,17 +59,6 @@
                 </span>
               </div>
             </div>
-
-            <div class="mb-3 form-password-toggle">
-              <label for="confirm-password" class="form-label">Confirm New Password</label>
-              <div class="input-group input-group-merge">
-                <input type="password" id="confirm-password" class="form-control" name="confirm_password" required />
-                <span class="input-group-text cursor-pointer toggle-password">
-                  <i class="ti ti-eye-off" id="toggleConfirmPassword"></i>
-                </span>
-              </div>
-            </div>
-
             <button class="btn btn-primary d-grid w-100 mb-3" type="submit">Set New Password</button>
           </form>
 
@@ -96,11 +82,9 @@
 
       if (toggleButton && passwordField) {
         toggleButton.addEventListener("click", function () {
-          // Toggle the type attribute
           const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
           passwordField.setAttribute("type", type);
 
-          // Toggle the icon class
           if (type === "text") {
             toggleButton.classList.remove("ti-eye-off");
             toggleButton.classList.add("ti-eye");
@@ -116,5 +100,16 @@
     togglePasswordVisibility("toggleConfirmPassword", "confirm-password");
   });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('failed'))
+  <script>
+    Swal.fire({
+    icon: "failed",
+    title: "Oops...",
+    text: "{{ $message }}"
+    });
+  </script>
+@endif
 
 @endsection

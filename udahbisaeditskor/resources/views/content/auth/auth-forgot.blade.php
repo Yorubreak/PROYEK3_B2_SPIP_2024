@@ -80,9 +80,10 @@
               </tr>
               <tr>
                 <td style="padding: 10px 60px; text-align: center;">
-                  <a href="{{ $link }}" style="display: inline-block; text-decoration: none; color: #fff; background-color: #001B82; border-radius: 25px; padding: 10px 20px; font-size: 14px; font-weight: 600;">
+                  <a href="{{ route('validasi-forgot-password', ['token' => $token]) }}" style="display: inline-block; text-decoration: none; color: #fff; background-color: #001B82; border-radius: 25px; padding: 10px 20px; font-size: 14px; font-weight: 600;">
                     Reset Your Password
                 </a>
+
                 </td>
               </tr>
               <tr>

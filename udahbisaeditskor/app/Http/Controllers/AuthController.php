@@ -83,13 +83,7 @@ class AuthController extends Controller
             ]
         );
 
-        $link = route('validasi-forgot-password', ['token' => $token]) . '?email=' . urlencode($request->email);
-
-        try {
-          Mail::to($request->email)->send(new ResetPasswordMail($link));
-        } catch (\Exception $e) {
-            return redirect()->route('forgot-password')->with('error', 'Failed to send email. Please try again later.');
-        }
+        Mail::to($request->email)->send(new ResetPasswordMail($token));
 
         return redirect()->route('forgot-password')->with('success', 'Please check your email for password reset instructions.');
     }
@@ -97,13 +91,44 @@ class AuthController extends Controller
 
     public function validasiforgotpassword(Request $request, $token)
     {
-        $email = $request->query('email');
-        return view('content.auth.auth-forgot-cover', compact('token', 'email'));
+        $getToken = PasswordResetToken::where('token', $token)->first();
+
+        if (!$getToken) {
+            return redirect()->route('forgot-password')->with('failed', 'Token tidak valid');
+        }
+
+        return view('content.auth.auth-forgot-cover', compact('token'));
     }
 
 
+    public function validasiforgotpasswordact(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:8'
+        ]);
+
+        $token = PasswordResetToken::where('token', $request->token)->first();
 
 
+
+        if (!$token) {
+            return redirect()->route('forgot-password')->with('failed', 'Token tidak valid');
+        }
+
+        $user = User::where('email', $token->email)->first();
+
+        if (!$user) {
+            return redirect()->route('forgot-password')->with('failed', 'Email tidak ditemukan');
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        $token->delete();
+
+        return redirect()->route('auth-login')->with('success', 'Password berhasil diubah');
+    }
 
     public function register()
     {
