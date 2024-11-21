@@ -50,11 +50,18 @@ class AuthController extends Controller
         ];
 
         if (Auth::attempt($data)) {
-            return redirect()->route('admin.admin')->with('success', 'Login successful!');
+            $user = Auth::user(); // Ambil data pengguna yang login
+
+            // Periksa apakah pengguna adalah superadmin
+            if ($user->isSuperadmin) {
+                return redirect()->route('app-email')->with('success', 'Login successful as Superadmin!');
+            }
+            return redirect()->route('admin.admin')->with('success', 'Login successful as Admin!');
         } else {
             return redirect()->route('auth-login')->with('error', 'Login failed! Please try again.');
         }
     }
+
 
     public function forgotpassword()
     {
@@ -162,6 +169,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'isSuperadmin' => false,
         ]);
 
         // Redirect ke halaman login dengan pesan sukses
@@ -171,7 +179,7 @@ class AuthController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('content.pages.pages-account-settings-account', compact('user'));
+        return view('content.auth.pages-account-settings-account', compact('user'));
     }
 
     public function update(Request $request, $id)
@@ -211,7 +219,7 @@ class AuthController extends Controller
     public function editpas($id)
     {
         $user = User::findOrFail($id);
-        return view('content.pages.pages-account-settings-security', compact('user'));
+        return view('content.auth.pages-account-settings-security', compact('user'));
     }
 
     public function logout()
@@ -235,4 +243,46 @@ class AuthController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Profile image reset to default.']);
     }
+
+    public function changePassword(Request $request, $id)
+{
+    try {
+        // Validate the request data
+        $request->validate([
+          'currentPassword' => 'required', // Password lama wajib diisi
+          'newPassword' => [
+              'required', // Password baru wajib diisi
+              'min:2', // Minimal 8 karakter
+              'confirmed', // Memastikan newPassword dan confirmPassword cocok
+          ],
+      ]);
+
+        // dd('Validation passed'); // Checking if validation is passed
+        // dd($request->newPassword, $request->newPassword_confirmation);
+
+        $user = User::findOrFail($id); // Mendapatkan user berdasarkan id
+
+        // dd($user); // Check user data after finding it
+
+        // Check if the current password is correct
+        if (!Hash::check($request->currentPassword, $user->password)) {
+            return redirect()->back()->withErrors(['currentPassword' => 'The current password is incorrect.']);
+        }
+
+
+        // Update the user's password
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+
+        // Redirect back with success message
+        return redirect()->route('admin.pages-account-settings-security', ['id' => $user->id])->with('success', 'Password successfully changed.');
+
+    } catch (\Exception $e) {
+        // Use dd() to display error details
+        // dd($request->all()); // Cek data yang dikirimkan
+
+        dd('Error in changePassword: ' . $e->getMessage());
+    }
+}
+
 }

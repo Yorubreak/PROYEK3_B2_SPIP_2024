@@ -209,15 +209,17 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
 //Route::get('/nyobatabel', [ControllerAdmin::class, 'getElemenKomponens'])->name('nyobatabel');
-Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
-  // Admin
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin.superadmin'], 'as' => 'admin.'], function () {
   Route::get('/', [ControllerAdmin::class, 'getElemenKomponens'])->name('admin');
 
   Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
   Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
   Route::get('/pages/account-settings-security/{id}', [AuthController::class, 'editpas'])->name('pages-account-settings-security');
   Route::put('/reset-image/{id}', [AuthController::class, 'resetImage'])->name('reset.image');
+  Route::put('/changepassword/{id}', [AuthController::class, 'changePassword'])->name('change.password');
 });
+
+
 
 Route::get('/editskor/{bulan}/{tahun}', [ControllerAdmin::class, 'editskor'])->name('editskor');
 Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
@@ -261,7 +263,7 @@ Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
 
 
 
-Route::get('/admin/nyobapace', [StrukturdanProses::class, 'nyobapace'])->name('admin-nyobapace');
+Route::get('/admin/nyobapace', [ControllerAdmin::class, 'getElemenKomponens'])->name('admin-nyobapace');
 
 
 
