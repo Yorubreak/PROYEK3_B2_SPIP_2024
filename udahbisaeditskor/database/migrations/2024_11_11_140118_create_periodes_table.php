@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('periodes', function (Blueprint $table) {
-            $table->string('tahun');
+            $table->integer('tahun');
             $table->string('bulan');
             $table->integer('no_bln');
             $table->timestamps();

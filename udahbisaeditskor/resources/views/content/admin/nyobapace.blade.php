@@ -12,14 +12,14 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-12 action-table d-flex align-items-center justify-content-start gap-2 mb-2">
+    <div class="col-lg-5 col-12 action-table d-flex align-items-center justify-content-start gap-2 mb-2">
       <div class="dropdown">
         <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">2023</button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" id="tahunDropdown">
             @foreach ($tahun as $thn)
-                <li><a class="dropdown-item" href="javascript:void(0);" onclick="updateTahun('{{ $thn }}')">{{ $thn }}</a></li>
+                <li><a class="dropdown-item" href="javascript:void(0);" onclick="updateTahun({{ $thn }})">{{ $thn }}</a></li>
             @endforeach
-            {{-- onclick="updateTahun('{{ $thn->id }}', '{{ $thn->tahun }}')" --}}
+            <li style="text-align: center"><a class="dropdown-item" href="javascript:void(0);" onclick="seederTahunBulan('{{ $thn }}')"><i class="ti ti-plus ti-l"></i></a></li>
         </ul>
       </div>
 
@@ -30,6 +30,9 @@
           </ul>
       </div>
       <a id="editSkorButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
+      <a id="exportPdf" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Ekspor PDF</a>
+      <p>Last Update by : </p>
+
     </div>
     <table class="table table-bordered table-striped">
         <thead>
@@ -54,7 +57,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  let tahun = '2023';
+  let tahun = 2023;
   let bulan = 'Januari';
 
   window.onload = function() {
@@ -62,11 +65,13 @@
     getData(tahun, bulan); // Panggil fungsi yang diinginkan
     updateTahun(tahun);
     updateBulan(bulan, tahun);
-};
+}
 
-  function updateTahun(tahun) {
+  function updateTahun(Selectedtahun) {
+    tahun = Selectedtahun;
     console.log(tahun);
     document.getElementById('dropdownTahun').innerText = tahun;
+    // getData(tahun, bulan);
 
     // Fetch months associated with selected tahunId
     fetch(`/bulan-by-tahun/${tahun}`)
@@ -90,6 +95,13 @@
             });
         })
         .catch(error => console.error('Error fetching months:', error));
+        updateBulan(bulan, tahun);
+        const editSkorButton = document.getElementById('editSkorButton');
+        editSkorButton.href = `/editskor/${bulan}/${tahun}`;
+
+        document.getElementById('exportPdf').href = `/generate-pdf/${tahun}/${bulan}`;
+        getData(tahun, bulan);
+        // updateBulan(bulan, tahun)
 }
 
 
@@ -99,6 +111,8 @@
     // Update the Edit Skor button link with the selected bulanId
     const editSkorButton = document.getElementById('editSkorButton');
     editSkorButton.href = `/editskor/${bulan}/${tahun}`;
+    console.log(tahun, bulan);
+    document.getElementById('exportPdf').href = `/generate-pdf/${tahun}/${bulan}`;
 
     // Fetch data only if both tahunId and bulanId are set
     if (tahun && bulan) {
@@ -134,7 +148,7 @@
                         const tr = document.createElement('tr');
                         tr.innerHTML = `<td colspan = "6" ><strong>&nbsp;&nbsp;&nbsp;${uns.nama_komponen}</strong></td>`;
                         isiTabel.appendChild(tr);
-                      
+
                       }else{
                         // Create a row for each unsur (with indentation)
                         const tr = document.createElement('tr');
@@ -187,11 +201,47 @@ function runSeeder(bulan, tahun) {
             Swal.fire({
                 title: 'Gagal!',
                 text: 'Gagal menjalankan Seeder. Silakan coba lagi.',
+                any : 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+}
+
+function seederTahunBulan(tahun) {
+    console.log(tahun);
+    fetch(`/seederTahun/${tahun}`)
+        .then(response => response.json())
+        .then(result => {
+            // Menampilkan alert sukses menggunakan SweetAlert2
+            Swal.fire({
+                title: 'Berhasil!',
+                text: result.success,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }) .then(() => {
+                // Refresh halaman setelah alert ditutup
+                location.reload();
+            });
+
+            // Memperbarui tampilan tombol dropdown
+            updateTahun(tahun);
+
+            // Memanggil fungsi getData jika diperlukan
+            getData(tahun, bulan);
+        })
+        .catch(error => {
+            console.error('Error running seeder:', error);
+            // Menampilkan alert error menggunakan SweetAlert2
+            Swal.fire({
+                title: 'Gagal!',
+                text: 'Gagal menjalankan Seeder. Silakan coba lagi.',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
         });
 }
+
+
 
 </script>
 @endsection
