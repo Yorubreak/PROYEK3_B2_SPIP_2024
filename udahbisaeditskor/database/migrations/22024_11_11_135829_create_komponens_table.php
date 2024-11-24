@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('id_komponen');
             $table->string('nama_komponen');
             $table->string('bulan');
-            $table->string('tahun');
+            $table->integer('tahun');
             $table->integer('kom_id_komponen')->nullable();
             $table->string('tipe_komponen');
             $table->boolean('has_child')->nullable();

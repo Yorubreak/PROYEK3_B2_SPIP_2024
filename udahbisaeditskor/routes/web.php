@@ -204,10 +204,9 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
-//Route::get('/nyobatabel', [ControllerAdmin::class, 'getElemenKomponens'])->name('nyobatabel');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
   // Admin
-  Route::get('/', [ControllerAdmin::class, 'getElemenKomponens'])->name('admin');
+  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
 
   Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
   Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
@@ -216,21 +215,24 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], 
 });
 
 Route::get('/editskor/{bulan}/{tahun}', [ControllerAdmin::class, 'editskor'])->name('editskor');
-Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
-Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
-
 Route::put('/submitskor/{id_komponen}', [ControllerAdmin::class, 'submitskor'])->name('submitskor');
-Route::put('/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('submitskorSP');
-Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
-
 Route::get('/bulan-by-tahun/{tahun}', [ControllerAdmin::class, 'getBulanByTahunId']);
 Route::get('/databytahunbulan/{tahun}/{bulan}', [ControllerAdmin::class, 'getDataByTahunBulan']);
 
 Route::get('/run-seeder/{bulan}/{tahun}', function ($bulan, $tahun) {
     session(['bulan' => $bulan, 'tahun' => $tahun]);
     Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederKomponen']);
-    return response()->json(['success' => 'Data berhasil ditambahkan untuk bulan' . $bulan . ' tahun ' . $tahun]);
+    return response()->json(['success' => 'Data berhasil ditambahkan untuk bulan ' . $bulan . ' tahun ' . $tahun]);
 });
+
+Route::get('/seederTahun/{tahun}', function ($tahun) {
+  session(['tahun' => $tahun]);
+  Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederPeriode']);
+  return response()->json(['success' => 'Tahun ' . $tahun + 1 . ' berhasil ditambahkan']);
+});
+
+Route::get('/generate-pdf/{tahun}/{bulan}', [ControllerAdmin::class, 'generatePdf']);
+
 
 Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
     session(['bulanId' => $bulanId]);
