@@ -185,8 +185,6 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //login
 Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
 Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
-Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
-Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth-logout');
 Route::get('/forgot-password', [AuthController::class, 'forgotpassword'])->name('forgot-password');
 Route::post('/forgot-password-act', [AuthController::class, 'forgotpassword_action'])->name('forgot-password-action');
@@ -244,6 +242,18 @@ Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
     return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
 });
 
+// Route::get('/app/kanban', [AuthController::class, 'showusers'])->name('users.index');
+// Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
+// Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+
+Route::middleware(['superadmin'])->group(function () {
+  Route::get('/app/kanban', [AuthController::class, 'showusers'])->name('users.index');
+  Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
+  Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+});
+
+
+
 
 // Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
 //   Route::get('/', [ControllerAdmin::class, 'index'])->name('admin-page');
@@ -282,7 +292,7 @@ Route::get('/front-pages/help-center-article', [HelpCenterArticle::class, 'index
 Route::get('/app/email', [Email::class, 'index'])->name('app-email');
 Route::get('/app/chat', [Chat::class, 'index'])->name('app-chat');
 Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
-Route::get('/app/kanban', [Kanban::class, 'index'])->name('app-kanban');
+// Route::get('/app/kanban', [::class, 'index'])->name('app-kanban');
 Route::get('/app/ecommerce/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
 Route::get('/app/ecommerce/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
 Route::get('/app/ecommerce/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');

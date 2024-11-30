@@ -54,7 +54,7 @@ class AuthController extends Controller
 
             // Periksa apakah pengguna adalah superadmin
             if ($user->isSuperadmin) {
-                return redirect()->route('app-email')->with('success', 'Login successful as Superadmin!');
+                return redirect()->route('users.index')->with('success', 'Login successful as Superadmin!');
             }
             return redirect()->route('admin.admin')->with('success', 'Login successful as Admin!');
         } else {
@@ -245,44 +245,45 @@ class AuthController extends Controller
     }
 
     public function changePassword(Request $request, $id)
-{
-    try {
-        // Validate the request data
+    {
+        // Validasi data request
         $request->validate([
-          'currentPassword' => 'required', // Password lama wajib diisi
-          'newPassword' => [
-              'required', // Password baru wajib diisi
-              'min:2', // Minimal 8 karakter
-              'confirmed', // Memastikan newPassword dan confirmPassword cocok
-          ],
-      ]);
+            'currentPassword' => 'required', // Password lama wajib diisi
+            'newPassword' => [
+                'required', // Password baru wajib diisi
+                'min:8', // Minimal 8 karakter
+                'confirmed', // Memastikan newPassword dan confirmPassword cocok
+                'regex:/[A-Z]/', // Memastikan ada minimal 1 huruf kapital
+                'regex:/[0-9]/', // Memastikan ada minimal 1 angka
+            ],
+        ], [
+            'newPassword.regex' => 'Password baru harus mengandung minimal 1 huruf kapital dan 1 angka.',
+        ]);
 
-        // dd('Validation passed'); // Checking if validation is passed
-        // dd($request->newPassword, $request->newPassword_confirmation);
+        // Mendapatkan user berdasarkan id
+        $user = User::findOrFail($id);
 
-        $user = User::findOrFail($id); // Mendapatkan user berdasarkan id
-
-        // dd($user); // Check user data after finding it
-
-        // Check if the current password is correct
+        // Memeriksa apakah password saat ini benar
         if (!Hash::check($request->currentPassword, $user->password)) {
+            // Password lama salah
             return redirect()->back()->withErrors(['currentPassword' => 'The current password is incorrect.']);
+        } else {
+            // Jika password lama benar, maka update password baru
+            $user->password = Hash::make($request->newPassword);
+            $user->save();
+
+            // Redirect ke halaman pengaturan dengan pesan sukses
+            return redirect()->route('admin.pages-account-settings-security', ['id' => $user->id])
+                             ->with('success', 'Password successfully changed.');
         }
-
-
-        // Update the user's password
-        $user->password = Hash::make($request->newPassword);
-        $user->save();
-
-        // Redirect back with success message
-        return redirect()->route('admin.pages-account-settings-security', ['id' => $user->id])->with('success', 'Password successfully changed.');
-
-    } catch (\Exception $e) {
-        // Use dd() to display error details
-        // dd($request->all()); // Cek data yang dikirimkan
-
-        dd('Error in changePassword: ' . $e->getMessage());
     }
-}
+
+
+    public function showusers()
+    {
+        $usersCount = User::count();  // Menghitung jumlah user
+        $users = User::all();         // Mengambil semua user
+        return view('content.auth.ShowUsers', compact('users', 'usersCount'));
+    }
 
 }
