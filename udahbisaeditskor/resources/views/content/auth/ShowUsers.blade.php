@@ -4,31 +4,36 @@
 
 @section('content')
 <div class="container my-4">
-    <h1 class="my-4 text-center">User List</h1>
-
-    <!-- Kotak untuk Menampilkan Jumlah User -->
-    <div class="row">
-        <div class="col-md-3">
-            <!-- Kotak Card untuk Total Users dengan ukuran lebih kecil -->
-            <div class="card mb-4" style="width: 120px; height: 120px; border-radius: 8px;">
-                <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                    <h4 class="text-center" style="font-size: 1rem;">Total Users:</h4>
-                    <!-- Menggunakan <h1> untuk menampilkan angka dengan ukuran lebih besar -->
-                    <h1 class="text-center text-primary" style="font-size: 1.2rem; margin-top: 4px;">
-                        {{ $usersCount }}
-                    </h1>
-                </div>
-            </div>
+    <!-- Menampilkan pesan sukses atau error -->
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="col-12 col-md-8 card-separator">
+      <h3>Welcome back, {{ Auth::user()->username }} 👋🏻 </h3>
+      <div class="col-12 col-lg-8">
+        <p>Selamat Datang , Ayo Mulai Kelola Data Dengan Baik</p>
+      </div>
     </div>
 
-    <!-- Tombol Tambah User -->
     <div class="d-flex justify-content-end mb-3">
         <a href="{{ url('/register') }}" class="btn btn-success btn-lg">Tambah User</a>
     </div>
 
+    <div class="mb-0" style="margin-bottom: 0 !important;">
+      <span class="text-muted">Total Users: <strong>{{ $usersCount }}</strong></span>
+    </div>
+
     <!-- Tabel Daftar User -->
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered" style="margin-top: 0;">
         <thead class="thead-dark">
             <tr>
                 <th>ID</th>
@@ -36,6 +41,7 @@
                 <th>Email</th>
                 <th>Role</th>
                 <th>Profile Picture</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -53,6 +59,14 @@
                         @else
                             <span>No Image</span>
                         @endif
+                    </td>
+                    <td>
+                        <!-- Tombol Delete -->
+                        <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

@@ -250,7 +250,10 @@ Route::middleware(['superadmin'])->group(function () {
   Route::get('/app/kanban', [AuthController::class, 'showusers'])->name('users.index');
   Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
   Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+
+  Route::delete('/user/delete/{id}', [AuthController::class, 'deleteUser'])->name('users.delete');
 });
+
 
 
 

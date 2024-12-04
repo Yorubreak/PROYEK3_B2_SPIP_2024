@@ -286,4 +286,19 @@ class AuthController extends Controller
         return view('content.auth.ShowUsers', compact('users', 'usersCount'));
     }
 
+
+  public function deleteUser($id)
+  {
+      $user = User::findOrFail($id);
+
+      if ($user->isSuperadmin) {
+          return redirect()->route('users.index')->with('error', 'Cannot delete superadmin user.');
+      }
+
+      $user->delete();
+
+      return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+  }
+
+
 }
