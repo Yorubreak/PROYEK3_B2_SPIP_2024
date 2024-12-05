@@ -165,6 +165,7 @@ use App\Http\Controllers\pages\TestPage;
 use App\Http\Controllers\testPage as ControllersTestPage;
 use App\Http\Controllers\front_pages\Penilaian;
 use App\Http\Controllers\front_pages\ViewUser;
+use App\Http\Controllers\front_pages\ViewUserPencapaiantujuan;
 
 //login
 use App\Http\Controllers\loginController;
@@ -173,7 +174,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
 //Views User
-Route::get('viewuser', [ViewUser:: class, 'index'])->name('dasbooard-view_user');
+Route::get('viewuser', [ViewUser:: class, 'index'])->name('dasboard-view_user');
+Route::get(uri: 'view-user-pencapaiantujuan',action:[ViewUserPencapaiantujuan::class,'index'])->name('dashboard-view-user-pencapaiantujuan');
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
 // Main Page Route
