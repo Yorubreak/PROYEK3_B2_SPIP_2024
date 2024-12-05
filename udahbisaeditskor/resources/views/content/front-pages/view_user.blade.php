@@ -260,15 +260,15 @@
           series: [
             {
               name: 'Earning',
-              data: [270, 210, 180, 200, 250, 280, 250, 270, 150]
+              data: [270, 210, 180, 200, 250, 280, 250, 270, 150, 220, 180]
             },
             {
               name: 'Expense',
-              data: [-140, -160, -180, -150, -100, -60, -80, -100, -180]
+              data: [-140, -160, -180, -150, -100, -60, -80, -100, -180, -170, -122]
             }
           ],
           chart: {
-            height: 200,
+            height: 300,
             parentHeightOffset: 0,
             stacked: true,
             type: 'bar',
@@ -280,7 +280,7 @@
           plotOptions: {
             bar: {
               horizontal: false,
-              columnWidth: '40%',
+              columnWidth: '20%',
               borderRadius: 9,
               startingShape: 'rounded',
               endingShape: 'rounded'
@@ -324,7 +324,7 @@
             }
           },
           xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'],
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov'],
             labels: {
               style: {
                 fontSize: '13px',
@@ -348,8 +348,8 @@
                 fontFamily: 'Public Sans'
               }
             },
-            min: -200,
-            max: 300,
+            min: -5,
+            max: 5,
             tickAmount: 5
           }
         };
@@ -400,11 +400,78 @@
       </div>
     </section>
 
-  <!-- Segment 2 -->
-  <section id="segment2" class="mt-5">
-    <h2>Segment 2</h2>
-    <p>Konten untuk Segment 2</p>
-  </section>
+    <section id="segment2" class="mt-5">
+      <p>Kegiatan Pengendalian</p>
+
+      <!-- Grid untuk Card -->
+      <div class="row row-cols-1 row-cols-md-2 g-3">
+        <!-- Card 1 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
+              <!-- 6 Card di dalam Card 1 -->
+              @foreach ($card1Data as $card)
+                <div class="row row-cols-1 g-3 mb-4">
+                  <div class="col">
+                    <div class="card h-100 shadow-sm">
+                      <div class="card-header bg-white border-bottom-0">
+                        <h6 class="card-title text-wrap">{{ $card['title'] }}</h6>
+                      </div>
+                      <div class="card-body">
+                        <p class="mb-1">Skor</p>
+                        <h4 class="mb-2">{{ $card['score'] }}</h4>
+                        <div class="progress mb-4" style="height: 8px;">
+                          <div class="progress-bar bg-info" style="width: {{ $card['score_width'] }}%" role="progressbar" aria-valuenow="{{ $card['score_width'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+
+                        <p class="mb-1">Nilai Unsur</p>
+                        <h4 class="mb-2">{{ $card['element_value'] }}</h4>
+                        <div class="progress" style="height: 8px;">
+                          <div class="progress-bar bg-primary" style="width: {{ $card['element_width'] }}%" role="progressbar" aria-valuenow="{{ $card['element_width'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
+              <!-- 5 Card di dalam Card 2 -->
+              @foreach ($card2Data as $card)
+                <div class="row row-cols-1 g-3 mb-4">
+                  <div class="col">
+                    <div class="card h-100 shadow-sm">
+                      <div class="card-header bg-white border-bottom-0">
+                        <h6 class="card-title text-wrap">{{ $card['title'] }}</h6>
+                      </div>
+                      <div class="card-body">
+                        <p class="mb-1">Skor</p>
+                        <h4 class="mb-2">{{ $card['score'] }}</h4>
+                        <div class="progress mb-4" style="height: 8px;">
+                          <div class="progress-bar bg-info" style="width: {{ $card['score_width'] }}%" role="progressbar" aria-valuenow="{{ $card['score_width'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+
+                        <p class="mb-1">Nilai Unsur</p>
+                        <h4 class="mb-2">{{ $card['element_value'] }}</h4>
+                        <div class="progress" style="height: 8px;">
+                          <div class="progress-bar bg-primary" style="width: {{ $card['element_width'] }}%" role="progressbar" aria-valuenow="{{ $card['element_width'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
 
   <!-- Segment 3: Penilaian Risiko & Pemantauan -->
@@ -589,18 +656,18 @@
 <style>
   /* Tetapkan tinggi tetap untuk judul */
   .card-title {
-    min-height: 48px; /* Sesuaikan agar cukup untuk 2 baris teks */
-    line-height: 1.2; /* Jarak antar baris teks */
+    min-height: 48px;
+    line-height: 1.2;
     font-size: 16px;
   }
 
   /* Flexbox untuk menyusun elemen dalam card-body */
-  .card-body {
+  /* .card-body {
     display: flex;
     flex-direction: column;
     padding: 15px;
     justify-content: space-between; /* Membuat progress bar selalu di bawah */
-  }
+  } */
 
   /* Atur tinggi card secara seragam */
   .card {
@@ -610,8 +677,14 @@
   }
 
   .progress {
-    height: 8px; /* Tinggi progress bar */
+    height: 10px; /* Tinggi progress bar */
   }
+
+  #totalRevenueChart {
+    width: 100%;   /* Membuat chart mengikuti lebar card */
+    height: 300px; /* Menyesuaikan tinggi chart sesuai kebutuhan */
+  }
+
 </style>
 
 
