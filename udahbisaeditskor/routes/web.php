@@ -166,6 +166,7 @@ use App\Http\Controllers\testPage as ControllersTestPage;
 use App\Http\Controllers\front_pages\Penilaian;
 use App\Http\Controllers\front_pages\ViewUser;
 use App\Http\Controllers\front_pages\ViewUserPencapaiantujuan;
+use App\Http\Controllers\front_pages\ViewUserPenetapan;
 
 //login
 use App\Http\Controllers\loginController;
@@ -176,6 +177,8 @@ use Illuminate\Support\Facades\Auth;
 //Views User
 Route::get('viewuser', [ViewUser:: class, 'index'])->name('dasboard-view_user');
 Route::get(uri: 'view-user-pencapaiantujuan',action:[ViewUserPencapaiantujuan::class,'index'])->name('dashboard-view-user-pencapaiantujuan');
+Route::get('viewuser', [ViewUser:: class, 'index'])->name('dasbooard-view_user');
+Route::get('/penilaian/viewuserpenetapan',[ViewUserPenetapan::class, 'index'])->name('dashboard-view-user-penetapan');
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
 // Main Page Route

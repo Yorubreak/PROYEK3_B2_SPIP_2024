@@ -281,6 +281,7 @@ $configData = Helper::appClasses();
       <div class="row justify-content-center">
         <!-- Generated Leads 1 -->
         <div class="col-md-4 mb-4">
+          <a href="{{url('/penilaian/viewuserpenetapan')}}">
           <div class="card">
             <div class="card-body">
               <div class="d-flex justify-content-between">
@@ -294,11 +295,13 @@ $configData = Helper::appClasses();
               </div>
             </div>
           </div>
+          </a>
         </div>
         <!-- /Generated Leads 1 -->
 
         <!-- Generated Leads 2 -->
         <div class="col-md-4 mb-4">
+          <a href="{{url('viewuser')}}">
           <div class="card">
             <div class="card-body">
               <div class="d-flex justify-content-between">
@@ -312,6 +315,7 @@ $configData = Helper::appClasses();
               </div>
             </div>
           </div>
+          </a>
         </div>
         <!-- /Generated Leads 2 -->
 
