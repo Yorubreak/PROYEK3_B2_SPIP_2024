@@ -192,8 +192,8 @@ Route::post('/validasi-forgot-password-act', [AuthController::class, 'validasifo
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
 Route::get('/layouts/content-navbar', [ContentNavbar::class, 'index'])->name('layouts-content-navbar');
 Route::get('/layouts/content-nav-sidebar', [ContentNavSidebar::class, 'index'])->name('layouts-content-nav-sidebar');
-Route::get('/layouts/navbar-full', [NavbarFull::class, 'index'])->name('layouts-navbar-full');
-Route::get('/layouts/navbar-full-sidebar', [NavbarFullSidebar::class, 'index'])->name('layouts-navbar-full-sidebar');
+// Route::get('/layouts/navbar-full', [NavbarFull::class, 'index'])->name('layouts-navbar-full');
+// Route::get('/layouts/navbar-full-sidebar', [NavbarFullSidebar::class, 'index'])->name('layouts-navbar-full-sidebar');
 Route::get('/layouts/horizontal', [Horizontal::class, 'index'])->name('dashboard-analytics');
 Route::get('/layouts/vertical', [Vertical::class, 'index'])->name('dashboard-analytics');
 Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
@@ -206,7 +206,7 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
   // Admin
-  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
+  Route::get('/{id}', [ControllerAdmin::class, 'index'])->name('admin');
 
   Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
   Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
@@ -259,7 +259,7 @@ Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
 
 
 
-Route::get('/admin/nyobapace', [StrukturdanProses::class, 'nyobapace'])->name('admin-nyobapace');
+// Route::get('/admin/nyobapace', [StrukturdanProses::class, 'nyobapace'])->name('admin-nyobapace');
 
 
 
@@ -360,7 +360,7 @@ Route::get('/cards/basic', [CardBasic::class, 'index'])->name('cards-basic');
 Route::get('/cards/advance', [CardAdvance::class, 'index'])->name('cards-advance');
 Route::get('/cards/statistics', [CardStatistics::class, 'index'])->name('cards-statistics');
 Route::get('/cards/analytics', [CardAnalytics::class, 'index'])->name('cards-analytics');
-Route::get('/cards/gamifications', [CardGamifications::class, 'index'])->name('cards-gamifications');
+// Route::get('/cards/gamifications', [CardGamifications::class, 'index'])->name('cards-gamifications');
 Route::get('/cards/actions', [CardActions::class, 'index'])->name('cards-actions');
 
 // User Interface

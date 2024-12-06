@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Komponen;
 use App\Models\Periode;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ControllerAdmin extends Controller
 {
-public function index()
+public function index($id)
 {
     // Retrieve 'Elemen' type components
     $elemen = Komponen::where('tipe_komponen', 'Elemen')
@@ -30,11 +31,14 @@ public function index()
                         ->orderBy('id_komponen', 'asc')
                         ->get();
 
+    $last_update = Komponen::whereIn('updated_by', [$id])->get();
+    $user = User::find($id);
+
     $bulan = Periode::distinct()->pluck('bulan');
     $tahun = Periode::distinct()->orderby('tahun', 'asc')->pluck('tahun');
 
     // Return the data to the view
-    return view('content.admin.nyobapace', compact('elemen', 'unsur', 'subunsur', 'tahun', 'bulan'));
+    return view('content.admin.nyobapace', compact('elemen', 'unsur', 'subunsur', 'tahun', 'bulan', 'user', 'last_update'));
 }
 
 public function generatePdf($tahun, $bulan)
@@ -161,6 +165,8 @@ public function getBulanByTahunId($tahun)
   $data = [$elmn, $unsr, $subunsr];
     return response()->json($data);
 }
+
+
 
 public function nyobapace()
 {

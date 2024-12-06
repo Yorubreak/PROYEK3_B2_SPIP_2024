@@ -27,14 +27,16 @@ return new class extends Migration
             $table->float('nilai_unsur')->nullable();
             $table->integer('skor')->nullable();
             $table->unsignedBigInteger('id_org');
+            $table->unsignedBigInteger('updated_by')->nullable();
 
+            $table->unique(['tahun', 'bulan']);
 
-            $table->timestamps();
 
             //Foreign Key
             $table->foreign(['tahun', 'bulan'])->references(['tahun', 'bulan'])->on('periodes')->onDelete('cascade');
             $table->foreign('kom_id_komponen')->references('id_komponen')->on('komponens')->onDelete('cascade');
             $table->foreign('id_org')->references('id_org')->on('organisasis')->onDelete('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 

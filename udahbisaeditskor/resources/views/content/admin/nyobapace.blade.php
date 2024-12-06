@@ -19,7 +19,7 @@
             @foreach ($tahun as $thn)
                 <li><a class="dropdown-item" href="javascript:void(0);" onclick="updateTahun({{ $thn }})">{{ $thn }}</a></li>
             @endforeach
-            <li style="text-align: center"><a class="dropdown-item" href="javascript:void(0);" onclick="seederTahunBulan('{{ $thn }}')"><i class="ti ti-plus ti-l"></i></a></li>
+            <li style="text-align: center"><a class="dropdown-item" href="javascript:void(0);" onclick="seederTahunBulan({{ $thn }})"><i class="ti ti-plus ti-l"></i></a></li>
         </ul>
       </div>
 
@@ -31,7 +31,14 @@
       </div>
       <a id="editSkorButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
       <a id="exportPdf" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Ekspor PDF</a>
-      <p>Last Update by : </p>
+      <p>Last Update by:
+        @if($last_update)
+            {{ $last_update->firstname }} {{ $last_update->lastname }}
+        @else
+            -
+        @endif
+    </p>
+    <p>Last Update at: {{ $last_update->updated_at->format('d M Y H:i:s') }}</p>
 
     </div>
     <table class="table table-bordered table-striped">
