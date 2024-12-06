@@ -23,13 +23,13 @@
 
           <!-- Dropdown Menu for Penilaian -->
           <li class="nav-item dropdown">
-            <a class="nav-link fw-medium dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link fw-medium dropdown-toggle" href="{{url('/front-pages/penilaian')}}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Penilaian
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="{{url('/penilaian/viewuserpenetapan')}}">Penetapan Tujuan</a></li>
               <li><a class="dropdown-item" href="{{url('viewuser')}}">Struktur dan Proses</a></li>
-              <li><a class="dropdown-item" href="{{url('front-pages/penilaian/option3')}}">Pencapaian Tujuan SPIP</a></li>
+              <li><a class="dropdown-item" href="{{url('view-user-pencapaiantujuan')}}">Pencapaian Tujuan SPIP</a></li>
             </ul>
           </li>
 
