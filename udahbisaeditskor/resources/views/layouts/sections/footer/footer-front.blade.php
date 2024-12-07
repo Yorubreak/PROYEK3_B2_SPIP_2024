@@ -6,7 +6,7 @@
       <div class="row gx-0 gy-4 g-md-5">
         <div class="col-lg-5 d-flex align-items-center">
           <a href="{{url('front-pages/landing')}}" class="app-brand-link mb-4 d-flex align-items-center">
-            <span class="app-brand-logo demo" style="width: 75x; height: auto; margin-left: 88px;">@include('_partials.macros',['height'=>60,'withbg' => "fill: #fff;"])</span>
+            <span class="app-brand-logo demo" style="width: 77px; height: auto; margin-left: 88px;">@include('_partials.macros',['height'=>60,'withbg' => "fill: #fff;"])</span>
             <div class="text-block" style="display: flex; flex-direction: column;">
               <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1" style="color: #001B82; font-size: 1.5rem;">Politeknik Negeri Bandung</span>
               <span class="footer-link ms-2 ps-1" style="color: #F47C20; font-size: 1.2rem;">Assuring Your Future</span>

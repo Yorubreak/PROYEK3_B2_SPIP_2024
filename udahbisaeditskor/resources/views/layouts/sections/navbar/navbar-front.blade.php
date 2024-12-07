@@ -20,13 +20,24 @@
           <li class="nav-item">
             <a class="nav-link fw-medium" aria-current="page" href="{{url('/')}}#landingHero">Beranda</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link fw-medium" href="{{url('front-pages/penilaian')}}">Penilaian</a>
+
+          <!-- Dropdown Menu for Penilaian -->
+          <li class="nav-item dropdown">
+            <a class="nav-link fw-medium dropdown-toggle" href="{{url('/front-pages/penilaian')}}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Penilaian
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{{url('/penilaian/viewuserpenetapan')}}">Penetapan Tujuan</a></li>
+              <li><a class="dropdown-item" href="{{url('viewuser')}}">Struktur dan Proses</a></li>
+              <li><a class="dropdown-item" href="{{url('view-user-pencapaiantujuan')}}">Pencapaian Tujuan SPIP</a></li>
+            </ul>
           </li>
+
         </ul>
       </div>
       <div class="landing-menu-overlay d-lg-none"></div>
       <!-- Menu wrapper: End -->
+
       <!-- Toolbar: Start -->
       <ul class="navbar-nav flex-row align-items-center ms-auto">
         @if($configData['hasCustomizer'] == true)
@@ -65,3 +76,11 @@
     </div>
   </div>
 </nav>
+
+<style>
+  /* CSS untuk membuat dropdown muncul saat hover */
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: block; /* Menampilkan dropdown saat hover */
+  }
+
+</style>
