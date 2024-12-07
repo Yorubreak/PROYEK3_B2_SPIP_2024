@@ -111,7 +111,9 @@ class AuthController extends Controller
     public function validasiforgotpasswordact(Request $request)
     {
         $request->validate([
-            'password' => 'required|min:8'
+          'password' => 'required|min:8|regex:/[A-Z]/|regex:/[0-9]/',
+        ], [
+          'password.regex' => 'Password baru harus mengandung minimal 1 huruf kapital dan 1 angka.'
         ]);
 
         $token = PasswordResetToken::where('token', $request->token)->first();
@@ -146,16 +148,17 @@ class AuthController extends Controller
     {
         // Validasi input termasuk cek unik pada username dan email dengan pesan khusus
         $validator = Validator::make($request->all(), [
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'nullable|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
-        ], [
-            // Pesan error khusus
-            'username.unique' => 'Username sudah terdaftar, silakan pilih username lain.',
-            'email.unique' => 'Email sudah terdaftar, silakan gunakan email lain.'
-        ]);
+          'firstname' => 'required|string|max:255',
+          'lastname' => 'nullable|string|max:255',
+          'username' => 'required|string|max:255|unique:users,username',
+          'email' => 'required|email|unique:users,email',
+          'password' => 'required|min:8|regex:/[A-Z]/|regex:/[0-9]/',
+      ], [
+          // Pesan error khusus
+          'username.unique' => 'Username sudah terdaftar, silakan pilih username lain.',
+          'email.unique' => 'Email sudah terdaftar, silakan gunakan email lain.',
+          'password.regex' => 'Password baru harus mengandung minimal 1 huruf kapital dan 1 angka.',
+      ]);
 
         // Jika validasi gagal, kembalikan ke halaman sebelumnya dengan pesan error
         if ($validator->fails()) {
@@ -299,6 +302,4 @@ class AuthController extends Controller
 
       return redirect()->route('users.index')->with('success', 'User deleted successfully.');
   }
-
-
 }

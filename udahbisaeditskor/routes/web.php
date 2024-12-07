@@ -247,7 +247,7 @@ Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
 // Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 
 Route::middleware(['superadmin'])->group(function () {
-  Route::get('/app/kanban', [AuthController::class, 'showusers'])->name('users.index');
+  Route::get('/usersdata', [AuthController::class, 'showusers'])->name('users.index');
   Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
   Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 
