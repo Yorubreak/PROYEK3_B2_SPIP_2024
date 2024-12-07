@@ -24,8 +24,9 @@
       const labelColor = '#495057';
       const chartColors = {
           donut: {
-              series1: '#7367f0',
-              series3: '#28c76f'
+              series1: '#fee802',
+              series2: '#ffaf00',
+              series3: '#9747FF'
           }
       };
 
@@ -88,7 +89,7 @@
                           data: [30, 30, 60]
                       }
                   ],
-                  colors: [chartColors.donut.series1, chartColors.donut.series3],
+                  colors: [chartColors.donut.series1, chartColors.donut.series2, chartColors.donut.series3],
                   xaxis: {
                       categories: ['Administrasi', 'Fisik', 'Hukum'],
                       labels: {

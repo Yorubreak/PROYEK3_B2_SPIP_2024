@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 
-class ViewUser extends Controller
+class ViewUserStrukturproses extends Controller
 {
     public function index(): Factory|View
     {
@@ -45,7 +45,7 @@ class ViewUser extends Controller
 
         $pageConfigs = ['myLayout' => 'front'];
 
-        return view('content.front-pages.view_user', [
+        return view('content.front-pages.view-user-strukturproses', [
             'pageConfigs' => $pageConfigs,
             'cards' => $cards,
             'card1Data' => $card1Data,

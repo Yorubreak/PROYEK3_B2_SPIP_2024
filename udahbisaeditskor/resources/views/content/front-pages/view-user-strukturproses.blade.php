@@ -452,7 +452,7 @@
                       </div>
                       <div class="card-body">
                         <p class="mb-1">Skor</p>
-                        <h4 class="mb-2">{{ $card['score'] }}</h4>
+                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                         <div class="progress mb-4" style="height: 8px;">
                           <div class="progress-bar bg-info" style="width: {{ $card['score_width'] }}%" role="progressbar" aria-valuenow="{{ $card['score_width'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
@@ -488,7 +488,7 @@
                             <div class="d-flex justify-content-between">
                                 <div class="d-flex flex-column">
                                     <div class="card-title mb-auto">
-                                        <h5 class="mb-1 text-nowrap">Penilaian Risiko</h5>
+                                        <h5 class="mt-1 text-nowrap">Penilaian Risiko</h5>
                                         <small>Nilai Komponen</small>
                                     </div>
                                 </div>
@@ -506,7 +506,8 @@
                                 <div class="d-flex flex-column">
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Identifikasi Risiko</h5>
-                                        <small>Nilai Komponen</small>
+                                        <small>Skor</small>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="identifikasirisiko" style="margin-right: 20px;"></div>
@@ -524,6 +525,7 @@
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Analisis Risiko</h5>
                                         <small>Skor</small>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="analisisrisiko" style="margin-right: 20px"></div>
@@ -558,6 +560,7 @@
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Informasi Relevan</h5>
                                         <small>Skor</small>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="informasirelevan" style="margin-right: 20px"></div>
@@ -575,6 +578,7 @@
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Komunikasi Efektif</h5>
                                         <small>Skor</small>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="komunikasiefektif" style="margin-right: 20px"></div>
@@ -609,6 +613,7 @@
                                         <h5 class="mb-1 text-nowrap">Pemantauan </h5>
                                         <h5 class="mb-1 text-nowrap">Berkelanjutan</h5>
                                         <small>Skor</small>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="pemantauanberkelanjutan" style="margin-right: 20px"></div>
@@ -626,6 +631,7 @@
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Evaluasi Terpisah</h5>
                                         <small>Skor</small>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="evaluasiterpisah" style="margin-right: 20px"></div>
