@@ -208,7 +208,7 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
 //Route::get('/nyobatabel', [ControllerAdmin::class, 'getElemenKomponens'])->name('nyobatabel');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin.superadmin'], 'as' => 'admin.'], function () {
-  Route::get('/', [ControllerAdmin::class, 'getElemenKomponens'])->name('admin');
+  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
 
   Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
   Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');

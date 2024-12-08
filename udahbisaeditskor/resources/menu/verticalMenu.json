@@ -35,7 +35,7 @@
       ]
     },
     {
-      "url": "/app/kanban",
+      "url": "/usersdata",
       "name": "Data User",
       "icon": "menu-icon tf-icons ti ti-users",
       "slug": "user-data"
