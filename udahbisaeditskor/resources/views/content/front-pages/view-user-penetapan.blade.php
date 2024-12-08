@@ -19,12 +19,13 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function(){
+      const BKPT = @json($bobotKomponen);
 
 const generateLeads = [
   {
     elementId: 'penetapanTujuan',
-    labels:['Bobot Unsur'],
-    series:[30,70],
+    labels:['Bobot Komponen'],
+    series:[(BKPT * 100),100 - (BKPT * 100)],
     colors:['#fee802','#fbfcd9']
   }
 ]

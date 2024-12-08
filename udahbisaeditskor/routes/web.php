@@ -177,16 +177,19 @@ use Illuminate\Support\Facades\Auth;
 //Views User
 Route::get('viewuser', [ViewUser:: class, 'index'])->name('dasboard-view_user');
 Route::get(uri: 'view-user-pencapaiantujuan',action:[ViewUserPencapaiantujuan::class,'index'])->name('dashboard-view-user-pencapaiantujuan');
-Route::get('viewuser', [ViewUser:: class, 'index'])->name('dasbooard-view_user');
 Route::get('/penilaian/viewuserpenetapan',[ViewUserPenetapan::class, 'index'])->name('dashboard-view-user-penetapan');
+
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
+
 // Main Page Route
 //Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
+
 // locale
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
 //login
 Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
 Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');

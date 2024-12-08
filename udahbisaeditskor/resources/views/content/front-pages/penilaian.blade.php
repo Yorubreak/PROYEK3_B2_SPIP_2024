@@ -24,26 +24,31 @@ $configData = Helper::appClasses();
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Data dan konfigurasi untuk beberapa donut chart
+    const nakom = @json($namaKomponen);
+    const bokom = @json($bobotKomponen);
+    const nilaimaturitas = @json($totalNilaiKomponen);
     const chartsData = [
       {
         elementId: 'donutChart1', // ID untuk elemen chart pertama
-        labels: ['Penetapan Tujuan', 'Struktur dan Proses', 'Pencapaian Tujuan'],
-        series: [35, 35, 30],
+        labels: nakom,
+        series: bokom,
         colors: ['#fee802', '#826bf8', '#FFAF00'],
         show: true,
         dataLabels: true,
         tooltip: true,
-        states: 'lighten'
+        states: 'lighten',
+        persen: '%'
       },
       {
         elementId: 'donutChart2', // ID untuk elemen chart kedua
         labels: ['Nilai Maturitas'],
-        series: [70, 30],
+        series: [nilaimaturitas, 5 - nilaimaturitas],
         colors: ['#fee200', '#fbfcd9'],
         show: false,
         dataLabels: false,
         tooltip: false,
-        states: 'none'
+        states: 'none',
+        persen: ''
       },
     ];
 
@@ -106,7 +111,7 @@ $configData = Helper::appClasses();
                     color: '#333',
                     label: chartData.labels[0], // Tampilkan label pertama sebagai total
                     formatter: function () {
-                      return chartData.series[0] + '%'; // Menampilkan persentase pertama sebagai total
+                      return chartData.series[0] + chartData.persen; // Menampilkan persentase pertama sebagai total
                     },
                   },
                 },
@@ -136,24 +141,25 @@ $configData = Helper::appClasses();
   });
 
   document.addEventListener('DOMContentLoaded', function(){
+    const nikom = @json($nilaiKomponen)
 
     const generateLeads = [
       {
         elementId: 'generateLead1',
-        labels:['Bobot'],
-        series:[30,70],
+        labels:['PT'],
+        series:[nikom[0], 5 - nikom[0]],
         colors:['#fee802','#fbfcd9'],
       },
       {
         elementId: 'generateLead2',
-        labels:['Bobot'],
-        series:[60,40],
+        labels:['SP'],
+        series:[nikom[1], 5 - nikom[1]],
         colors:['#9747FF','#e9dff7'],
       },
       {
         elementId: 'generateLead3',
-        labels:['Bobot'],
-        series:[30,70],
+        labels:['PTSPIP'],
+        series:[nikom[2], 5 - nikom[2]],
         colors:['#ffaf00','#fff2d6'],
       }
     ]
@@ -205,7 +211,7 @@ $configData = Helper::appClasses();
                     color: '#8c8c8c',
                     fontFamily: 'Public Sans',
                     formatter: function (val) {
-                      return parseInt(val, 10) + '%';
+                      return parseInt(val, 10);
                     },
                   },
                   total: {
@@ -214,7 +220,7 @@ $configData = Helper::appClasses();
                     color: '#333',
                     label: generateLead.labels[0], // Tampilkan label pertama sebagai total
                     formatter: function () {
-                      return generateLead.series[0] + '%'; // Menampilkan persentase pertama sebagai total
+                      return generateLead.series[0]; // Menampilkan persentase pertama sebagai total
                     },
                   },
                 },

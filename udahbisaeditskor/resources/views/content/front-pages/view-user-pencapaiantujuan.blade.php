@@ -19,6 +19,16 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+      const BUEE0 = @json($BUEE[0]);
+      const BUEE1 = @json($BUEE[1]);
+      document.getElementById('skor-BU0-value').textContent = BUEE0;
+      document.getElementById('skor-BU1-value').textContent = BUEE1;
+
+      const skorEE = @json($skorEE);
+      const skorKLK = @json($skorKLK);
+      const skorKP = @json($skorKP);
+      const skorPA = @json($skorPA);
+
       const legendColor = '#6c757d';
       const borderColor = '#dee2e6';
       const labelColor = '#495057';
@@ -72,20 +82,21 @@
                       }
                   },
                   yaxis: {
-                      show: false
+                      show: false,
+                      max: 100
                   },
                   series: [
                       {
                           name: 'skor1',
-                          data: [60, 30, 30]
+                          data: [(skorPA[0] / 5 * 100), 30, 30]
                       },
                       {
                           name: 'skor2',
-                          data: [30, 60, 30]
+                          data: [30, (skorPA[1] / 5 * 100), 30]
                       },
                       {
                           name: 'skor3',
-                          data: [30, 30, 60]
+                          data: [30, 30, (skorPA[2] / 5 * 100)]
                       }
                   ],
                   colors: [chartColors.donut.series1, chartColors.donut.series3],
@@ -130,13 +141,13 @@
               elementId: 'Outcome',
               colors: '#7367f0',
               grad: '#7367f0',
-              series: 100,
+              series: skorEE[0] / 5 * 100,
           },
           {
               elementId: 'Output',
               colors: '#f76657',
               grad:'#eb4634',
-              series: 100,
+              series: skorEE[1] / 5 * 100,
           }
       ];
 
@@ -246,13 +257,13 @@
       {
         elementId: 'OpiniLK',
         labels:['Skor'],
-        series:[30,70],
+        series:[skorKLK, 5 - skorKLK],
         colors:['#fee802','#fbfcd9'],
       },
       {
         elementId: 'TemuanKetaatan',
         labels:['Skor'],
-        series:[60,40],
+        series:[skorKP, 5 - skorKP],
         colors:['#9747FF','#e9dff7'],
       }
     ]
@@ -359,9 +370,9 @@
                 <div class="col-4 d-flex-column align-items-start justify-content-left">
                     <h5 class="text-left ml-2">Efektivitas dan Efisiensi</h5>
                     <h5 class="text-left">Bobot Outcome</h5>
-                    <h5 class="text-left">5.0</h5>
+                    <h5 class="text-left" id="skor-BU0-value"></h5>
                     <h5 class="text-left">Bobot Output</h5>
-                    <h5 class="text-left">3.0</h5>
+                    <h5 class="text-left" id="skor-BU1-value"></h5>
                 </div>
                 <!-- Bagian Tengah -->
                 <div class="col-4 d-flex flex-column align-items-center">
