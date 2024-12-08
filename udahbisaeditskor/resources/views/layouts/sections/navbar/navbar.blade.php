@@ -114,8 +114,16 @@ $navbarDetached = ($navbarDetached ?? '');
               </li>
             </ul>
           </li>
+
+          <!-- Tombol Back dengan Ikon -->
+          <div class="navbar-nav ms-3">
+            <a href="javascript:history.back()" class="nav-item nav-link px-0 me-xl-4">
+              <i class="ti ti-arrow-left ti-md"></i>
+            </a>
+          </div>
           <!--/ Style Switcher -->
           @endif
+
 
           {{-- <!-- Quick links  -->
           <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">

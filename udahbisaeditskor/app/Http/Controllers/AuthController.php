@@ -50,14 +50,18 @@ class AuthController extends Controller
         ];
 
         if (Auth::attempt($data)) {
-          // $id = Auth::user()->id;
+            $user = Auth::user(); // Ambil data pengguna yang login
 
-          return redirect()->route('admin.admin')->with('success', 'Login successful!');
-
+            // Periksa apakah pengguna adalah superadmin
+            if ($user->isSuperadmin) {
+                return redirect()->route('users.index')->with('success', 'Login successful as Superadmin!');
+            }
+            return redirect()->route('admin.admin')->with('success', 'Login successful as Admin!');
         } else {
             return redirect()->route('auth-login')->with('error', 'Login failed! Please try again.');
         }
     }
+
 
     public function forgotpassword()
     {
@@ -107,7 +111,9 @@ class AuthController extends Controller
     public function validasiforgotpasswordact(Request $request)
     {
         $request->validate([
-            'password' => 'required|min:8'
+          'password' => 'required|min:8|regex:/[A-Z]/|regex:/[0-9]/',
+        ], [
+          'password.regex' => 'Password baru harus mengandung minimal 1 huruf kapital dan 1 angka.'
         ]);
 
         $token = PasswordResetToken::where('token', $request->token)->first();
@@ -142,16 +148,17 @@ class AuthController extends Controller
     {
         // Validasi input termasuk cek unik pada username dan email dengan pesan khusus
         $validator = Validator::make($request->all(), [
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'nullable|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
-        ], [
-            // Pesan error khusus
-            'username.unique' => 'Username sudah terdaftar, silakan pilih username lain.',
-            'email.unique' => 'Email sudah terdaftar, silakan gunakan email lain.'
-        ]);
+          'firstname' => 'required|string|max:255',
+          'lastname' => 'nullable|string|max:255',
+          'username' => 'required|string|max:255|unique:users,username',
+          'email' => 'required|email|unique:users,email',
+          'password' => 'required|min:8|regex:/[A-Z]/|regex:/[0-9]/',
+      ], [
+          // Pesan error khusus
+          'username.unique' => 'Username sudah terdaftar, silakan pilih username lain.',
+          'email.unique' => 'Email sudah terdaftar, silakan gunakan email lain.',
+          'password.regex' => 'Password baru harus mengandung minimal 1 huruf kapital dan 1 angka.',
+      ]);
 
         // Jika validasi gagal, kembalikan ke halaman sebelumnya dengan pesan error
         if ($validator->fails()) {
@@ -165,6 +172,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'isSuperadmin' => false,
         ]);
 
         // Redirect ke halaman login dengan pesan sukses
@@ -174,7 +182,7 @@ class AuthController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('content.pages.pages-account-settings-account', compact('user'));
+        return view('content.auth.pages-account-settings-account', compact('user'));
     }
 
     public function update(Request $request, $id)
@@ -214,7 +222,7 @@ class AuthController extends Controller
     public function editpas($id)
     {
         $user = User::findOrFail($id);
-        return view('content.pages.pages-account-settings-security', compact('user'));
+        return view('content.auth.pages-account-settings-security', compact('user'));
     }
 
     public function logout()
@@ -238,4 +246,60 @@ class AuthController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Profile image reset to default.']);
     }
+
+    public function changePassword(Request $request, $id)
+    {
+        // Validasi data request
+        $request->validate([
+            'currentPassword' => 'required', // Password lama wajib diisi
+            'newPassword' => [
+                'required', // Password baru wajib diisi
+                'min:8', // Minimal 8 karakter
+                'confirmed', // Memastikan newPassword dan confirmPassword cocok
+                'regex:/[A-Z]/', // Memastikan ada minimal 1 huruf kapital
+                'regex:/[0-9]/', // Memastikan ada minimal 1 angka
+            ],
+        ], [
+            'newPassword.regex' => 'Password baru harus mengandung minimal 1 huruf kapital dan 1 angka.',
+        ]);
+
+        // Mendapatkan user berdasarkan id
+        $user = User::findOrFail($id);
+
+        // Memeriksa apakah password saat ini benar
+        if (!Hash::check($request->currentPassword, $user->password)) {
+            // Password lama salah
+            return redirect()->back()->withErrors(['currentPassword' => 'The current password is incorrect.']);
+        } else {
+            // Jika password lama benar, maka update password baru
+            $user->password = Hash::make($request->newPassword);
+            $user->save();
+
+            // Redirect ke halaman pengaturan dengan pesan sukses
+            return redirect()->route('admin.pages-account-settings-security', ['id' => $user->id])
+                             ->with('success', 'Password successfully changed.');
+        }
+    }
+
+
+    public function showusers()
+    {
+        $usersCount = User::count();  // Menghitung jumlah user
+        $users = User::all();         // Mengambil semua user
+        return view('content.auth.ShowUsers', compact('users', 'usersCount'));
+    }
+
+
+  public function deleteUser($id)
+  {
+      $user = User::findOrFail($id);
+
+      if ($user->isSuperadmin) {
+          return redirect()->route('users.index')->with('error', 'Cannot delete superadmin user.');
+      }
+
+      $user->delete();
+
+      return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+  }
 }

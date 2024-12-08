@@ -164,12 +164,16 @@ use App\Http\Controllers\maps\Leaflet;
 use App\Http\Controllers\pages\TestPage;
 use App\Http\Controllers\testPage as ControllersTestPage;
 use App\Http\Controllers\front_pages\Penilaian;
+use App\Http\Controllers\front_pages\ViewUser;
+
 //login
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\admin\ControllerAdmin;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
+//Views User
+Route::get('viewuser', [ViewUser:: class, 'index'])->name('dasbooard-view_user');
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
 // Main Page Route
@@ -181,8 +185,6 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //login
 Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
 Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
-Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
-Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth-logout');
 Route::get('/forgot-password', [AuthController::class, 'forgotpassword'])->name('forgot-password');
 Route::post('/forgot-password-act', [AuthController::class, 'forgotpassword_action'])->name('forgot-password-action');
@@ -204,15 +206,18 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
-Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
-  // Admin
-  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
+//Route::get('/nyobatabel', [ControllerAdmin::class, 'getElemenKomponens'])->name('nyobatabel');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin.superadmin'], 'as' => 'admin.'], function () {
+  Route::get('/', [ControllerAdmin::class, 'getElemenKomponens'])->name('admin');
 
   Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
   Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
   Route::get('/pages/account-settings-security/{id}', [AuthController::class, 'editpas'])->name('pages-account-settings-security');
   Route::put('/reset-image/{id}', [AuthController::class, 'resetImage'])->name('reset.image');
+  Route::put('/changepassword/{id}', [AuthController::class, 'changePassword'])->name('change.password');
 });
+
+
 
 Route::get('/editskor/{bulan}/{tahun}', [ControllerAdmin::class, 'editskor'])->name('editskor');
 Route::get('/editbobot/{bulan}/{tahun}', [ControllerAdmin::class, 'editbobot'])->name('editbobot');
@@ -245,6 +250,21 @@ Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
     return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
 });
 
+// Route::get('/app/kanban', [AuthController::class, 'showusers'])->name('users.index');
+// Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
+// Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+
+Route::middleware(['superadmin'])->group(function () {
+  Route::get('/usersdata', [AuthController::class, 'showusers'])->name('users.index');
+  Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
+  Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+
+  Route::delete('/user/delete/{id}', [AuthController::class, 'deleteUser'])->name('users.delete');
+});
+
+
+
+
 
 // Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
 //   Route::get('/', [ControllerAdmin::class, 'index'])->name('admin-page');
@@ -264,7 +284,7 @@ Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
 
 
 
-// Route::get('/admin/nyobapace', [StrukturdanProses::class, 'nyobapace'])->name('admin-nyobapace');
+Route::get('/admin/nyobapace', [ControllerAdmin::class, 'getElemenKomponens'])->name('admin-nyobapace');
 
 
 
@@ -283,7 +303,7 @@ Route::get('/front-pages/help-center-article', [HelpCenterArticle::class, 'index
 Route::get('/app/email', [Email::class, 'index'])->name('app-email');
 Route::get('/app/chat', [Chat::class, 'index'])->name('app-chat');
 Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
-Route::get('/app/kanban', [Kanban::class, 'index'])->name('app-kanban');
+// Route::get('/app/kanban', [::class, 'index'])->name('app-kanban');
 Route::get('/app/ecommerce/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
 Route::get('/app/ecommerce/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
 Route::get('/app/ecommerce/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');

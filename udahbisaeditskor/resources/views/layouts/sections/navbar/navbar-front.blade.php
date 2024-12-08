@@ -57,7 +57,7 @@
         @endif
         <!-- navbar button: Start -->
         <li>
-          <a href="{{url('/login')}}" class="btn btn-primary" target=""><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span><span class="d-none d-md-block">Login/Register</span></a>
+          <a href="{{url('/login')}}" class="btn btn-primary" target=""><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span><span class="d-none d-md-block">Login</span></a>
         </li>
         <!-- navbar button: End -->
       </ul>
