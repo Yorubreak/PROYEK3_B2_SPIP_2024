@@ -38,6 +38,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Username</th>
                 <th>Email</th>
                 <th>Role</th>
                 <th>Profile Picture</th>
@@ -46,31 +47,54 @@
         </thead>
         <tbody>
             @foreach($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->firstname . ' ' . $user->lastname }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        {{ $user->isSuperadmin ? 'Superadmin' : 'Admin' }}
-                    </td>
-                    <td>
-                        @if($user->image)
-                            <img src="{{ asset('storage/'.$user->image) }}" alt="Profile Picture" class="img-fluid" style="max-width: 50px; height: 50px; object-fit: cover;">
-                        @else
-                            <span>No Image</span>
-                        @endif
-                    </td>
-                    <td>
-                        <!-- Tombol Delete -->
-                        <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+            @if  (!$user->isSuperadmin)
+              <tr>
+                <td>{{ $user->id }}</td>
+                <td>{{ $user->firstname . ' ' . $user->lastname }}</td>
+                <td>{{$user->username}}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    {{ $user->isSuperadmin ? 'Superadmin' : 'Admin' }}
+                </td>
+                <td>
+                    @if($user->image)
+                        <img src="{{ asset('storage/'.$user->image) }}" alt="Profile Picture" class="img-fluid" style="max-width: 50px; height: 50px; object-fit: cover;">
+                    @else
+                        <span>No Image</span>
+                    @endif
+                </td>
+                <td>
+                    <!-- Tombol Delete -->
+                    <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display:inline-block;" id="delete-form-{{ $user->id }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $user->id }})">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endif
             @endforeach
         </tbody>
     </table>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika konfirmasi diterima, submit form yang sesuai
+                document.getElementById('delete-form-' + userId).submit();
+            }
+        });
+    }
+</script>
 @endsection
