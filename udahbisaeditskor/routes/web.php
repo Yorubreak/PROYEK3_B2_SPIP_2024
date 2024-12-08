@@ -194,16 +194,17 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //login
 Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
 Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
-Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
-Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth-logout');
-
+Route::get('/forgot-password', [AuthController::class, 'forgotpassword'])->name('forgot-password');
+Route::post('/forgot-password-act', [AuthController::class, 'forgotpassword_action'])->name('forgot-password-action');
+Route::get('/validasi-forgot-password/{token}', [AuthController::class, 'validasiforgotpassword'])->name('validasi-forgot-password');
+Route::post('/validasi-forgot-password-act', [AuthController::class, 'validasiforgotpasswordact'])->name('validasi-forgot-password-act');
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
 Route::get('/layouts/content-navbar', [ContentNavbar::class, 'index'])->name('layouts-content-navbar');
 Route::get('/layouts/content-nav-sidebar', [ContentNavSidebar::class, 'index'])->name('layouts-content-nav-sidebar');
-Route::get('/layouts/navbar-full', [NavbarFull::class, 'index'])->name('layouts-navbar-full');
-Route::get('/layouts/navbar-full-sidebar', [NavbarFullSidebar::class, 'index'])->name('layouts-navbar-full-sidebar');
+// Route::get('/layouts/navbar-full', [NavbarFull::class, 'index'])->name('layouts-navbar-full');
+// Route::get('/layouts/navbar-full-sidebar', [NavbarFullSidebar::class, 'index'])->name('layouts-navbar-full-sidebar');
 Route::get('/layouts/horizontal', [Horizontal::class, 'index'])->name('dashboard-analytics');
 Route::get('/layouts/vertical', [Vertical::class, 'index'])->name('dashboard-analytics');
 Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
@@ -214,40 +215,64 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // Front Pages
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
-Route::get('/nyobatabel', [ControllerAdmin::class, 'getElemenKomponens'])->name('nyobatabel');
-Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
-  // Admin
+//Route::get('/nyobatabel', [ControllerAdmin::class, 'getElemenKomponens'])->name('nyobatabel');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin.superadmin'], 'as' => 'admin.'], function () {
   Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
-
-  Route::get('/editskorPT/{bulanId}', [ControllerAdmin::class, 'editskorPT'])->name('editskorPT');
-  Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
-  Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
-
-  Route::put('/submitskorPT/{id}', [ControllerAdmin::class, 'submitskorPT'])->name('submitskorPT');
-  Route::put('/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('submitskorSP');
-  Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
-
-  Route::get('/bulan-by-tahun/{tahun}', [ControllerAdmin::class, 'getBulanByTahunId']);
-  Route::get('/databytahunbulan/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulan']);
-  Route::get('/databytahunbulanSP/{bulanId}', [ControllerAdmin::class, 'getDataByTahunBulanSP']);
-
-  Route::get('/run-seederPT/{bulanId}', function ($bulanId) {
-      session(['bulanId' => $bulanId]);
-      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederPT']);
-      return response()->json(['success' => 'SeederPT executed with bulan_id: ' . $bulanId]);
-  });
-
-  Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
-      session(['bulanId' => $bulanId]);
-      Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederSP']);
-      return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
-  });
 
   Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
   Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
   Route::get('/pages/account-settings-security/{id}', [AuthController::class, 'editpas'])->name('pages-account-settings-security');
   Route::put('/reset-image/{id}', [AuthController::class, 'resetImage'])->name('reset.image');
+  Route::put('/changepassword/{id}', [AuthController::class, 'changePassword'])->name('change.password');
 });
+
+
+
+Route::get('/editskor/{bulan}/{tahun}', [ControllerAdmin::class, 'editskor'])->name('editskor');
+Route::get('/editbobot/{bulan}/{tahun}', [ControllerAdmin::class, 'editbobot'])->name('editbobot');
+Route::put('/submitskor/{id_komponen}', [ControllerAdmin::class, 'submitskor'])->name('submitskor');
+Route::put('/submitbobot/{id_komponen}', [ControllerAdmin::class, 'submitbobot'])->name('submitbobot');
+Route::put('/submitunsur/{id_komponen}', [ControllerAdmin::class, 'submitunsur'])->name('submitunsur');
+Route::get('/bulan-by-tahun/{tahun}', [ControllerAdmin::class, 'getBulanByTahunId']);
+Route::get('/databytahunbulan/{tahun}/{bulan}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+Route::put('/update-komponen-batch', [ControllerAdmin::class, 'updateKomponenBatch']);
+
+
+Route::get('/run-seeder/{bulan}/{tahun}', function ($bulan, $tahun) {
+    session(['bulan' => $bulan, 'tahun' => $tahun]);
+    Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederKomponen']);
+    return response()->json(['success' => 'Data berhasil ditambahkan untuk bulan ' . $bulan . ' tahun ' . $tahun]);
+});
+
+Route::get('/seederTahun/{tahun}', function ($tahun) {
+  session(['tahun' => $tahun]);
+  Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederPeriode']);
+  return response()->json(['success' => 'Tahun ' . $tahun + 1 . ' berhasil ditambahkan']);
+});
+
+Route::get('/generate-pdf/{tahun}/{bulan}', [ControllerAdmin::class, 'generatePdf']);
+
+
+Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
+    session(['bulanId' => $bulanId]);
+    Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederSP']);
+    return response()->json(['success' => 'SeederSP executed with bulan_id: ' . $bulanId]);
+});
+
+// Route::get('/app/kanban', [AuthController::class, 'showusers'])->name('users.index');
+// Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
+// Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+
+Route::middleware(['superadmin'])->group(function () {
+  Route::get('/usersdata', [AuthController::class, 'showusers'])->name('users.index');
+  Route::get('/register', [AuthController::class, 'register'])->name('auth-register');
+  Route::post('/auth-create', [AuthController::class, 'create'])->name('auth-create');
+
+  Route::delete('/user/delete/{id}', [AuthController::class, 'deleteUser'])->name('users.delete');
+});
+
+
+
 
 
 // Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
@@ -264,6 +289,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], 
 
 
 
+
+
+
+
+Route::get('/admin/nyobapace', [ControllerAdmin::class, 'getElemenKomponens'])->name('admin-nyobapace');
+
+
+
+
+
+
+
 Route::get('/front-pages/penilaian', [Penilaian::class, 'index'])->name('front-pages-penilaian');
 Route::get('/front-pages/pricing', [Pricing::class, 'index'])->name('front-pages-pricing');
 Route::get('/front-pages/payment', [Payment::class, 'index'])->name('front-pages-payment');
@@ -275,7 +312,7 @@ Route::get('/front-pages/help-center-article', [HelpCenterArticle::class, 'index
 Route::get('/app/email', [Email::class, 'index'])->name('app-email');
 Route::get('/app/chat', [Chat::class, 'index'])->name('app-chat');
 Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
-Route::get('/app/kanban', [Kanban::class, 'index'])->name('app-kanban');
+// Route::get('/app/kanban', [::class, 'index'])->name('app-kanban');
 Route::get('/app/ecommerce/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
 Route::get('/app/ecommerce/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
 Route::get('/app/ecommerce/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
@@ -337,9 +374,9 @@ Route::get('/auth/register-cover', [RegisterCover::class, 'index'])->name('auth-
 Route::get('/auth/register-multisteps', [RegisterMultiSteps::class, 'index'])->name('auth-register-multisteps');
 Route::get('/auth/verify-email-basic', [VerifyEmailBasic::class, 'index'])->name('auth-verify-email-basic');
 Route::get('/auth/verify-email-cover', [VerifyEmailCover::class, 'index'])->name('auth-verify-email-cover');
-Route::get('/auth/reset-password-basic', [ResetPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
+// Route::get('/auth/reset-password-basic', [ResetPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 Route::get('/auth/reset-password-cover', [ResetPasswordCover::class, 'index'])->name('auth-reset-password-cover');
-Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
+// Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 Route::get('/auth/forgot-password-cover', [ForgotPasswordCover::class, 'index'])->name('auth-forgot-password-cover');
 Route::get('/auth/two-steps-basic', [TwoStepsBasic::class, 'index'])->name('auth-two-steps-basic');
 Route::get('/auth/two-steps-cover', [TwoStepsCover::class, 'index'])->name('auth-two-steps-cover');
@@ -357,7 +394,7 @@ Route::get('/cards/basic', [CardBasic::class, 'index'])->name('cards-basic');
 Route::get('/cards/advance', [CardAdvance::class, 'index'])->name('cards-advance');
 Route::get('/cards/statistics', [CardStatistics::class, 'index'])->name('cards-statistics');
 Route::get('/cards/analytics', [CardAnalytics::class, 'index'])->name('cards-analytics');
-Route::get('/cards/gamifications', [CardGamifications::class, 'index'])->name('cards-gamifications');
+// Route::get('/cards/gamifications', [CardGamifications::class, 'index'])->name('cards-gamifications');
 Route::get('/cards/actions', [CardActions::class, 'index'])->name('cards-actions');
 
 // User Interface

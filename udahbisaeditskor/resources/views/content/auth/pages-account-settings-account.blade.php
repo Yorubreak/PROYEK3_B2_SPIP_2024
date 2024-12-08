@@ -99,6 +99,12 @@
               <label for="organization" class="form-label">Username</label>
               <span class="d-block">{{ Auth::user()->username }}</span>
             </div>
+            <div class="mb-3 col-md-6">
+              <label for="organization" class="form-label">Role</label>
+              <span class="d-block">
+                {{ Auth::user()->isSuperadmin ? 'Superadmin' : 'Admin' }}
+              </span>
+            </div>
           </div>
           <div class="mt-2">
             <button type="submit" class="btn btn-primary me-2">Save changes</button>

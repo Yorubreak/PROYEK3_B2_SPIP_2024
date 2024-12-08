@@ -3,124 +3,530 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 use App\Models\Komponen;
 
 class SeederKomponen extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Contoh data seeder untuk tabel komponen
-        $komponens = [
-          //Elemen
+        $bulan = Session::get('bulan'); // Default bulan to 1 if not set
+        $tahun = Session::get('tahun'); // Default tahun to 2024 if not set
+
+        // Parent components
+        $parentComponents = [
             [
                 'nama_komponen' => 'Penetapan Tujuan',
-                'tahun' => '2023',
-                'bulan' => 'Januari',
+                'tahun' => $tahun,
+                'bulan' => $bulan,
                 'kom_id_komponen' => null,
                 'tipe_komponen' => 'Elemen',
                 'id_org' => 1,
+                'has_child' => true,
+                'root_id' => null,
             ],
             [
                 'nama_komponen' => 'Struktur dan Proses',
-                'tahun' => '2023',
-                'bulan' => 'Januari',
+                'tahun' => $tahun,
+                'bulan' => $bulan,
                 'kom_id_komponen' => null,
                 'tipe_komponen' => 'Elemen',
                 'id_org' => 1,
+                'has_child' => true,
+                'root_id' => null,
             ],
             [
-                'nama_komponen' => 'Pencpaian Tujuan SPIP',
-                'tahun' => '2023',
-                'bulan' => 'Januari',
+                'nama_komponen' => 'Pencapaian Tujuan SPIP',
+                'tahun' => $tahun,
+                'bulan' => $bulan,
                 'kom_id_komponen' => null,
                 'tipe_komponen' => 'Elemen',
                 'id_org' => 1,
+                'has_child' => true,
+                'root_id' => null,
             ],
+        ];
 
-            //Unsur Penetapan Tujuan
+        $insertedParents = [];
+        foreach ($parentComponents as $component) {
+            $inserted = Komponen::create($component);
+            $insertedParents[] = $inserted->id_komponen;
+        }
+
+        // Child components (adjust kom_id_komponen dynamically)
+        $unsurComponents = [
             [
                 'nama_komponen' => 'Kualitas Sasaran Strategis',
-                'tahun' => '2023',
-                'bulan' => 'Januari',
-                'kom_id_komponen' => 1, // Merujuk ke ID Penetapan Tujuan
+                'tahun' => $tahun,
+                'bulan' => $bulan,
+                'kom_id_komponen' => $insertedParents[0], // Referring to "Penetapan Tujuan"
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
+                'has_child' => false,
+                'root_id' => $insertedParents[0],
             ],
             [
                 'nama_komponen' => 'Kualitas Strategi Pencapaian Sasaran Strategis',
-                'tahun' => '2023',
-                'bulan' => 'Januari',
-                'kom_id_komponen' => 1, // Merujuk ke ID Kualitas Sasaran Strategis
+                'tahun' => $tahun,
+                'bulan' => $bulan,
+                'kom_id_komponen' => $insertedParents[0], // Referring to "Penetapan Tujuan"
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
+                'has_child' => false,
+                'root_id' => $insertedParents[0],
             ],
-
             //Unsur Struktur dan Proses
             [
                 'nama_komponen' => 'Lingkungan Pengendalian',
-                'tahun' => '2023',
-                'bulan' => 'Januari',
-                'kom_id_komponen' => 2, // Merujuk ke ID Penetapan Tujuan
+                'tahun' => $tahun,
+                'bulan' => $bulan,
+                'kom_id_komponen' => $insertedParents[1], // Merujuk ke ID Penetapan Tujuan
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
+                'has_child' => true,
+                'root_id' => $insertedParents[1],
             ],
             [
                 'nama_komponen' => 'Penliaian Resiko',
-                'tahun' => '2023',
-                'bulan' => 'Januari',
-                'kom_id_komponen' => 3, // Merujuk ke ID Kualitas Sasaran Strategis
+                'tahun' => $tahun,
+                'bulan' => $bulan,
+                'kom_id_komponen' => $insertedParents[1], // Merujuk ke ID Kualitas Sasaran Strategis
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
+                'has_child' => true,
+                'root_id' => $insertedParents[1],
             ],
             [
                 'nama_komponen' => 'Kegiatan Pengendalian',
-                'tahun' => '2023',
-                'bulan' => 'Januari',
-                'kom_id_komponen' => 2, // Merujuk ke ID Penetapan Tujuan
+                'tahun' => $tahun,
+                'bulan' => $bulan,
+                'kom_id_komponen' => $insertedParents[1], // Merujuk ke ID Penetapan Tujuan
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
+                'has_child' => true,
+                'root_id' => $insertedParents[1],
           ],
           [
                 'nama_komponen' => 'Informasi dan Komunikasi',
-                'tahun' => '2023',
-                'bulan' => 'Januari',
-                'kom_id_komponen' => 3, // Merujuk ke ID Kualitas Sasaran Strategis
+                'tahun' => $tahun,
+                'bulan' => $bulan,
+                'kom_id_komponen' => $insertedParents[1], // Merujuk ke ID Kualitas Sasaran Strategis
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
+                'has_child' => true,
+                'root_id' => $insertedParents[1],
           ],
           [
               'nama_komponen' => 'Pemantauan',
-              'tahun' => '2023',
-              'bulan' => 'Januari',
-              'kom_id_komponen' => 2, // Merujuk ke ID Penetapan Tujuan
+              'tahun' => $tahun,
+              'bulan' => $bulan,
+              'kom_id_komponen' => $insertedParents[1], // Merujuk ke ID Penetapan Tujuan
               'tipe_komponen' => 'Unsur',
               'id_org' => 1,
+              'has_child' => true,
+              'root_id' => $insertedParents[1],
           ],
 
-        //   //SubUnsur Struktur dan Proses
-        //   [
-        //     'nama_komponen' => 'Penegakan Integritas dan Nilai Etika',
-        //     'tahun' => '2023',
-        //     'bulan' => 'Januari',
-        //     'kom_id_komponen' => , // Merujuk ke ID Penetapan Tujuan
-        //     'tipe_komponen' => 'Unsur',
-        //     'id_org' => 1,
-        // ],
-        // [
-        //     'nama_komponen' => 'Penliaian Resiko',
-        //     'tahun' => '2023',
-        //     'bulan' => 'Januari',
-        //     'kom_id_komponen' => 3, // Merujuk ke ID Kualitas Sasaran Strategis
-        //     'tipe_komponen' => 'Unsur',
-        //     'id_org' => 1,
-        // ],
+          //Unsur Pencapaian Tujuan SPIP
+          [
+              'nama_komponen' => 'Efektivitas dan Efisiensi',
+              'tahun' => $tahun,
+              'bulan' => $bulan,
+              'kom_id_komponen' => $insertedParents[2], // Merujuk ke ID Penetapan Tujuan
+              'tipe_komponen' => 'Unsur',
+              'id_org' => 1,
+              'has_child' => true,
+              'root_id' => $insertedParents[2],
+          ],
+          [
+              'nama_komponen' => 'Keandalan Laporan Keuangan',
+              'tahun' => $tahun,
+              'bulan' => $bulan,
+              'kom_id_komponen' => $insertedParents[2], // Merujuk ke ID Kualitas Sasaran Strategis
+              'tipe_komponen' => 'Unsur',
+              'id_org' => 1,
+              'has_child' => true,
+              'root_id' => $insertedParents[2],
+          ],
+          [
+              'nama_komponen' => 'Pengamanan atas Aset',
+              'tahun' => $tahun,
+              'bulan' => $bulan,
+              'kom_id_komponen' => $insertedParents[2], // Merujuk ke ID Penetapan Tujuan
+              'tipe_komponen' => 'Unsur',
+              'id_org' => 1,
+              'has_child' => true,
+              'root_id' => $insertedParents[2],
+          ],
+          [
+              'nama_komponen' => 'Ketaatan pada Peraturan',
+              'tahun' => $tahun,
+              'bulan' => $bulan,
+              'kom_id_komponen' => $insertedParents[2], // Merujuk ke ID Kualitas Sasaran Strategis
+              'tipe_komponen' => 'Unsur',
+              'id_org' => 1,
+              'has_child' => true,
+              'root_id' => $insertedParents[2],
+          ],
         ];
 
-        foreach ($komponens as $data) {
-            Komponen::create($data);
+        $insertedUnsur = [];
+        foreach ($unsurComponents as $unscomponent) {
+          $insUns = Komponen::create($unscomponent);
+          $insertedUnsur[] = $insUns->id_komponen;
+        }
+
+      $subUnsurComponents = [
+
+        //   //SubUnsur Struktur dan Proses (Lingkungan Pengendalian)
+          [
+            'nama_komponen' => 'Penegakan Integritas dan Nilai Etika',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+         ],
+         [
+            'nama_komponen' => 'Komitmen terhadap Kompetensi',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+          [
+            'nama_komponen' => 'Kepemimpinan yang Kondusif',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+         ],
+         [
+            'nama_komponen' => 'Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+          [
+            'nama_komponen' => 'Pendelegasian Wewenang dan Tanggung Jawab yang Tepat',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan SDM',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+          [
+            'nama_komponen' => 'Perwujudan Peran APIP yang Efektif',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+
+          //Sub Unsur Struktur dan proses (Penilaian Resiko)
+          [
+            'nama_komponen' => 'Identifikasi Risiko',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[3], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Analisis Risiko',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[3], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+
+          //Sub Unsur Struktur dan proses (Kegiatan Pengendalian)
+          [
+            'nama_komponen' => 'Reviu atas Kinerja Instansi Pemerintah',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Pembinaan Sumber Daya Manusia',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+          [
+            'nama_komponen' => 'Pengendalian atas Pengelolaan Sistem Informasi',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Pengendalian Fisik atas Aset',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+          [
+            'nama_komponen' => 'Penetapan dan Reviu atas Indikator dan Ukuran Kinerja',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Pemisahan Fungsi',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+          [
+            'nama_komponen' => 'Otorisasi atas Transaksi dan Kejadian yang Penting',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Pencatatan yang Akurat dan Tepat Waktu atas Transaksi dan Kejadian',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+          [
+            'nama_komponen' => 'Pembatasan Akses atas Sumber Daya dan Pencatatannya',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+          [
+            'nama_komponen' => 'Akuntabilitas terhadap Sumber Daya dan Pencatatannya',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Dokumentasi yang Baik atas SPI serta Transaksi dan Kejadian Penting',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+
+
+          //Sub Unsur Struktur Proses (Informasi dan Komunikasi)
+          [
+            'nama_komponen' => 'Informasi yang Relevan',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[5], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Komunikasi yang Efektif',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[5], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+
+          //Sub Unsur Struktur Proses (Pemantauan)
+          [
+            'nama_komponen' => 'Pemantauan Berkelanjutan',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[6], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+         [
+            'nama_komponen' => 'Evaluasi Terpisah',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[6], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
+          ],
+
+
+          //Sub Unsur Pencapaian Tujuan SPIP (Efektivitas dan Efisiiensi)
+          [
+            'nama_komponen' => 'Capaian Outcome',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[7], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[2],
+          ],
+         [
+            'nama_komponen' => 'Capaian Output',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[7], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[2],
+          ],
+
+          //Sub Unsur Pencapaian Tujuan SPIP (Keandalan Laporan Keuangan)
+          [
+            'nama_komponen' => 'Opini LK',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[8], // Merujuk ke ID Penetapan Tujuan
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[2],
+          ],
+
+
+         //Sub Unsur Pencapaian Tujuan SPIP (Pengamanan atas Aset)
+         [
+            'nama_komponen' => 'Keamanan Administrasi',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[9], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[2],
+          ],
+          [
+            'nama_komponen' => 'Keamanan Fisik',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[9], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[2],
+          ],
+          [
+            'nama_komponen' => 'Keamanan Hukum',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[9], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[2],
+          ],
+
+          //Sub Unsur Pencapaian Tujuan SPIP (Ketaatan pada Peraturan)
+          [
+            'nama_komponen' => 'Temuan Ketaatan - BPK',
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'kom_id_komponen' => $insertedUnsur[10], // Merujuk ke ID Kualitas Sasaran Strategis
+            'tipe_komponen' => 'Sub Unsur',
+            'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[2],
+          ],
+
+        ];
+
+        // DB::table('komponens')->insert($subUnsurComponents);
+
+        $inserterSub = [];
+        foreach ($subUnsurComponents as $subcomponent) {
+          Komponen::create($subcomponent);
         }
     }
 }

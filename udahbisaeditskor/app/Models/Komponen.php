@@ -16,4 +16,11 @@ class Komponen extends Model
 
     // Nonaktifkan timestamps jika tidak diperlukan
     public $timestamps = false;
+
+    // Komponen.php
+    // public function updatedBy()
+    // {
+    //     return $this->belongsTo(User::class, 'updated_by');
+    // }
+
 }

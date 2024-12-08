@@ -21,7 +21,8 @@ $configData = Helper::appClasses();
 @vite([ 'resources/assets/js/charts-apex.js'])
 @vite([ 'resources/assets/js/app-ecommerce-dashboard.js'])
 
-<script>
+<script type="module">
+
   document.addEventListener('DOMContentLoaded', function () {
     // Data dan konfigurasi untuk beberapa donut chart
     const nakom = @json($namaKomponen);

@@ -64,7 +64,7 @@ $customizerHidden = 'customizer-hide';
             <div class="mb-3 form-password-toggle">
               <div class="d-flex justify-content-between">
                 <label class="form-label" for="password">Password</label>
-                <a href="{{url('auth/forgot-password-basic')}}">
+                <a href="{{url('/forgot-password')}}">
                   <small>Forgot Password?</small>
                 </a>
               </div>
@@ -91,12 +91,12 @@ $customizerHidden = 'customizer-hide';
             </div>
           </form>
 
-          <p class="text-center">
+          {{-- <p class="text-center">
             <span>New on our platform?</span>
             <a href="{{url('/register')}}">
               <span>Create an account</span>
             </a>
-          </p>
+          </p> --}}
 
           {{-- <div class="divider my-4">
             <div class="divider-text">or</div>
@@ -150,15 +150,26 @@ $customizerHidden = 'customizer-hide';
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if($message = Session::get('error'))
   <script>
-    Swal.fire('{{ $message }}');
+    Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: "{{ $message }}"
+    });
   </script>
 @endif
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if($message = Session::get('success'))
-  <script>
-    Swal.fire('{{ $message }}');
-  </script>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '{{ $message }}',
+        position: 'center', // Mengatur posisi di tengah
+        showConfirmButton: false,
+        timer: 1500
+    });
+</script>
 @endif
+
 
 @endsection

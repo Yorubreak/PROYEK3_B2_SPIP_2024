@@ -1,7 +1,7 @@
 @php
 $customizerHidden = 'customizer-hide';
 @endphp
-@extends('layouts/layoutMaster')
+@extends('layouts/blankLayout')
 
 @section('title', 'Forgot Password Basic - Pages')
 
@@ -47,15 +47,19 @@ $customizerHidden = 'customizer-hide';
           <!-- /Logo -->
           <h4 class="mb-1 pt-2">Forgot Password?</h4>
           <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
-          <form id="formAuthentication" class="mb-3" action="{{url('auth/reset-password-basic')}}" method="GET">
+          <form id="formAuthentication" class="mb-3" action="{{ route('forgot-password-action') }}" method="POST">
+            @csrf
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus required>
             </div>
+            @error('email')
+              <small class="text-danger">{{ $message }}</small>
+            @enderror
             <button class="btn btn-primary d-grid w-100">Send Reset Link</button>
           </form>
           <div class="text-center">
-            <a href="{{url('auth/login-basic')}}" class="d-flex align-items-center justify-content-center">
+            <a href="{{url('/login')}}" class="d-flex align-items-center justify-content-center">
               <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
               Back to login
             </a>
@@ -66,4 +70,43 @@ $customizerHidden = 'customizer-hide';
     </div>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '{{ $message }}',
+        position: 'center', // Mengatur posisi di tengah
+        showConfirmButton: false,
+        timer: 1500
+    });
+</script>
+@endif
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: '{{ $message }}',
+        position: 'center', // Mengatur posisi di tengah
+        showConfirmButton: false,
+        timer: 1500
+    });
+</script>
+@endif
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($message = Session::get('failed'))
+  <script>
+    Swal.fire({
+    icon: "failed",
+    title: "Oops...",
+    text: "{{ $message }}"
+    });
+  </script>
+@endif
+
+
 @endsection
