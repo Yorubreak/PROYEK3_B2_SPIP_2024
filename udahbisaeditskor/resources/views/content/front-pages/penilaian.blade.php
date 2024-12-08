@@ -22,237 +22,301 @@ $configData = Helper::appClasses();
 @vite([ 'resources/assets/js/app-ecommerce-dashboard.js'])
 
 <script type="module">
+  let tahun = 2024;
+  let bulan = 'Januari';
 
   document.addEventListener('DOMContentLoaded', function () {
-    // Data dan konfigurasi untuk beberapa donut chart
-    const nakom = @json($namaKomponen);
-    const bokom = @json($bobotKomponen);
-    const nilaimaturitas = @json($totalNilaiKomponen);
-    const chartsData = [
-      {
-        elementId: 'donutChart1', // ID untuk elemen chart pertama
-        labels: nakom,
-        series: bokom,
-        colors: ['#fee802', '#826bf8', '#FFAF00'],
-        show: true,
-        dataLabels: true,
-        tooltip: true,
-        states: 'lighten',
-        persen: '%'
-      },
-      {
-        elementId: 'donutChart2', // ID untuk elemen chart kedua
-        labels: ['Nilai Maturitas'],
-        series: [nilaimaturitas, 5 - nilaimaturitas],
-        colors: ['#fee200', '#fbfcd9'],
-        show: false,
-        dataLabels: false,
-        tooltip: false,
-        states: 'none',
-        persen: ''
-      },
-    ];
+      updateTahun(tahun);  // Set default tahun and bulan on page load
+      updateBulan(bulan, tahun);  // Set default bulan on page load
+  });
+
+  function updateTahun(Selectedtahun) {
+      tahun = Selectedtahun;
+      console.log(tahun);
+      document.getElementById('dropdownTahun').innerText = tahun;
+
+      // Fetch months associated with selected tahunId
+      fetch(`/bulan-by-tahun/${tahun}`)
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+          })
+          .then(bulan => {
+              const bulanDropdown = document.getElementById('bulanDropdown');
+              bulanDropdown.innerHTML = ''; // Kosongkan dropdown sebelum menambahkan bulan baru
+
+              console.log(bulan); // Tampilkan data bulan di console untuk debugging
+
+              // Tampilkan setiap bulan di dropdown
+              bulan.forEach(bln => {
+                  const li = document.createElement('li');
+                  li.innerHTML = `<a class="dropdown-item" href="javascript:void(0);" onclick="updateBulan('${bln}', ${tahun})">${bln}</a>`;
+                  bulanDropdown.appendChild(li);
+              });
+          })
+          .catch(error => console.error('Error fetching months:', error));
+
+      // Update link editSkor dan exportPdf
+      document.getElementById('editSkorButton').href = `/editskor/${bulan}/${tahun}`;
+      document.getElementById('exportPdf').href = `/generate-pdf/${tahun}/${bulan}`;
+      
+      // Update data
+      getData(tahun, bulan);
+  }
+
+  function updateBulan(bulan, tahun) {
+      document.getElementById('dropdownBulan').innerText = bulan;
+
+      // Fetch data only if both tahunId and bulanId are set
+      if (tahun && bulan) {
+          getData1(tahun, bulan);
+      }
+  }
+
+  function getData1(tahun, bulan) {
+      console.log(`Fetching data for Tahun: ${tahun}, Bulan: ${bulan}`);
+      // Fetch data or perform any required logic here
+      // Example: Update chart or perform an API call
+  }
 
 
 
-    // Perulangan untuk membuat donut chart berdasarkan data
-    chartsData.forEach(function (chartData) {
-      const donutChartEl = document.querySelector(`#${chartData.elementId}`);
-
-      if (donutChartEl) {
-        const donutChartConfig = {
-          chart: {
-            height: 390,
-            width : 500,
-            type: 'donut',
+// function getData(tahun, bulan){
+  // fetch(`/datauser/${tahun}/${bulan}`)
+    document.addEventListener('DOMContentLoaded', function () {
+        // Data dan konfigurasi untuk beberapa donut chart
+        const nakom = @json($namaKomponen);
+        const bokom = @json($bobotKomponen);
+        const nilaimaturitas = @json($totalNilaiKomponen);
+        const chartsData = [
+          {
+            elementId: 'donutChart1', // ID untuk elemen chart pertama
+            labels: nakom,
+            series: bokom,
+            colors: ['#fee802', '#826bf8', '#FFAF00'],
+            show: true,
+            dataLabels: true,
+            tooltip: true,
+            states: 'lighten',
+            persen: '%'
           },
-          labels: chartData.labels, // Menggunakan data labels dari array
-          series: chartData.series, // Menggunakan data series dari array
-          colors: chartData.colors, // Menggunakan data colors dari array
-          stroke: { show: false },
-          dataLabels: {
-            enabled: chartData.dataLabels,
-            formatter: function (val) {
-              return parseInt(val, 10) + '%';
-            },
+          {
+            elementId: 'donutChart2', // ID untuk elemen chart kedua
+            labels: ['Nilai Maturitas'],
+            series: [nilaimaturitas, 5 - nilaimaturitas],
+            colors: ['#fee200', '#fbfcd9'],
+            show: false,
+            dataLabels: false,
+            tooltip: false,
+            states: 'none',
+            persen: ''
           },
-          legend: {
-            show: chartData.show,
-            position: 'bottom',
-            markers: { offsetX: -3 },
-            itemMargin: {
-              vertical: 3,
-              horizontal: 10,
-            },
-            labels: {
-              colors: '#8c8c8c',
-              useSeriesColors: false,
-            },
-          },
-          plotOptions: {
-            pie: {
-              donut: {
+        ];
+
+
+
+        // Perulangan untuk membuat donut chart berdasarkan data
+        chartsData.forEach(function (chartData) {
+          const donutChartEl = document.querySelector(`#${chartData.elementId}`);
+
+          if (donutChartEl) {
+            const donutChartConfig = {
+              chart: {
+                height: 390,
+                width : 500,
+                type: 'donut',
+              },
+              labels: chartData.labels, // Menggunakan data labels dari array
+              series: chartData.series, // Menggunakan data series dari array
+              colors: chartData.colors, // Menggunakan data colors dari array
+              stroke: { show: false },
+              dataLabels: {
+                enabled: chartData.dataLabels,
+                formatter: function (val) {
+                  return parseInt(val, 10) + '%';
+                },
+              },
+              legend: {
+                show: chartData.show,
+                position: 'bottom',
+                markers: { offsetX: -3 },
+                itemMargin: {
+                  vertical: 3,
+                  horizontal: 10,
+                },
                 labels: {
-                  show: true,
-                  name: {
-                    fontSize: '2rem',
-                    fontFamily: 'Public Sans',
-                  },
-                  value: {
-                    fontSize: '1.2rem',
-                    color: '#8c8c8c',
-                    fontFamily: 'Public Sans',
-                    formatter: function (val) {
-                      return parseInt(val, 10) + '%';
-                    },
-                  },
-                  total: {
-                    show: true,
-                    fontSize: '1rem',
-                    color: '#333',
-                    label: chartData.labels[0], // Tampilkan label pertama sebagai total
-                    formatter: function () {
-                      return chartData.series[0] + chartData.persen; // Menampilkan persentase pertama sebagai total
+                  colors: '#8c8c8c',
+                  useSeriesColors: false,
+                },
+              },
+              plotOptions: {
+                pie: {
+                  donut: {
+                    labels: {
+                      show: true,
+                      name: {
+                        fontSize: '2rem',
+                        fontFamily: 'Public Sans',
+                      },
+                      value: {
+                        fontSize: '1.2rem',
+                        color: '#8c8c8c',
+                        fontFamily: 'Public Sans',
+                        formatter: function (val) {
+                          return parseInt(val, 10) + '%';
+                        },
+                      },
+                      total: {
+                        show: true,
+                        fontSize: '1rem',
+                        color: '#333',
+                        label: chartData.labels[0], // Tampilkan label pertama sebagai total
+                        formatter: function () {
+                          return chartData.series[0] + chartData.persen; // Menampilkan persentase pertama sebagai total
+                        },
+                      },
                     },
                   },
                 },
               },
+              tooltip: {
+                enabled: chartData.tooltip, // Menonaktifkan tooltip saat hover
+              },
+              states: {
+                hover: {
+                  filter: {
+                    type: chartData.states, // Nonaktifkan efek hover
+                  },
+                },
+              },
+
+            };
+
+            // Render chart jika elemen ditemukan
+            const donutChart = new ApexCharts(donutChartEl, donutChartConfig);
+            donutChart.render();
+          }
+        });
+
+
+
+
+        const generateLeads = [
+          {
+            elementId: 'PenetapanTujuan',
+            labels:['Skor'],
+            series:[3,2],
+            colors:['#fee802','#fbfcd9'],
+            mainScore: 3
+          },
+          {
+            elementId: 'StrukturdanProses',
+            labels:['Skor'],
+            series:[4,1],
+            colors:['#9747FF','#e9dff7'],
+            mainScore:4
+          },
+          {
+            elementId: 'Pencapaian',
+            labels:['Skor'],
+            series:[4,1],
+            colors:['#9747FF','#e9dff7'],
+            mainScore:4
+          }
+        ]
+
+        const maxScale = 5; // Skala maksimum yang diinginkan
+
+      generateLeads.forEach(function (generateLead) {
+        const generateLeadEl = document.querySelector(`#${generateLead.elementId}`);
+
+        if (generateLeadEl) {
+          // Hitung total data untuk grafik (hanya untuk proporsi)
+          const scaledSeries = generateLead.series.map((val) => (val / maxScale) * 100);
+
+          const genLeadconfigs = {
+            chart: {
+              height: 180,
+              width: 177,
+              type: 'donut',
             },
-          },
-          tooltip: {
-            enabled: chartData.tooltip, // Menonaktifkan tooltip saat hover
-          },
-          states: {
-            hover: {
-              filter: {
-                type: chartData.states, // Nonaktifkan efek hover
+            labels: generateLead.labels, // Menggunakan data labels dari array
+            series: scaledSeries, // Series yang telah diskalakan menjadi persentase
+            colors: generateLead.colors, // Menggunakan data colors dari array
+            stroke: { show: false },
+            dataLabels: {
+              enabled: generateLead.dataLabels,
+              formatter: function (val) {
+                return parseInt(val, 10) + '%';
               },
             },
-          },
-
-        };
-
-        // Render chart jika elemen ditemukan
-        const donutChart = new ApexCharts(donutChartEl, donutChartConfig);
-        donutChart.render();
-      }
-    });
-
-
-
-
-    const generateLeads = [
-      {
-        elementId: 'PenetapanTujuan',
-        labels:['Skor'],
-        series:[3,2],
-        colors:['#fee802','#fbfcd9'],
-        mainScore: 3
-      },
-      {
-        elementId: 'StrukturdanProses',
-        labels:['Skor'],
-        series:[4,1],
-        colors:['#9747FF','#e9dff7'],
-        mainScore:4
-      },
-      {
-        elementId: 'Pencapaian',
-        labels:['Skor'],
-        series:[4,1],
-        colors:['#9747FF','#e9dff7'],
-        mainScore:4
-      }
-    ]
-
-    const maxScale = 5; // Skala maksimum yang diinginkan
-
-  generateLeads.forEach(function (generateLead) {
-    const generateLeadEl = document.querySelector(`#${generateLead.elementId}`);
-
-    if (generateLeadEl) {
-      // Hitung total data untuk grafik (hanya untuk proporsi)
-      const scaledSeries = generateLead.series.map((val) => (val / maxScale) * 100);
-
-      const genLeadconfigs = {
-        chart: {
-          height: 180,
-          width: 177,
-          type: 'donut',
-        },
-        labels: generateLead.labels, // Menggunakan data labels dari array
-        series: scaledSeries, // Series yang telah diskalakan menjadi persentase
-        colors: generateLead.colors, // Menggunakan data colors dari array
-        stroke: { show: false },
-        dataLabels: {
-          enabled: generateLead.dataLabels,
-          formatter: function (val) {
-            return parseInt(val, 10) + '%';
-          },
-        },
-        legend: {
-          show: generateLead.show,
-          position: 'bottom',
-          markers: { offsetX: -3 },
-          itemMargin: {
-            vertical: 3,
-            horizontal: 10,
-          },
-          labels: {
-            colors: '#8c8c8c',
-            useSeriesColors: false,
-          },
-        },
-        plotOptions: {
-          pie: {
-            donut: {
-              size: '85%',
+            legend: {
+              show: generateLead.show,
+              position: 'bottom',
+              markers: { offsetX: -3 },
+              itemMargin: {
+                vertical: 3,
+                horizontal: 10,
+              },
               labels: {
-                show: true,
-                name: {
-                  fontSize: '1rem',
-                  fontFamily: 'Public Sans',
-                },
-                value: {
-                  fontSize: '0.8rem',
-                  color: '#8c8c8c',
-                  fontFamily: 'Public Sans',
-                  formatter: function (val) {
-                    return parseInt(val, 10) + '%';
-                  },
-                },
-                total: {
-                  show: true,
-                  fontSize: '0.8rem',
-                  color: '#333',
-                  label: 'Skor', // Label untuk total
-                  formatter: function () {
-                    // Menampilkan nilai utama yang ditentukan
-                    return generateLead.mainScore;
+                colors: '#8c8c8c',
+                useSeriesColors: false,
+              },
+            },
+            plotOptions: {
+              pie: {
+                donut: {
+                  size: '85%',
+                  labels: {
+                    show: true,
+                    name: {
+                      fontSize: '1rem',
+                      fontFamily: 'Public Sans',
+                    },
+                    value: {
+                      fontSize: '0.8rem',
+                      color: '#8c8c8c',
+                      fontFamily: 'Public Sans',
+                      formatter: function (val) {
+                        return parseInt(val, 10) + '%';
+                      },
+                    },
+                    total: {
+                      show: true,
+                      fontSize: '0.8rem',
+                      color: '#333',
+                      label: 'Skor', // Label untuk total
+                      formatter: function () {
+                        // Menampilkan nilai utama yang ditentukan
+                        return generateLead.mainScore;
+                      },
+                    },
                   },
                 },
               },
             },
-          },
-        },
-        tooltip: {
-          enabled: generateLead.tooltip, // Menonaktifkan tooltip saat hover
-        },
-        states: {
-          hover: {
-            filter: {
-              type: generateLead.states, // Nonaktifkan efek hover
+            tooltip: {
+              enabled: generateLead.tooltip, // Menonaktifkan tooltip saat hover
             },
-          },
-        },
-      };
+            states: {
+              hover: {
+                filter: {
+                  type: generateLead.states, // Nonaktifkan efek hover
+                },
+              },
+            },
+          };
 
-      // Render chart jika elemen ditemukan
-      const genLead = new ApexCharts(generateLeadEl, genLeadconfigs);
-      genLead.render();
-    }
-});
-});
+          // Render chart jika elemen ditemukan
+          const genLead = new ApexCharts(generateLeadEl, genLeadconfigs);
+          genLead.render();
+        }
+    });
+    });
+  // }
+  
 
 </script>
 
@@ -261,6 +325,27 @@ $configData = Helper::appClasses();
 @section('content')
 <section class="section-py bg-body first-section-pt">
   <div class="container mt-5">
+  <div class="col-lg-6 col-12 action-table d-flex align-items-center justify-content-start gap-2 mb-2">
+    <div class="dropdown">
+        <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">2023</button>
+        <ul class="dropdown-menu" id="tahunDropdown">
+            @foreach ($tahun as $thn)
+                <li><a class="dropdown-item" href="javascript:void(0);" onclick="updateTahun({{ $thn }})">{{ $thn }}</a></li>
+            @endforeach
+            <li style="text-align: center"><a class="dropdown-item" href="javascript:void(0);" onclick="seederTahunBulan({{ $thn }})"><i class="ti ti-plus ti-l"></i></a></li>
+        </ul>
+      </div>
+
+      <div class="dropdown">
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownBulan">Januari</button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-bulan" id="bulanDropdown">
+              <!-- Bulan akan diisi dinamis oleh JavaScript -->
+          </ul>
+      </div>
+  </div>
+      <div id="chart">
+
+      </div>
     <div class="row justify-content-center">
       <!-- Donut Chart1 -->
       <div class="col-md-6 col-12 mb-4">
