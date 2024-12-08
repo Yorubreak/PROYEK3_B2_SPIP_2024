@@ -36,7 +36,7 @@ return new class extends Migration
             $table->foreign(['tahun', 'bulan'])->references(['tahun', 'bulan'])->on('periodes')->onDelete('cascade');
             $table->foreign('kom_id_komponen')->references('id_komponen')->on('komponens')->onDelete('cascade');
             $table->foreign('id_org')->references('id_org')->on('organisasis')->onDelete('cascade');
-            // $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 

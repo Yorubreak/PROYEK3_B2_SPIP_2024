@@ -24,6 +24,7 @@ class SeederKomponen extends Seeder
                 'tipe_komponen' => 'Elemen',
                 'id_org' => 1,
                 'has_child' => true,
+                'root_id' => null,
             ],
             [
                 'nama_komponen' => 'Struktur dan Proses',
@@ -33,6 +34,7 @@ class SeederKomponen extends Seeder
                 'tipe_komponen' => 'Elemen',
                 'id_org' => 1,
                 'has_child' => true,
+                'root_id' => null,
             ],
             [
                 'nama_komponen' => 'Pencapaian Tujuan SPIP',
@@ -42,6 +44,7 @@ class SeederKomponen extends Seeder
                 'tipe_komponen' => 'Elemen',
                 'id_org' => 1,
                 'has_child' => true,
+                'root_id' => null,
             ],
         ];
 
@@ -61,6 +64,7 @@ class SeederKomponen extends Seeder
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
                 'has_child' => false,
+                'root_id' => $insertedParents[0],
             ],
             [
                 'nama_komponen' => 'Kualitas Strategi Pencapaian Sasaran Strategis',
@@ -70,6 +74,7 @@ class SeederKomponen extends Seeder
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
                 'has_child' => false,
+                'root_id' => $insertedParents[0],
             ],
             //Unsur Struktur dan Proses
             [
@@ -80,6 +85,7 @@ class SeederKomponen extends Seeder
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
                 'has_child' => true,
+                'root_id' => $insertedParents[1],
             ],
             [
                 'nama_komponen' => 'Penliaian Resiko',
@@ -89,6 +95,7 @@ class SeederKomponen extends Seeder
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
                 'has_child' => true,
+                'root_id' => $insertedParents[1],
             ],
             [
                 'nama_komponen' => 'Kegiatan Pengendalian',
@@ -98,6 +105,7 @@ class SeederKomponen extends Seeder
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
                 'has_child' => true,
+                'root_id' => $insertedParents[1],
           ],
           [
                 'nama_komponen' => 'Informasi dan Komunikasi',
@@ -107,6 +115,7 @@ class SeederKomponen extends Seeder
                 'tipe_komponen' => 'Unsur',
                 'id_org' => 1,
                 'has_child' => true,
+                'root_id' => $insertedParents[1],
           ],
           [
               'nama_komponen' => 'Pemantauan',
@@ -116,6 +125,7 @@ class SeederKomponen extends Seeder
               'tipe_komponen' => 'Unsur',
               'id_org' => 1,
               'has_child' => true,
+              'root_id' => $insertedParents[1],
           ],
 
           //Unsur Pencapaian Tujuan SPIP
@@ -127,6 +137,7 @@ class SeederKomponen extends Seeder
               'tipe_komponen' => 'Unsur',
               'id_org' => 1,
               'has_child' => true,
+              'root_id' => $insertedParents[2],
           ],
           [
               'nama_komponen' => 'Keandalan Laporan Keuangan',
@@ -136,6 +147,7 @@ class SeederKomponen extends Seeder
               'tipe_komponen' => 'Unsur',
               'id_org' => 1,
               'has_child' => true,
+              'root_id' => $insertedParents[2],
           ],
           [
               'nama_komponen' => 'Pengamanan atas Aset',
@@ -145,6 +157,7 @@ class SeederKomponen extends Seeder
               'tipe_komponen' => 'Unsur',
               'id_org' => 1,
               'has_child' => true,
+              'root_id' => $insertedParents[2],
           ],
           [
               'nama_komponen' => 'Ketaatan pada Peraturan',
@@ -154,6 +167,7 @@ class SeederKomponen extends Seeder
               'tipe_komponen' => 'Unsur',
               'id_org' => 1,
               'has_child' => true,
+              'root_id' => $insertedParents[2],
           ],
         ];
 
@@ -174,6 +188,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
          ],
          [
             'nama_komponen' => 'Komitmen terhadap Kompetensi',
@@ -183,6 +198,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
           [
             'nama_komponen' => 'Kepemimpinan yang Kondusif',
@@ -192,6 +208,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
          ],
          [
             'nama_komponen' => 'Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan',
@@ -201,6 +218,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
           [
             'nama_komponen' => 'Pendelegasian Wewenang dan Tanggung Jawab yang Tepat',
@@ -210,6 +228,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan SDM',
@@ -218,6 +237,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
           [
             'nama_komponen' => 'Perwujudan Peran APIP yang Efektif',
@@ -227,6 +248,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait',
@@ -235,6 +257,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[2], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
 
           //Sub Unsur Struktur dan proses (Penilaian Resiko)
@@ -246,6 +270,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Analisis Risiko',
@@ -254,6 +279,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[3], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
 
           //Sub Unsur Struktur dan proses (Kegiatan Pengendalian)
@@ -265,6 +292,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Pembinaan Sumber Daya Manusia',
@@ -273,6 +301,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
           [
             'nama_komponen' => 'Pengendalian atas Pengelolaan Sistem Informasi',
@@ -282,6 +312,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Pengendalian Fisik atas Aset',
@@ -290,6 +321,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
           [
             'nama_komponen' => 'Penetapan dan Reviu atas Indikator dan Ukuran Kinerja',
@@ -299,6 +332,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Pemisahan Fungsi',
@@ -307,6 +341,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
           [
             'nama_komponen' => 'Otorisasi atas Transaksi dan Kejadian yang Penting',
@@ -316,6 +352,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Pencatatan yang Akurat dan Tepat Waktu atas Transaksi dan Kejadian',
@@ -324,6 +361,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
           [
             'nama_komponen' => 'Pembatasan Akses atas Sumber Daya dan Pencatatannya',
@@ -332,6 +371,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
           [
             'nama_komponen' => 'Akuntabilitas terhadap Sumber Daya dan Pencatatannya',
@@ -341,6 +382,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Dokumentasi yang Baik atas SPI serta Transaksi dan Kejadian Penting',
@@ -349,6 +391,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[4], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
 
 
@@ -361,6 +405,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Komunikasi yang Efektif',
@@ -369,6 +414,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[5], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
 
           //Sub Unsur Struktur Proses (Pemantauan)
@@ -380,6 +427,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
          [
             'nama_komponen' => 'Evaluasi Terpisah',
@@ -388,6 +436,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[6], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[1],
           ],
 
 
@@ -400,6 +450,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[2],
           ],
          [
             'nama_komponen' => 'Capaian Output',
@@ -408,6 +459,8 @@ class SeederKomponen extends Seeder
             'kom_id_komponen' => $insertedUnsur[7], // Merujuk ke ID Kualitas Sasaran Strategis
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
+            'has_child' => false,
+            'root_id' => $insertedParents[2],
           ],
 
           //Sub Unsur Pencapaian Tujuan SPIP (Keandalan Laporan Keuangan)
@@ -419,6 +472,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[2],
           ],
 
 
@@ -431,6 +485,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[2],
           ],
           [
             'nama_komponen' => 'Keamanan Fisik',
@@ -440,6 +495,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[2],
           ],
           [
             'nama_komponen' => 'Keamanan Hukum',
@@ -449,6 +505,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[2],
           ],
 
           //Sub Unsur Pencapaian Tujuan SPIP (Ketaatan pada Peraturan)
@@ -460,6 +517,7 @@ class SeederKomponen extends Seeder
             'tipe_komponen' => 'Sub Unsur',
             'id_org' => 1,
             'has_child' => false,
+            'root_id' => $insertedParents[2],
           ],
 
         ];

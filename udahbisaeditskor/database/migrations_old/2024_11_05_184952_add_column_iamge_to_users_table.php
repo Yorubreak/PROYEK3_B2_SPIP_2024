@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('periodes', function (Blueprint $table) {
-            $table->integer('tahun');
-            $table->string('bulan');
-            $table->integer('no_bln');
-            $table->timestamps();
-
-            $table->primary(['tahun', 'bulan']);
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('image')->nullable()->after('remember_token');
         });
-
     }
 
     /**
@@ -27,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('periodes');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

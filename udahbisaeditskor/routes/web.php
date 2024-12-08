@@ -194,8 +194,8 @@ Route::post('/validasi-forgot-password-act', [AuthController::class, 'validasifo
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
 Route::get('/layouts/content-navbar', [ContentNavbar::class, 'index'])->name('layouts-content-navbar');
 Route::get('/layouts/content-nav-sidebar', [ContentNavSidebar::class, 'index'])->name('layouts-content-nav-sidebar');
-Route::get('/layouts/navbar-full', [NavbarFull::class, 'index'])->name('layouts-navbar-full');
-Route::get('/layouts/navbar-full-sidebar', [NavbarFullSidebar::class, 'index'])->name('layouts-navbar-full-sidebar');
+// Route::get('/layouts/navbar-full', [NavbarFull::class, 'index'])->name('layouts-navbar-full');
+// Route::get('/layouts/navbar-full-sidebar', [NavbarFullSidebar::class, 'index'])->name('layouts-navbar-full-sidebar');
 Route::get('/layouts/horizontal', [Horizontal::class, 'index'])->name('dashboard-analytics');
 Route::get('/layouts/vertical', [Vertical::class, 'index'])->name('dashboard-analytics');
 Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
@@ -220,21 +220,29 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin.superadmin'],
 
 
 Route::get('/editskor/{bulan}/{tahun}', [ControllerAdmin::class, 'editskor'])->name('editskor');
-Route::get('/editskorSP/{bulanId}', [ControllerAdmin::class, 'editskorSP'])->name('editskorSP');
-Route::get('/editskorSPIP', [ControllerAdmin::class, 'editskorSPIP'])->name('editskorSPIP');
-
+Route::get('/editbobot/{bulan}/{tahun}', [ControllerAdmin::class, 'editbobot'])->name('editbobot');
 Route::put('/submitskor/{id_komponen}', [ControllerAdmin::class, 'submitskor'])->name('submitskor');
-Route::put('/submitskorSP/{id}', [ControllerAdmin::class, 'submitskorSP'])->name('submitskorSP');
-Route::put('/submitskorSPIP/{id}', [ControllerAdmin::class, 'submitskorSPIP'])->name('submitskorSPIP');
-
+Route::put('/submitbobot/{id_komponen}', [ControllerAdmin::class, 'submitbobot'])->name('submitbobot');
+Route::put('/submitunsur/{id_komponen}', [ControllerAdmin::class, 'submitunsur'])->name('submitunsur');
 Route::get('/bulan-by-tahun/{tahun}', [ControllerAdmin::class, 'getBulanByTahunId']);
 Route::get('/databytahunbulan/{tahun}/{bulan}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+Route::put('/update-komponen-batch', [ControllerAdmin::class, 'updateKomponenBatch']);
+
 
 Route::get('/run-seeder/{bulan}/{tahun}', function ($bulan, $tahun) {
     session(['bulan' => $bulan, 'tahun' => $tahun]);
     Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederKomponen']);
-    return response()->json(['success' => 'Data berhasil ditambahkan untuk bulan' . $bulan . ' tahun ' . $tahun]);
+    return response()->json(['success' => 'Data berhasil ditambahkan untuk bulan ' . $bulan . ' tahun ' . $tahun]);
 });
+
+Route::get('/seederTahun/{tahun}', function ($tahun) {
+  session(['tahun' => $tahun]);
+  Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\SeederPeriode']);
+  return response()->json(['success' => 'Tahun ' . $tahun + 1 . ' berhasil ditambahkan']);
+});
+
+Route::get('/generate-pdf/{tahun}/{bulan}', [ControllerAdmin::class, 'generatePdf']);
+
 
 Route::get('/run-seederSP/{bulanId}', function ($bulanId) {
     session(['bulanId' => $bulanId]);
@@ -377,7 +385,7 @@ Route::get('/cards/basic', [CardBasic::class, 'index'])->name('cards-basic');
 Route::get('/cards/advance', [CardAdvance::class, 'index'])->name('cards-advance');
 Route::get('/cards/statistics', [CardStatistics::class, 'index'])->name('cards-statistics');
 Route::get('/cards/analytics', [CardAnalytics::class, 'index'])->name('cards-analytics');
-Route::get('/cards/gamifications', [CardGamifications::class, 'index'])->name('cards-gamifications');
+// Route::get('/cards/gamifications', [CardGamifications::class, 'index'])->name('cards-gamifications');
 Route::get('/cards/actions', [CardActions::class, 'index'])->name('cards-actions');
 
 // User Interface
