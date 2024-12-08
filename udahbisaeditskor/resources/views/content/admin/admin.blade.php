@@ -120,8 +120,23 @@
                 <th>nilai akhir</th>
               </tr>
             </thead>
-            <tbody id="isiTabelPT">
+<<<<<<< HEAD
+            <tbody>
+              @foreach ($dataPT as $dPT)
+                <tr>
+                  <th>{{ $dPT->unsur }}</th>
+                  <th>{{ $dPT->skor }}</th>
+                  <th>{{ 'bobot unsur' }}</th>
+                  <th>{{ 'bobot komponen' }}</th>
+                  <th>{{ $dPT->nilai_unsur }}</th>
+                  <th>{{ $dPT->nilai_komponen }}</th>
+                  <th>{{ 'True' }}</th>
+                </tr>
+              @endforeach
+=======
+            <tbody id="isiTabel">
 
+>>>>>>> 8be2367fb1582f0f08bc0482d1da06cbef6410f7
             </tbody>
           </table>
         </div>

@@ -1079,7 +1079,39 @@
         }
       ]
     },
-    
+    {
+      "name": "Charts & Maps",
+      "icon": "menu-icon tf-icons ti ti-chart-bar",
+      "slug": [
+        "charts",
+        "maps"
+      ],
+      "submenu": [
+        {
+          "name": "Charts",
+          "icon": "menu-icon tf-icons ti ti-chart-pie",
+          "slug": "charts",
+          "submenu": [
+            {
+              "url": "charts/apex",
+              "name": "Apex Charts",
+              "slug": "charts-apex"
+            },
+            {
+              "url": "charts/chartjs",
+              "name": "ChartJS",
+              "slug": "charts-chartjs"
+            }
+          ]
+        },
+        {
+          "url": "maps/leaflet",
+          "icon": "menu-icon tf-icons ti ti-map",
+          "name": "Leaflet Maps",
+          "slug": "maps-leaflet"
+        }
+      ]
+    },
     {
       "name": "Misc",
       "icon": "menu-icon tf-icons ti ti-box-multiple",

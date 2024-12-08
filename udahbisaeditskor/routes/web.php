@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\StrukturdanProses;
+use App\Http\Controllers\front_pages\ViewUserStrukturproses;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
@@ -164,7 +165,9 @@ use App\Http\Controllers\maps\Leaflet;
 use App\Http\Controllers\pages\TestPage;
 use App\Http\Controllers\testPage as ControllersTestPage;
 use App\Http\Controllers\front_pages\Penilaian;
-use App\Http\Controllers\front_pages\ViewUser;
+use App\Http\Controllers\front_pages\Strukturproses;
+use App\Http\Controllers\front_pages\ViewUserPencapaiantujuan;
+use App\Http\Controllers\front_pages\ViewUserPenetapan;
 
 //login
 use App\Http\Controllers\loginController;
@@ -173,15 +176,21 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
 //Views User
-Route::get('viewuser', [ViewUser:: class, 'index'])->name('dasbooard-view_user');
+Route::get('view-user-strukturproses', [ViewUserStrukturproses:: class, 'index'])->name('dasboard-view_user');
+Route::get(uri: 'view-user-pencapaiantujuan',action:[ViewUserPencapaiantujuan::class,'index'])->name('dashboard-view-user-pencapaiantujuan');
+Route::get('/penilaian/viewuserpenetapan',[ViewUserPenetapan::class, 'index'])->name('dashboard-view-user-penetapan');
+
 // Test Page
 Route::get('/pages/testpage', [ControllersTestPage::class, 'index'])->name('dashboard-analytics');
+
 // Main Page Route
 //Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
+
 // locale
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
 //login
 Route::get('/login', [AuthController::class, 'index'])->name('auth-login');
 Route::post('/loginproc', [AuthController::class, 'loginproc'])->name('loginproc');
@@ -228,6 +237,8 @@ Route::get('/bulan-by-tahun/{tahun}', [ControllerAdmin::class, 'getBulanByTahunI
 Route::get('/databytahunbulan/{tahun}/{bulan}', [ControllerAdmin::class, 'getDataByTahunBulan']);
 Route::put('/update-komponen-batch', [ControllerAdmin::class, 'updateKomponenBatch']);
 
+
+Route::get('/datauser/{tahun}/{bulan}', [Penilaian::class, 'ambildata']);
 
 Route::get('/run-seeder/{bulan}/{tahun}', function ($bulan, $tahun) {
     session(['bulan' => $bulan, 'tahun' => $tahun]);
