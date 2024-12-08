@@ -133,113 +133,120 @@ $configData = Helper::appClasses();
     });
 
 
-  });
 
-  document.addEventListener('DOMContentLoaded', function(){
 
     const generateLeads = [
       {
-        elementId: 'generateLead1',
-        labels:['Bobot'],
-        series:[30,70],
+        elementId: 'PenetapanTujuan',
+        labels:['Skor'],
+        series:[3,2],
         colors:['#fee802','#fbfcd9'],
+        mainScore: 3
       },
       {
-        elementId: 'generateLead2',
-        labels:['Bobot'],
-        series:[60,40],
+        elementId: 'StrukturdanProses',
+        labels:['Skor'],
+        series:[4,1],
         colors:['#9747FF','#e9dff7'],
+        mainScore:4
       },
       {
-        elementId: 'generateLead3',
-        labels:['Bobot'],
-        series:[30,70],
-        colors:['#ffaf00','#fff2d6'],
+        elementId: 'Pencapaian',
+        labels:['Skor'],
+        series:[4,1],
+        colors:['#9747FF','#e9dff7'],
+        mainScore:4
       }
     ]
 
-    generateLeads.forEach(function (generateLead) {
-      const generateLeadEl = document.querySelector(`#${generateLead.elementId}`);
+    const maxScale = 5; // Skala maksimum yang diinginkan
 
-      if (generateLeadEl) {
-        const genLeadconfigs = {
-          chart: {
-            height: 140,
-            width : 137,
-            type: 'donut',
+  generateLeads.forEach(function (generateLead) {
+    const generateLeadEl = document.querySelector(`#${generateLead.elementId}`);
+
+    if (generateLeadEl) {
+      // Hitung total data untuk grafik (hanya untuk proporsi)
+      const scaledSeries = generateLead.series.map((val) => (val / maxScale) * 100);
+
+      const genLeadconfigs = {
+        chart: {
+          height: 180,
+          width: 177,
+          type: 'donut',
+        },
+        labels: generateLead.labels, // Menggunakan data labels dari array
+        series: scaledSeries, // Series yang telah diskalakan menjadi persentase
+        colors: generateLead.colors, // Menggunakan data colors dari array
+        stroke: { show: false },
+        dataLabels: {
+          enabled: generateLead.dataLabels,
+          formatter: function (val) {
+            return parseInt(val, 10) + '%';
           },
-          labels: generateLead.labels, // Menggunakan data labels dari array
-          series: generateLead.series, // Menggunakan data series dari array
-          colors: generateLead.colors, // Menggunakan data colors dari array
-          stroke: { show: false },
-          dataLabels: {
-            enabled: generateLead.dataLabels,
-            formatter: function (val) {
-              return parseInt(val, 10) + '%';
-            },
+        },
+        legend: {
+          show: generateLead.show,
+          position: 'bottom',
+          markers: { offsetX: -3 },
+          itemMargin: {
+            vertical: 3,
+            horizontal: 10,
           },
-          legend: {
-            show: generateLead.show,
-            position: 'bottom',
-            markers: { offsetX: -3 },
-            itemMargin: {
-              vertical: 3,
-              horizontal: 10,
-            },
-            labels: {
-              colors: '#8c8c8c',
-              useSeriesColors: false,
-            },
+          labels: {
+            colors: '#8c8c8c',
+            useSeriesColors: false,
           },
-          plotOptions: {
-            pie: {
-              donut: {
-                labels: {
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              size: '85%',
+              labels: {
+                show: true,
+                name: {
+                  fontSize: '1rem',
+                  fontFamily: 'Public Sans',
+                },
+                value: {
+                  fontSize: '0.8rem',
+                  color: '#8c8c8c',
+                  fontFamily: 'Public Sans',
+                  formatter: function (val) {
+                    return parseInt(val, 10) + '%';
+                  },
+                },
+                total: {
                   show: true,
-                  name: {
-                    fontSize: '1rem',
-                    fontFamily: 'Public Sans',
-                  },
-                  value: {
-                    fontSize: '0.8rem',
-                    color: '#8c8c8c',
-                    fontFamily: 'Public Sans',
-                    formatter: function (val) {
-                      return parseInt(val, 10) + '%';
-                    },
-                  },
-                  total: {
-                    show: true,
-                    fontSize: '0.8rem',
-                    color: '#333',
-                    label: generateLead.labels[0], // Tampilkan label pertama sebagai total
-                    formatter: function () {
-                      return generateLead.series[0] + '%'; // Menampilkan persentase pertama sebagai total
-                    },
+                  fontSize: '0.8rem',
+                  color: '#333',
+                  label: 'Skor', // Label untuk total
+                  formatter: function () {
+                    // Menampilkan nilai utama yang ditentukan
+                    return generateLead.mainScore;
                   },
                 },
               },
             },
           },
-          tooltip: {
-            enabled: generateLead.tooltip, // Menonaktifkan tooltip saat hover
-          },
-          states: {
-            hover: {
-              filter: {
-                type: generateLead.states, // Nonaktifkan efek hover
-              },
+        },
+        tooltip: {
+          enabled: generateLead.tooltip, // Menonaktifkan tooltip saat hover
+        },
+        states: {
+          hover: {
+            filter: {
+              type: generateLead.states, // Nonaktifkan efek hover
             },
           },
+        },
+      };
 
-        };
-
-        // Render chart jika elemen ditemukan
-        const genLead = new ApexCharts(generateLeadEl, genLeadconfigs);
-        genLead.render();
-      }
-    });
-  });
+      // Render chart jika elemen ditemukan
+      const genLead = new ApexCharts(generateLeadEl, genLeadconfigs);
+      genLead.render();
+    }
+});
+});
 
 </script>
 
@@ -291,7 +298,7 @@ $configData = Helper::appClasses();
                     <small>Nilai Komponen</small>
                   </div>
                 </div>
-                <div id="generateLead1" style="margin-right: 20px"></div>
+                <div id="PenetapanTujuan" style="margin-right: 20px"></div>
               </div>
             </div>
           </div>
@@ -311,7 +318,7 @@ $configData = Helper::appClasses();
                     <small>Nilai Komponen</small>
                   </div>
                 </div>
-                <div id="generateLead2" style="margin-right: 20px"></div>
+                <div id="StrukturdanProses" style="margin-right: 20px"></div>
               </div>
             </div>
           </div>
@@ -330,7 +337,7 @@ $configData = Helper::appClasses();
                     <small>Nilai Komponen</small>
                   </div>
                 </div>
-                <div id="generateLead3"style="margin-right: 20px"></div>
+                <div id="Pencapaian"style="margin-right: 20px"></div>
               </div>
             </div>
           </div>
