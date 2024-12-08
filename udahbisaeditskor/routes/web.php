@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\StrukturdanProses;
+use App\Http\Controllers\front_pages\ViewUserStrukturproses;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
@@ -164,7 +165,7 @@ use App\Http\Controllers\maps\Leaflet;
 use App\Http\Controllers\pages\TestPage;
 use App\Http\Controllers\testPage as ControllersTestPage;
 use App\Http\Controllers\front_pages\Penilaian;
-use App\Http\Controllers\front_pages\ViewUser;
+use App\Http\Controllers\front_pages\Strukturproses;
 use App\Http\Controllers\front_pages\ViewUserPencapaiantujuan;
 use App\Http\Controllers\front_pages\ViewUserPenetapan;
 
@@ -175,7 +176,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
 //Views User
-Route::get('viewuser', [ViewUser:: class, 'index'])->name('dasboard-view_user');
+Route::get('view-user-strukturproses', [ViewUserStrukturproses:: class, 'index'])->name('dasboard-view_user');
 Route::get(uri: 'view-user-pencapaiantujuan',action:[ViewUserPencapaiantujuan::class,'index'])->name('dashboard-view-user-pencapaiantujuan');
 Route::get('/penilaian/viewuserpenetapan',[ViewUserPenetapan::class, 'index'])->name('dashboard-view-user-penetapan');
 
@@ -259,17 +260,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], 
 //   Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
 //   Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
 // });
-
-
-
-
-
-
-
-
-
-
-
 
 
 

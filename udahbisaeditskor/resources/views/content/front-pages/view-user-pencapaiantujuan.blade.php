@@ -34,8 +34,9 @@
       const labelColor = '#495057';
       const chartColors = {
           donut: {
-              series1: '#7367f0',
-              series3: '#28c76f'
+              series1: '#fee802',
+              series2: '#ffaf00',
+              series3: '#9747FF'
           }
       };
 
@@ -83,7 +84,7 @@
                   },
                   yaxis: {
                       show: false,
-                      max: 100
+                      max : 100
                   },
                   series: [
                       {
@@ -99,7 +100,7 @@
                           data: [30, 30, (skorPA[2] / 5 * 100)]
                       }
                   ],
-                  colors: [chartColors.donut.series1, chartColors.donut.series3],
+                  colors: [chartColors.donut.series1, chartColors.donut.series2, chartColors.donut.series3],
                   xaxis: {
                       categories: ['Administrasi', 'Fisik', 'Hukum'],
                       labels: {
@@ -257,99 +258,108 @@
       {
         elementId: 'OpiniLK',
         labels:['Skor'],
-        series:[skorKLK, 5 - skorKLK],
+        series:[3,2],
         colors:['#fee802','#fbfcd9'],
+        mainScore: 3
       },
       {
         elementId: 'TemuanKetaatan',
         labels:['Skor'],
-        series:[skorKP, 5 - skorKP],
+        series:[4,1],
         colors:['#9747FF','#e9dff7'],
+        mainScore:4
       }
     ]
 
-    generateLeads.forEach(function (generateLead) {
-      const generateLeadEl = document.querySelector(`#${generateLead.elementId}`);
+    const maxScale = 5; // Skala maksimum yang diinginkan
 
-      if (generateLeadEl) {
-        const genLeadconfigs = {
-          chart: {
-            height: 180,
-            width : 177,
-            type: 'donut',
-          },
-          labels: generateLead.labels, // Menggunakan data labels dari array
-          series: generateLead.series, // Menggunakan data series dari array
-          colors: generateLead.colors, // Menggunakan data colors dari array
-          stroke: { show: false },
-          dataLabels: {
-            enabled: generateLead.dataLabels,
-            formatter: function (val) {
-              return parseInt(val, 10) + '%';
-            },
-          },
-          legend: {
-            show: generateLead.show,
-            position: 'bottom',
-            markers: { offsetX: -3 },
-            itemMargin: {
-              vertical: 3,
-              horizontal: 10,
-            },
+generateLeads.forEach(function (generateLead) {
+  const generateLeadEl = document.querySelector(`#${generateLead.elementId}`);
+
+  if (generateLeadEl) {
+    // Hitung total data untuk grafik (hanya untuk proporsi)
+    const scaledSeries = generateLead.series.map((val) => (val / maxScale) * 100);
+
+    const genLeadconfigs = {
+      chart: {
+        height: 180,
+        width: 177,
+        type: 'donut',
+      },
+      labels: generateLead.labels, // Menggunakan data labels dari array
+      series: scaledSeries, // Series yang telah diskalakan menjadi persentase
+      colors: generateLead.colors, // Menggunakan data colors dari array
+      stroke: { show: false },
+      dataLabels: {
+        enabled: generateLead.dataLabels,
+        formatter: function (val) {
+          return parseInt(val, 10) + '%';
+        },
+      },
+      legend: {
+        show: generateLead.show,
+        position: 'bottom',
+        markers: { offsetX: -3 },
+        itemMargin: {
+          vertical: 3,
+          horizontal: 10,
+        },
+        labels: {
+          colors: '#8c8c8c',
+          useSeriesColors: false,
+        },
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '85%',
             labels: {
-              colors: '#8c8c8c',
-              useSeriesColors: false,
-            },
-          },
-          plotOptions: {
-            pie: {
-              donut: {
-                size: '85%',
-                labels: {
-                  show: true,
-                  name: {
-                    fontSize: '1rem',
-                    fontFamily: 'Public Sans',
-                  },
-                  value: {
-                    fontSize: '0.8rem',
-                    color: '#8c8c8c',
-                    fontFamily: 'Public Sans',
-                    formatter: function (val) {
-                      return parseInt(val, 10) + '%';
-                    },
-                  },
-                  total: {
-                    show: true,
-                    fontSize: '0.8rem',
-                    color: '#333',
-                    label: generateLead.labels[0], // Tampilkan label pertama sebagai total
-                    formatter: function () {
-                      return generateLead.series[0] + '%'; // Menampilkan persentase pertama sebagai total
-                    },
-                  },
+              show: true,
+              name: {
+                fontSize: '1rem',
+                fontFamily: 'Public Sans',
+              },
+              value: {
+                fontSize: '0.8rem',
+                color: '#8c8c8c',
+                fontFamily: 'Public Sans',
+                formatter: function (val) {
+                  return parseInt(val, 10) + '%';
+                },
+              },
+              total: {
+                show: true,
+                fontSize: '0.8rem',
+                color: '#333',
+                label: 'Skor', // Label untuk total
+                formatter: function () {
+                  // Menampilkan nilai utama yang ditentukan
+                  return generateLead.mainScore;
                 },
               },
             },
           },
-          tooltip: {
-            enabled: generateLead.tooltip, // Menonaktifkan tooltip saat hover
+        },
+      },
+      tooltip: {
+        enabled: generateLead.tooltip, // Menonaktifkan tooltip saat hover
+      },
+      states: {
+        hover: {
+          filter: {
+            type: generateLead.states, // Nonaktifkan efek hover
           },
-          states: {
-            hover: {
-              filter: {
-                type: generateLead.states, // Nonaktifkan efek hover
-              },
-            },
-          },
+        },
+      },
+    };
 
-        };
+    // Render chart jika elemen ditemukan
+    const genLead = new ApexCharts(generateLeadEl, genLeadconfigs);
+    genLead.render();
+  }
+});
 
-        // Render chart jika elemen ditemukan
-        const genLead = new ApexCharts(generateLeadEl, genLeadconfigs);
-        genLead.render();
-      }
-  });
+
 });
   </script>
 

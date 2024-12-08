@@ -20,79 +20,60 @@
 <script>
 
   document.addEventListener('DOMContentLoaded', function(){
-    const TBUPR = @json($TBUPR);
-    const NUPR = @json($NUPR);
-    const skorPR0 = @json($skorPR[0]);
-    const skorPR1 = @json($skorPR[1]);
-    const TBUIK = @json($TBUIK);
-    const NUIK = @json($NUIK);
-    const skorIK0 = @json($skorIK[0]);
-    const skorIK1 = @json($skorIK[1]);
-    const TBUP = @json($TBUP);
-    const NUP = @json($NUP);
-    const skorP0 = @json($skorP[0]);
-    const skorP1 = @json($skorP[1]);
-
-    document.getElementById('skor-pr0-value').textContent = skorPR0;
-    document.getElementById('skor-pr1-value').textContent = skorPR1;
-    document.getElementById('skor-ik0-value').textContent = skorIK0;
-    document.getElementById('skor-ik1-value').textContent = skorIK1;
-    document.getElementById('skor-p0-value').textContent = skorP0;
-    document.getElementById('skor-p1-value').textContent = skorP1;
 
     const generateLeads = [
       {
         elementId: 'PenilaianRisiko',
-        labels:['Nilai'],
-        series:[TBUPR, 100 - TBUPR],
+        labels:['Bobot'],
+        series:[30,70],
         colors:['#fee802','#fbfcd9'],
       },
       {
         elementId: 'identifikasirisiko',
         labels:['Unsur'],
-        series:[NUPR[0], 1 - NUPR[0]],
+        series:[60,40],
         colors:['#fee802','#fbfcd9'],
       },
       {
         elementId: 'analisisrisiko',
         labels:['Unsur'],
-        series:[NUPR[1], 1 - NUPR[1]],
+        series:[30,70],
         colors:['#fee802','#fbfcd9'],
       },
       {
         elementId: 'informasi_komunikasi',
-        labels:['Nilai'],
-        series:[TBUIK, 100 - TBUIK],
+        labels:['Bobot'],
+        series:[30,70],
         colors:['#ffaf00','#fff2d6'],
       },
       {
         elementId: 'informasirelevan',
         labels:['Unsur'],
-        series:[NUIK[0], 0.5 - NUIK[0]],
+        series:[60,40],
         colors:['#ffaf00','#fff2d6'],
       },
       {
         elementId: 'komunikasiefektif',
         labels:['Unsur'],
-        series:[NUIK[1], 0.5 - NUIK[1]],
+        series:[30,70],
         colors:['#ffaf00','#fff2d6'],
       },
       {
         elementId: 'pemantauan',
-        labels:['Nilai'],
-        series:[TBUP, 100 - TBUP],
+        labels:['Bobot'],
+        series:[30,70],
         colors:['#9747FF','#e9dff7'],
       },
       {
         elementId: 'pemantauanberkelanjutan',
         labels:['Unsur'],
-        series:[NUP[0], 0.76 - NUP[0]],
+        series:[60,40],
         colors:['#9747FF','#e9dff7'],
       },
       {
         elementId: 'evaluasiterpisah',
         labels:['Unsur'],
-        series:[NUP[1], 0.76 - NUP[1]],
+        series:[30,70],
         colors:['#9747FF','#e9dff7'],
       }
     ]
@@ -184,13 +165,6 @@
   });
 
   document.addEventListener('DOMContentLoaded', function () {
-    const skorPR0 = @json($skorPR[0]);
-    const skorPR1 = @json($skorPR[1]);
-    const skorIK0 = @json($skorIK[0]);
-    const skorIK1 = @json($skorIK[1]);
-    const skorP0 = @json($skorP[0]);
-    const skorP1 = @json($skorP[1]);
-
     const radialBars = [
       {
         elementId: 'Total1'
@@ -258,7 +232,7 @@
           stroke: {
             lineCap: 'round'
           },
-          series: [((skorPR0 + skorPR1) / 2), ((skorIK0 + skorIK1) / 2), ((skorP0 + skorP1) / 2)],
+          series: [80, 50, 35],
           labels: ['Penilaian', 'Informasi', 'Pemantauan']
         };
 
@@ -478,7 +452,7 @@
                       </div>
                       <div class="card-body">
                         <p class="mb-1">Skor</p>
-                        <h4 class="mb-2">{{ $card['score'] }}</h4>
+                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                         <div class="progress mb-4" style="height: 8px;">
                           <div class="progress-bar bg-info" style="width: {{ $card['score_width'] }}%" role="progressbar" aria-valuenow="{{ $card['score_width'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
@@ -514,8 +488,8 @@
                             <div class="d-flex justify-content-between">
                                 <div class="d-flex flex-column">
                                     <div class="card-title mb-auto">
-                                        <h5 class="mb-1 text-nowrap">Penilaian Risiko</h5>
-                                        <small>Total Bobot Unsur</small>
+                                        <h5 class="mt-1 text-nowrap">Penilaian Risiko</h5>
+                                        <small>Nilai Komponen</small>
                                     </div>
                                 </div>
                                 <div id="PenilaianRisiko" style="margin-right: 20px"></div>
@@ -533,7 +507,7 @@
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Identifikasi Risiko</h5>
                                         <small>Skor</small>
-                                        <h4 id="skor-pr0-value"></h4>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="identifikasirisiko" style="margin-right: 20px;"></div>
@@ -551,7 +525,7 @@
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Analisis Risiko</h5>
                                         <small>Skor</small>
-                                        <h4 id="skor-pr1-value"></h4>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="analisisrisiko" style="margin-right: 20px"></div>
@@ -586,7 +560,7 @@
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Informasi Relevan</h5>
                                         <small>Skor</small>
-                                        <h4 id="skor-ik0-value"></h4>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="informasirelevan" style="margin-right: 20px"></div>
@@ -604,7 +578,7 @@
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Komunikasi Efektif</h5>
                                         <small>Skor</small>
-                                        <h4 id="skor-ik1-value"></h4>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="komunikasiefektif" style="margin-right: 20px"></div>
@@ -639,7 +613,7 @@
                                         <h5 class="mb-1 text-nowrap">Pemantauan </h5>
                                         <h5 class="mb-1 text-nowrap">Berkelanjutan</h5>
                                         <small>Skor</small>
-                                        <h4 id="skor-p0-value"></h4>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="pemantauanberkelanjutan" style="margin-right: 20px"></div>
@@ -657,7 +631,7 @@
                                     <div class="card-title mb-auto">
                                         <h5 class="mb-1 text-nowrap">Evaluasi Terpisah</h5>
                                         <small>Skor</small>
-                                        <h4 id="skor-p1-value"></h4>
+                                        <h4 class="mt-2">{{ $card['score'] }}</h4>
                                     </div>
                                 </div>
                                 <div id="evaluasiterpisah" style="margin-right: 20px"></div>
