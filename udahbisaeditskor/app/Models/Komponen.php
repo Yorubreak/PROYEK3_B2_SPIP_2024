@@ -18,9 +18,9 @@ class Komponen extends Model
     public $timestamps = false;
 
     // Komponen.php
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
+    // public function updatedBy()
+    // {
+    //     return $this->belongsTo(User::class, 'updated_by');
+    // }
 
 }

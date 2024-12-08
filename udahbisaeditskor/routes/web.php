@@ -206,7 +206,7 @@ Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing')->middleware('web');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
   // Admin
-  Route::get('/{id}', [ControllerAdmin::class, 'index'])->name('admin');
+  Route::get('/', [ControllerAdmin::class, 'index'])->name('admin');
 
   Route::get('/pages/account-settings-account/{id}', [AuthController::class, 'edit'])->name('pages-account-settings-account');
   Route::put('/editprofil/{id}', [AuthController::class, 'update'])->name('update.profil');
@@ -215,9 +215,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], 
 });
 
 Route::get('/editskor/{bulan}/{tahun}', [ControllerAdmin::class, 'editskor'])->name('editskor');
+Route::get('/editbobot/{bulan}/{tahun}', [ControllerAdmin::class, 'editbobot'])->name('editbobot');
 Route::put('/submitskor/{id_komponen}', [ControllerAdmin::class, 'submitskor'])->name('submitskor');
+Route::put('/submitbobot/{id_komponen}', [ControllerAdmin::class, 'submitbobot'])->name('submitbobot');
+Route::put('/submitunsur/{id_komponen}', [ControllerAdmin::class, 'submitunsur'])->name('submitunsur');
 Route::get('/bulan-by-tahun/{tahun}', [ControllerAdmin::class, 'getBulanByTahunId']);
 Route::get('/databytahunbulan/{tahun}/{bulan}', [ControllerAdmin::class, 'getDataByTahunBulan']);
+Route::put('/update-komponen-batch', [ControllerAdmin::class, 'updateKomponenBatch']);
+
 
 Route::get('/run-seeder/{bulan}/{tahun}', function ($bulan, $tahun) {
     session(['bulan' => $bulan, 'tahun' => $tahun]);

@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    <h1>Laporan Komponen</h1> 
+    <h1>Laporan Komponen</h1>
     <p>Periode: {{ $bulan}} - Tahun: {{ $tahun}}</p>
 
     <table class="table table-bordered table-striped">
@@ -42,8 +42,8 @@
                 <tr>
                   <td><strong>&nbsp;&nbsp;&nbsp;{{ $uns->nama_komponen }}</strong></td>
                   <td style="text-align: center;">{{ $uns->skor }}</td>
-                  <td style="text-align: center;" >{{ $uns->bobot_unsur }}</td>
-                  <td style="text-align: center;" >{{ $uns->bobot_komponen }}</td>
+                  <td style="text-align: center;" >{{ $uns->bobot_unsur*100 }}</td>
+                  <td style="text-align: center;" >{{ $uns->bobot_komponen*100 }}</td>
                   <td style="text-align: center;" >{{ $uns->nilai_unsur }}</td>
                   <td style="text-align: center;" >{{ $uns->nilai_komponen }}</td>
                 </tr>
@@ -52,8 +52,8 @@
                 <tr>
                   <td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $sub->nama_komponen }}</strong></td>
                   <td style="text-align: center;" >{{ $sub->skor }}</td>
-                  <td style="text-align: center;" >{{ $sub->bobot_unsur }}</td>
-                  <td style="text-align: center;" >{{ $sub->bobot_komponen }}</td>
+                  <td style="text-align: center;" >{{ $sub->bobot_unsur*100 }}</td>
+                  <td style="text-align: center;" >{{ $sub->bobot_komponen*100 }}</td>
                   <td style="text-align: center;" >{{ $sub->nilai_unsur }}</td>
                   <td style="text-align: center;" >{{ $sub->nilai_komponen }}</td>
                 </tr>

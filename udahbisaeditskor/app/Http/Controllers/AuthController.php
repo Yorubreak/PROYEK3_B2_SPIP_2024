@@ -52,7 +52,7 @@ class AuthController extends Controller
         if (Auth::attempt($data)) {
           // $id = Auth::user()->id;
 
-          return redirect()->route('admin.admin', ['id' => Auth::user()->id])->with('success', 'Login successful!');
+          return redirect()->route('admin.admin')->with('success', 'Login successful!');
 
         } else {
             return redirect()->route('auth-login')->with('error', 'Login failed! Please try again.');

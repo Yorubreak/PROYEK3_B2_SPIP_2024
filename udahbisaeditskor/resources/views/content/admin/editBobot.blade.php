@@ -33,7 +33,21 @@
                     <tbody>
                       @foreach ($data[0] as $elm)
                         <tr>
-                            <td colspan="3" style="text-transform: uppercase;"><strong>{{ $elm->nama_komponen }}</strong></td>
+                            <td><strong>{{ $elm->nama_komponen }}</strong></td>
+                            <form id="skorForm-{{ $elm->id_komponen }}" method="POST">
+                              @csrf
+                              @method('PUT')
+                              <th>
+                                <div style="display: flex; align-items: center;">
+                                    <input style="width: 75px;" type="text" class="form-control" id="bobot_komInput-{{ $elm->id_komponen }}" placeholder="Bobot Komponen...." name="bobot_komponen" value="{{ old('bobot_komponen', $elm->bobot_komponen*100) }}" /><span style="font-size: 1.5em; font-weight: bold; margin-left: 5px">%</span>
+                                </div>
+                              </th>
+                              <th>
+                                  <button type="button" class="btn btn-success" onclick="submitbobot({{ $elm->id_komponen }})">
+                                      <i class="ti ti-check ti-xs me-2"></i>Submit Bobot
+                                  </button>
+                              </th>
+                            </form>
                         </tr>
                         @foreach ($data[1]->where('kom_id_komponen', $elm->id_komponen) as $uns)
                           @if ($uns->has_child == true)
@@ -49,12 +63,12 @@
                                 @method('PUT')
                                 <th>
                                   <div style="display: flex; align-items: center;">
-                                      <input style="width: 75px;" type="text" class="form-control" id="skorInput-{{ $uns->id_komponen }}" placeholder="Skor ...." name="skor" value="{{ old('skor', $uns->skor) }}" /><span style="font-size: 1.5em; font-weight: bold; margin-left: 5px">%</span>
+                                      <input style="width: 75px;" type="text" class="form-control" id="bobotUnsInput-{{ $uns->id_komponen }}" placeholder="Bobot Unsur...." name="bobot_unsur" value="{{ old('bobot_unsur', $uns->bobot_unsur) }}" /><span style="font-size: 1.5em; font-weight: bold; margin-left: 5px">%</span>
                                   </div>
                                 </th>
                                 <th>
-                                    <button type="button" class="btn btn-success" onclick="submitSkor({{ $uns->id_komponen }})">
-                                        <i class="ti ti-check ti-xs me-2"></i>Submit Skor
+                                    <button type="button" class="btn btn-success" onclick="submitunsur({{ $uns->id_komponen }})">
+                                        <i class="ti ti-check ti-xs me-2"></i>Submit Bobot
                                     </button>
                                 </th>
                               </form>
@@ -63,18 +77,18 @@
                           @foreach ($data[2]->where('kom_id_komponen', $uns->id_komponen) as $sub)
                               <tr>
                                   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $sub->nama_komponen }}</td>
-                                  <form id="skorForm-{{ $uns->id_komponen }}" method="POST">
+                                  <form id="skorForm-{{ $sub->id_komponen }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <th>
-                                      <div>
-                                          <input type="text" class="form-control" id="skorInput-{{ $sub->id_komponen }}" placeholder="Skor ...." name="skor" value="{{ old('skor', $sub->skor) }}" />
-                                      </div>
+                                      <div style="display: flex; align-items: center;">
+                                        <input style="width: 75px;" type="text" class="form-control" id="bobotUnsInput-{{ $sub->id_komponen }}" placeholder="Bobot Unsur...." name="bobot_unsur" value="{{ old('bobot_unsur', $sub->bobot_unsur) }}" /><span style="font-size: 1.5em; font-weight: bold; margin-left: 5px">%</span>
+                                    </div>
                                     </th>
                                     <th>
-                                        <button type="button" class="btn btn-success" onclick="submitSkor({{ $sub->id_komponen }})">
-                                            <i class="ti ti-check ti-xs me-2"></i>Submit Skor
-                                        </button>
+                                      <button type="button" class="btn btn-success" onclick="submitunsur({{ $sub->id_komponen }})">
+                                        <i class="ti ti-check ti-xs me-2"></i>Submit Bobot
+                                    </button>
                                     </th>
                                   </form>
                               </tr>
@@ -89,26 +103,18 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
-        function submitSkor(id_komponen) {
+        function submitbobot(id_komponen) {
             // Ambil nilai input dari form
-            var skor = $('#skorInput-' + id_komponen).val();
-            if (skor > 5) {
-              $.ajax({
-                success: function(response) {
-                    // Tampilkan pesan sukses
-                    $('#failMessage').show().delay(1500).fadeOut();
-                }
-              })
-              return;
-            }
+            var bobot_komponen = $('#bobot_komInput-' + id_komponen).val();
+            var bobot_komAkhir = bobot_komponen / 100;
 
             // Kirim data dengan AJAX
             $.ajax({
-                url: "{{ url('/submitskor') }}/" + id_komponen,  // URL untuk mengirim data
+                url: "{{ url('/submitbobot') }}/" + id_komponen,  // URL untuk mengirim data
                 method: "PUT",
                 data: {
                     _token: "{{ csrf_token() }}",  // Token CSRF untuk keamanan
-                    skor: skor  // Data skor yang akan dikirim
+                    bobot_komponen: bobot_komAkhir  // Data skor yang akan dikirim
                 },
                 success: function(response) {
                     // Tampilkan pesan sukses
@@ -122,6 +128,35 @@
                     alert('Error: ' + xhr.responseText);
                 }
             });
+            console.log(bobot_komAkhir);
+        }
+
+        function submitunsur(id_komponen) {
+            // Ambil nilai input dari form
+            var bobot_unsur = $('#bobotUnsInput-' + id_komponen).val();
+            var bobot_unsAkhir = bobot_unsur / 100;
+
+            // Kirim data dengan AJAX
+            $.ajax({
+                url: "{{ url('/submitunsur') }}/" + id_komponen,  // URL untuk mengirim data
+                method: "PUT",
+                data: {
+                    _token: "{{ csrf_token() }}",  // Token CSRF untuk keamanan
+                    bobot_unsur: bobot_unsAkhir  // Data skor yang akan dikirim
+                },
+                success: function(response) {
+                    // Tampilkan pesan sukses
+                    $('#successMessage').show().delay(1500).fadeOut();
+
+                    // Reset input skor (opsional)
+                    //$('#skorInput-' + id).val('');
+                },
+                error: function(xhr) {
+                    // Tampilkan pesan error jika ada masalah
+                    alert('Error: ' + xhr.responseText);
+                }
+            });
+            console.log(bobot_unsAkhir);
         }
     </script>
   </div>
