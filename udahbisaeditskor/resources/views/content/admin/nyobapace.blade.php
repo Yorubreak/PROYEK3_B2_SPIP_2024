@@ -1,4 +1,4 @@
-@extends('layouts/horizontalLayout')
+@extends('layouts.layoutMaster')
 
 @section('content')
 <?php
@@ -31,7 +31,9 @@
           </ul>
       </div>
       <a id="editSkorButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Skor</a>
-      <a id="editBobotButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Bobot</a>
+      @if (Auth::user()->isSuperadmin == true)
+        <a id="editBobotButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Bobot</a>
+      @endif
       <a id="exportPdf" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Ekspor PDF</a>
       {{-- <p>Last Update by:
         @if($last_update)
