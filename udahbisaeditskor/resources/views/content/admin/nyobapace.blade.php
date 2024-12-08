@@ -35,15 +35,6 @@
         <a id="editBobotButton" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Edit Bobot</a>
       @endif
       <a id="exportPdf" href="#" class="btn btn-warning"><i class="ti ti-pencil ti-xs me-2"></i>Ekspor PDF</a>
-      {{-- <p>Last Update by:
-        @if($last_update)
-            {{ $last_update->firstname }} {{ $last_update->lastname }}
-        @else
-            -
-        @endif
-    </p>
-    <p>Last Update at: {{ $last_update->updated_at->format('d M Y H:i:s') }}</p> --}}
-
     </div>
     <table class="table table-bordered table-striped">
         <thead>
