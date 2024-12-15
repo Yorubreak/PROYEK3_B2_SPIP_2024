@@ -177,7 +177,7 @@ use Illuminate\Support\Facades\Auth;
 
 //Views User
 Route::get('view-user-strukturproses', [ViewUserStrukturproses:: class, 'index'])->name('dasboard-view_user');
-Route::get(uri: 'view-user-pencapaiantujuan',action:[ViewUserPencapaiantujuan::class,'index'])->name('dashboard-view-user-pencapaiantujuan');
+Route::get('view-user-pencapaiantujuan',[ViewUserPencapaiantujuan::class,'index'])->name('dashboard-view-user-pencapaiantujuan');
 Route::get('/penilaian/viewuserpenetapan',[ViewUserPenetapan::class, 'index'])->name('dashboard-view-user-penetapan');
 
 // Test Page
@@ -239,6 +239,8 @@ Route::put('/update-komponen-batch', [ControllerAdmin::class, 'updateKomponenBat
 
 
 Route::get('/datauser/{tahun}/{bulan}', [Penilaian::class, 'ambilData']);
+Route::get('/datauserPT/{tahun}/{bulan}', [ViewUserPenetapan::class, 'getDataPT']);
+Route::get('/datauserPTSPIP/{tahun}/{bulan}', [ViewUserPencapaiantujuan::class, 'getDataPTSPIP']);
 
 Route::get('/run-seeder/{bulan}/{tahun}', function ($bulan, $tahun) {
     session(['bulan' => $bulan, 'tahun' => $tahun]);

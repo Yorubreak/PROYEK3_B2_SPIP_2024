@@ -97,8 +97,8 @@ function getData(tahun, bulan){
 
           const donutChart1 = document.getElementById('donutChart1');
           const donutChart2 = document.getElementById('donutChart2');
-          donutChart1.innerHTML = ''; // Kosongkan chart 1
-          donutChart2.innerHTML = ''; // Kosongkan chart 2
+          donutChart1.innerHTML = ' '; // Kosongkan chart 1
+          donutChart2.innerHTML = ' '; // Kosongkan chart 2
           // If no data is found, show a message
           const noData = document.getElementById('noData');
           const h3 = document.createElement('h3');

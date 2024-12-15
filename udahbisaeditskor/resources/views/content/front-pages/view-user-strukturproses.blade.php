@@ -369,6 +369,24 @@
 
 @section('content')
 <div class="container mt-5">
+  {{-- <div class="col-lg-6 col-12 action-table d-flex align-items-center justify-content-start gap-2 mb-2">
+    <div class="dropdown">
+        <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownTahun">2023</button>
+        <ul class="dropdown-menu" id="tahunDropdown">
+            @foreach ($tahun as $thn)
+                <li><a class="dropdown-item" href="javascript:void(0);" onclick="updateTahun({{ $thn }})">{{ $thn }}</a></li>
+            @endforeach
+            <li style="text-align: center"><a class="dropdown-item" href="javascript:void(0);" onclick="seederTahunBulan({{ $thn }})"><i class="ti ti-plus ti-l"></i></a></li>
+        </ul>
+      </div>
+
+      <div class="dropdown">
+          <button type="button" class="btn btn-label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownBulan">Januari</button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-bulan" id="bulanDropdown">
+              <!-- Bulan akan diisi dinamis oleh JavaScript -->
+          </ul>
+      </div>
+  </div> --}}
     <!-- Header -->
     <section id="segment1" style="margin-top: 9%">
       <h2>Struktur dan Proses</h2>
@@ -673,7 +691,7 @@
     flex-direction: column;
     padding: 15px;
     justify-content: space-between; /* Membuat progress bar selalu di bawah */
-  } */
+  /* } */ */
 
   /* Atur tinggi card secara seragam */
   .card {

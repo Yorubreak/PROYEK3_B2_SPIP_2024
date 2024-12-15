@@ -135,7 +135,12 @@
                 isiTabel.appendChild(tr);
             } else {
                 // Iterate through each element (komponen)
+                let idkom1 =[];
+                let bokom = [];
                 data[0].forEach(elm => {
+                    idkom1.push(elm.id_komponen);
+                    bokom.push(elm.bobot_komponen);
+
                     // Create a row for each komponen
                     const tr = document.createElement('tr');
                     tr.innerHTML = `<td colspan = "5" style="text-transform: uppercase;"><strong>${elm.nama_komponen}</strong></td>
@@ -191,18 +196,24 @@
                     let komSPIP = 0;  // Variabel untuk total nilai subunsur
                     let totalNilai = 0;
 
+
                     console.log('Mulai perhitungan');
+                    console.log('data[0]:', data[0]);
                     console.log('data[1]:', data[1]);
                     console.log('data[2]:', data[2]);
+                    console.log('id komponen 1:', elm.id_komponen);
 
                     data[1].forEach(uns => {
-                      console.log('Proses data[1]:', uns);
+                      // console.log('aubroot_id:', uns.root_id);
+                      // console.log('id komponen:', elm.id_komponen);
                       const nilaiUnsur = Number(uns.nilai_unsur) || 0;
                       totalUnsur += nilaiUnsur;
 
-                      if (uns.root_id === 1 && elm.id_komponen === 1) {
-                        komPT = (totalUnsur * elm.bobot_komponen);
+                      if (uns.root_id == idkom1[0]) {
+                        // idkom1 = elm.id_komponen;
+                        komPT = (totalUnsur * bokom[0]);
                         console.log('komPT dihitung:', komPT);
+                        // console.log('idkom1:', idkom1);
 
                         $.ajaxSetup({
                             headers: {
@@ -216,7 +227,7 @@
                             contentType: "application/json", // Pastikan content type JSON
                             data: JSON.stringify({
                                 data: [
-                                    { id_komponen: 1, nilai_komponen: komPT }
+                                    { id_komponen: idkom1[0], nilai_komponen: komPT }
                                 ]
                             }),
                             success: function(response) {
@@ -232,13 +243,16 @@
                     });
 
                     data[2].forEach(sub => {
-                      console.log('Proses data[2]:', sub);
+                      // console.log('Proses data[2]:', sub);
                       const nilaiSubUnsur = Number(sub.nilai_unsur) || 0;
-
-                      if (sub.root_id === 2 && elm.id_komponen === 2) {
+                      // console.log('aubroot_id:', sub.root_id);
+                      // console.log('id komponen:', elm.id_komponen);
+                      if (sub.root_id == idkom1[1]) {
+                        // idkom2 = elm.id_komponen;
                         totalSP += nilaiSubUnsur;
-                        komSP = (totalSP * elm.bobot_komponen);
+                        komSP = (totalSP * bokom[1]);
                         console.log('komSP dihitung:', komSP);
+                        // console.log('idkom2:', idkom2);
 
                         $.ajaxSetup({
                             headers: {
@@ -252,7 +266,7 @@
                             contentType: "application/json", // Pastikan content type JSON
                             data: JSON.stringify({
                                 data: [
-                                    { id_komponen: 2, nilai_komponen: komSP }
+                                    { id_komponen: idkom1[1], nilai_komponen: komSP }
                                 ]
                             }),
                             success: function(response) {
@@ -264,10 +278,12 @@
                                 alert('Error: ' + xhr.responseText);
                             }
                         });
-                      } else if (sub.root_id === 3 && elm.id_komponen === 3) {
+                      } else if (sub.root_id == idkom1[2]) {
+                        // idkom3 = elm.id_komponen;
                         totalSPIP += nilaiSubUnsur;
-                        komSPIP = (totalSPIP * elm.bobot_komponen);
+                        komSPIP = (totalSPIP * bokom[2]);
                         console.log('komSPIP dihitung:', komSPIP);
+                        // console.log('idkom3:', idkom3);
 
                         $.ajaxSetup({
                             headers: {
@@ -281,7 +297,7 @@
                             contentType: "application/json", // Pastikan content type JSON
                             data: JSON.stringify({
                                 data: [
-                                    { id_komponen: 3, nilai_komponen: komSPIP }
+                                    { id_komponen: idkom1[2], nilai_komponen: komSPIP }
                                 ]
                             }),
                             success: function(response) {
@@ -299,8 +315,11 @@
                     const totalRow = document.createElement('tr');
                       totalRow.innerHTML = `
                         <td colspan="3"><strong>&nbsp;&nbsp;&nbsp;Total</strong></td>
-                        <td style="text-align: center;">${(elm.id_komponen === 1 ? totalUnsur : elm.id_komponen === 2 ? totalSP : totalSPIP).toFixed(2)}</td>
-                        <td style="text-align: center;">${(elm.id_komponen === 1 ? komPT : elm.id_komponen === 2 ? komSP : komSPIP).toFixed(3)}</td>`;
+                        <td style="text-align: center;">${(elm.id_komponen === idkom1[0] ? totalUnsur : elm.id_komponen === idkom1[1] ? totalSP : totalSPIP).toFixed(2)}</td>
+                        <td style="text-align: center;">${(elm.id_komponen === idkom1[0] ? komPT : elm.id_komponen === idkom1[1] ? komSP : komSPIP).toFixed(3)}</td>`;
+                        // console.log(idkom1, idkom2, idkom3);
+                        console.log('ini idkom',idkom1);
+                        console.log('ini bokom',bokom);
                         console.log(komPT, komSP, komSPIP);
                       isiTabel.appendChild(totalRow);
 

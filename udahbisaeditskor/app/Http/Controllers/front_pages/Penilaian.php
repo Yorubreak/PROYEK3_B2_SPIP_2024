@@ -37,7 +37,7 @@ class Penilaian extends Controller
       $totalNilaiKomponen = round($totalNilaiKomponen, 2);
 
       $data = [$namaKomponen, $bobotKomponen, $nilaiKomponen, $totalNilaiKomponen];
-      
+
       return response()->json($data);
     }
 
