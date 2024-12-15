@@ -238,7 +238,7 @@ Route::get('/databytahunbulan/{tahun}/{bulan}', [ControllerAdmin::class, 'getDat
 Route::put('/update-komponen-batch', [ControllerAdmin::class, 'updateKomponenBatch']);
 
 
-Route::get('/datauser/{tahun}/{bulan}', [Penilaian::class, 'ambildata']);
+Route::get('/datauser/{tahun}/{bulan}', [Penilaian::class, 'ambilData']);
 
 Route::get('/run-seeder/{bulan}/{tahun}', function ($bulan, $tahun) {
     session(['bulan' => $bulan, 'tahun' => $tahun]);

@@ -34,7 +34,11 @@ class Penilaian extends Controller
       })->toArray();
       $nilaiKomponen = Komponen::where('tipe_komponen', 'Elemen')->whereIn('tahun', [$tahun])->whereIn('bulan', [$bulan])->pluck('nilai_komponen')->toArray();
       $totalNilaiKomponen = array_sum($nilaiKomponen);
-      return view('content.front-pages.penilaian', compact('pageConfigs', 'namaKomponen', 'bobotKomponen', 'nilaiKomponen','totalNilaiKomponen', 'tahun', 'bulan'));
+      $totalNilaiKomponen = round($totalNilaiKomponen, 2);
+
+      $data = [$namaKomponen, $bobotKomponen, $nilaiKomponen, $totalNilaiKomponen];
+      
+      return response()->json($data);
     }
 
 }

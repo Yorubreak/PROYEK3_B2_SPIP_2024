@@ -45,30 +45,35 @@
             </tr>
         </thead>
         <tbody>
+            @php
+            $no = 1;
+            @endphp
             @foreach($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->firstname . ' ' . $user->lastname }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        {{ $user->isSuperadmin ? 'Superadmin' : 'Admin' }}
-                    </td>
-                    <td>
-                        @if($user->image)
-                            <img src="{{ asset('storage/'.$user->image) }}" alt="Profile Picture" class="img-fluid" style="max-width: 50px; height: 50px; object-fit: cover;">
-                        @else
-                            <span>No Image</span>
-                        @endif
-                    </td>
-                    <td>
-                        <!-- Tombol Delete -->
-                        <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+            @if ($user->isSuperadmin == false)
+            <tr>
+                <td>{{ $no++ }}</td>
+                <td>{{ $user->firstname . ' ' . $user->lastname }}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    {{'Admin' }}
+                </td>
+                <td>
+                    @if($user->image)
+                        <img src="{{ asset('storage/'.$user->image) }}" alt="Profile Picture" class="img-fluid" style="max-width: 50px; height: 50px; object-fit: cover;">
+                    @else
+                        <span>No Image</span>
+                    @endif
+                </td>
+                <td>
+                    <!-- Tombol Delete -->
+                    <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endif
             @endforeach
         </tbody>
     </table>
